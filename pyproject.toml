@@ -1,0 +1,25 @@
+[project]
+name = "ds-storage"
+version = "0.1.0"
+description = "Service for creating and storing documents based on layouts"
+requires-python = ">=3.12"
+dependencies = [
+    # Core
+    "dishka==1.7.*",
+    "pydantic-settings==2.11.*",
+    # API
+    "fastapi==0.119.*",
+    "uvicorn==0.37.*",
+    "orjson==3.11.*",
+    # MongoDB
+    "beanie==2.0.*",
+]
+
+[dependency-groups]
+dev = [
+    "pre-commit==4.3.*",
+    # Static type checking
+    "mypy==1.18.*",
+    # Checks & formatting
+    "ruff==0.14.*",
+]

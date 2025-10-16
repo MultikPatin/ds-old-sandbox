@@ -1,0 +1,13 @@
+from typing import Any, Protocol, Self, runtime_checkable
+
+
+@runtime_checkable
+class SessionProtocol(Protocol):
+    async def start_transaction(self) -> Any: ...
+
+    @property
+    def in_transaction(self) -> bool: ...
+
+    async def __aenter__(self) -> Self: ...
+
+    async def __aexit__(self, *args: Any) -> None: ...
