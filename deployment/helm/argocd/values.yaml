@@ -1,0 +1,135 @@
+argocd:
+  name: ds-storage
+  namespace: ds-storage-dev
+  sources:
+    chart:
+      url: https://nexus.abgroup.tech/repository/abgroup-helm
+      name: nxs-universal-chart
+      targetRevision: 2.8.2
+    main:
+      url: https://gitlab.abgroup.tech/main/openform/document-service/ds-storage.git
+      targetRevision: dev
+      valuePath: deployment/helm/argocd/values.default.yaml
+    env:
+      url: https://gitlab.abgroup.tech/main/infrastructure/abgroup-k3s-test.git
+      targetRevision: main
+      valuePath: product-services/abgroup/openform/ds-storage/helm/values.yaml
+      commonValuesPath: product-services/common/common.yaml
+
+generic:
+  extraImagePullSecrets:
+    - name: harbor-auth-secret
+
+services:
+  api:
+    extraSelectorLabels:
+      app: api
+    ports:
+      - name: http
+        protocol: TCP
+        port: 80
+        targetPort: 8000
+  constructor-api:
+    extraSelectorLabels:
+      app: constructor-api
+    ports:
+      - name: http
+        protocol: TCP
+        port: 80
+        targetPort: 8000
+
+deployments:
+  api:
+    extraSelectorLabels:
+      app: api
+    initContainers:
+      migration:
+        name: api
+        command: ["entrypoint_forms_api.sh"]
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "50m"
+          limits:
+            memory: "128Mi"
+            cpu: "100m"
+        envsFromConfigmap:
+          envs:
+            - MONGODB_HOST
+            - MONGODB_PORT
+            - MONGODB_DB_NAME
+            - MONGODB_USERNAME
+            - FORMS_IS_DEV_MODE
+            - FORMS_ALLOW_ORIGINS
+            - FORMS_ALLOW_METHODS
+            - FORMS_ALLOW_HEADERS
+            - FORMS_IS_GZIP
+            - FORMS_GZIP_MIN_SIZE
+            - FORMS_GZIP_COMPRESS_LEVEL
+            - FORMS_API_V2_TITLE
+            - FORMS_API_V2_DESCRIPTION
+            - FORMS_API_V2_VERSION
+            - FORMS_API_V2_PATH
+            - FORMS_API_V2_IS_STATIC_DOCS
+            - CONSTRUCTOR_IS_DEV_MODE
+            - CONSTRUCTOR_ALLOW_ORIGINS
+            - CONSTRUCTOR_ALLOW_METHODS
+            - CONSTRUCTOR_ALLOW_HEADERS
+            - CONSTRUCTOR_IS_GZIP
+            - CONSTRUCTOR_GZIP_MIN_SIZE
+            - CONSTRUCTOR_GZIP_COMPRESS_LEVEL
+            - CONSTRUCTOR_API_V1_TITLE
+            - CONSTRUCTOR_API_V1_DESCRIPTION
+            - CONSTRUCTOR_API_V1_VERSION
+            - CONSTRUCTOR_API_V1_PATH
+            - CONSTRUCTOR_API_V1_IS_STATIC_DOCS
+          envsFromSecret:
+            secret:
+              - MONGODB_PASSWORD
+    constructor-api:
+      extraSelectorLabels:
+        app: constructor-api
+      containers:
+        constructor-api:
+          name: constructor-api
+          command: [ "entrypoint_constructor_api.sh" ]
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "500m"
+            limits:
+              cpu: "1"
+              memory: "1Gi"
+          envsFromConfigmap:
+            envs:
+              - MONGODB_HOST
+              - MONGODB_PORT
+              - MONGODB_DB_NAME
+              - MONGODB_USERNAME
+              - FORMS_IS_DEV_MODE
+              - FORMS_ALLOW_ORIGINS
+              - FORMS_ALLOW_METHODS
+              - FORMS_ALLOW_HEADERS
+              - FORMS_IS_GZIP
+              - FORMS_GZIP_MIN_SIZE
+              - FORMS_GZIP_COMPRESS_LEVEL
+              - FORMS_API_V2_TITLE
+              - FORMS_API_V2_DESCRIPTION
+              - FORMS_API_V2_VERSION
+              - FORMS_API_V2_PATH
+              - FORMS_API_V2_IS_STATIC_DOCS
+              - CONSTRUCTOR_IS_DEV_MODE
+              - CONSTRUCTOR_ALLOW_ORIGINS
+              - CONSTRUCTOR_ALLOW_METHODS
+              - CONSTRUCTOR_ALLOW_HEADERS
+              - CONSTRUCTOR_IS_GZIP
+              - CONSTRUCTOR_GZIP_MIN_SIZE
+              - CONSTRUCTOR_GZIP_COMPRESS_LEVEL
+              - CONSTRUCTOR_API_V1_TITLE
+              - CONSTRUCTOR_API_V1_DESCRIPTION
+              - CONSTRUCTOR_API_V1_VERSION
+              - CONSTRUCTOR_API_V1_PATH
+              - CONSTRUCTOR_API_V1_IS_STATIC_DOCS
+            envsFromSecret:
+              secret:
+                - MONGODB_PASSWORD

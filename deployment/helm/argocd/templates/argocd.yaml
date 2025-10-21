@@ -1,0 +1,37 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: {{.Values.argocd.name}}
+  namespace: argocd
+spec:
+  project: default
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: {{ .Values.argocd.namespace }}
+  {{- with .Values.argocd.syncPolicy }}
+  syncPolicy:
+  {{ toYaml . | nindent 4 }}
+  {{- end }}
+  sources:
+    - repoURL: {{ .Values.argocd.sources.chart.url }}
+      chart: {{ .Values.argocd.sources.chart.name }}
+      targetRevision: {{ .Values.argocd.sources.chart.targetRevision }}
+      helm:
+        valueFiles:
+          - $valuesDefault/{{.Values.argocd.sources.main.valuePath}}
+          - $values/{{.Values.argocd.sources.env.valuePath}}
+          {{- if .Values.argocd.sources.env.commonValuesPath }}
+          - $values/{{.Values.argocd.sources.env.commonValuesPath}}
+          {{- end }}
+        parameters:
+          - name: image.tag
+            value: {{ .Values.image.tag | quote }}
+    - repoURL: {{ .Values.argocd.sources.main.url }}
+      targetRevision: {{ .Values.argocd.sources.main.targetRevision }}
+      ref: valuesDefault
+    - repoURL: {{ .Values.argocd.sources.env.url }}
+      ref: values
+      targetRevision: {{ .Values.argocd.sources.env.targetRevision }}
+    {{- if .Values.argocd.extraSources }}
+    {{- toYaml .Values.argocd.extraSources | nindent 4 }}
+    {{- end }}
