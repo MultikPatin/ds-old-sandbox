@@ -9,7 +9,7 @@ argocd:
     main:
       url: https://gitlab.abgroup.tech/main/openform/document-service/ds-storage.git
       targetRevision: dev
-      valuePath: deployment/helm/argocd/values.default.yaml
+      valuePath: deployment/helm/argocd/values.yaml
     env:
       url: https://gitlab.abgroup.tech/main/infrastructure/abgroup-k3s-test.git
       targetRevision: main
