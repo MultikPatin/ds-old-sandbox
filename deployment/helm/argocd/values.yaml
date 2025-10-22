@@ -85,7 +85,7 @@ deployments:
             - CONSTRUCTOR_API_V1_IS_STATIC_DOCS
           envsFromSecret:
             secret:
-              - MONGODB_PASSWORD
+              - MONGODB_PASSWORD: MONGODB_PASSWORD
   constructor-api:
     extraSelectorLabels:
       app: constructor-api
@@ -132,4 +132,5 @@ deployments:
             - CONSTRUCTOR_API_V1_IS_STATIC_DOCS
           envsFromSecret:
             secret:
-              - MONGODB_PASSWORD
+              - MONGODB_PASSWORD: MONGODB_PASSWORD
+
