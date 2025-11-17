@@ -57,32 +57,15 @@ deployments:
           envs:
             - MONGODB_HOST
             - MONGODB_PORT
-            - MONGODB_DB_NAME
+            - MONGODB_DATABASE
             - MONGODB_USERNAME
-            - FORMS_IS_DEV_MODE
-            - FORMS_ALLOW_ORIGINS
-            - FORMS_ALLOW_METHODS
-            - FORMS_ALLOW_HEADERS
-            - FORMS_IS_GZIP
-            - FORMS_GZIP_MIN_SIZE
-            - FORMS_GZIP_COMPRESS_LEVEL
-            - FORMS_API_V2_TITLE
-            - FORMS_API_V2_DESCRIPTION
-            - FORMS_API_V2_VERSION
-            - FORMS_API_V2_PATH
-            - FORMS_API_V2_IS_STATIC_DOCS
+            - STORAGE_IS_DEV_MODE
+            - STORAGE_API_V3_TITLE
+            - STORAGE_API_V3_DESCRIPTION
+            - STORAGE_API_V3_MAJOR_VERSION
             - CONSTRUCTOR_IS_DEV_MODE
-            - CONSTRUCTOR_ALLOW_ORIGINS
-            - CONSTRUCTOR_ALLOW_METHODS
-            - CONSTRUCTOR_ALLOW_HEADERS
-            - CONSTRUCTOR_IS_GZIP
-            - CONSTRUCTOR_GZIP_MIN_SIZE
-            - CONSTRUCTOR_GZIP_COMPRESS_LEVEL
             - CONSTRUCTOR_API_V1_TITLE
             - CONSTRUCTOR_API_V1_DESCRIPTION
-            - CONSTRUCTOR_API_V1_VERSION
-            - CONSTRUCTOR_API_V1_PATH
-            - CONSTRUCTOR_API_V1_IS_STATIC_DOCS
         envsFromSecret:
           secret:
             - MONGODB_PASSWORD: MONGODB_PASSWORD
@@ -104,32 +87,15 @@ deployments:
           envs:
             - MONGODB_HOST
             - MONGODB_PORT
-            - MONGODB_DB_NAME
+            - MONGODB_DATABASE
             - MONGODB_USERNAME
-            - FORMS_IS_DEV_MODE
-            - FORMS_ALLOW_ORIGINS
-            - FORMS_ALLOW_METHODS
-            - FORMS_ALLOW_HEADERS
-            - FORMS_IS_GZIP
-            - FORMS_GZIP_MIN_SIZE
-            - FORMS_GZIP_COMPRESS_LEVEL
-            - FORMS_API_V2_TITLE
-            - FORMS_API_V2_DESCRIPTION
-            - FORMS_API_V2_VERSION
-            - FORMS_API_V2_PATH
-            - FORMS_API_V2_IS_STATIC_DOCS
+            - STORAGE_IS_DEV_MODE
+            - STORAGE_API_V3_TITLE
+            - STORAGE_API_V3_DESCRIPTION
+            - STORAGE_API_V3_MAJOR_VERSION
             - CONSTRUCTOR_IS_DEV_MODE
-            - CONSTRUCTOR_ALLOW_ORIGINS
-            - CONSTRUCTOR_ALLOW_METHODS
-            - CONSTRUCTOR_ALLOW_HEADERS
-            - CONSTRUCTOR_IS_GZIP
-            - CONSTRUCTOR_GZIP_MIN_SIZE
-            - CONSTRUCTOR_GZIP_COMPRESS_LEVEL
             - CONSTRUCTOR_API_V1_TITLE
             - CONSTRUCTOR_API_V1_DESCRIPTION
-            - CONSTRUCTOR_API_V1_VERSION
-            - CONSTRUCTOR_API_V1_PATH
-            - CONSTRUCTOR_API_V1_IS_STATIC_DOCS
         envsFromSecret:
           secret:
             - MONGODB_PASSWORD: MONGODB_PASSWORD
