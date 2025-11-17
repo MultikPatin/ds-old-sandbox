@@ -13,6 +13,7 @@ dependencies = [
     "orjson==3.11.*",
     # MongoDB
     "beanie==2.0.*",
+    "python-snappy==0.7.*",
 ]
 
 [dependency-groups]

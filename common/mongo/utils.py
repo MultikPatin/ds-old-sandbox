@@ -1,20 +1,75 @@
-from collections.abc import Iterable, MutableMapping, Sequence
-from typing import Any
+from collections.abc import (
+    Generator,
+    Iterable,
+    MutableMapping,
+    Sequence,
+    Sized,
+)
+from typing import TYPE_CHECKING, Any
 
-from beanie import BackLink, Document, Link, PydanticObjectId
+from beanie import BackLink, Link, PydanticObjectId
+from beanie.odm.enums import SortDirection
 from bson.errors import InvalidId
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 from common.core.constants import (
     CURSOR_SEPARATOR,
     ID_BSON_DESCRIPTION,
     ID_BSON_EXAMPLE,
     ID_BSON_TITLE,
+    SORT_DESC_PREFIX,
 )
+from common.core.custom_types import AnyDict
 from common.core.exceptions import (
     BusinessLogicError,
     BusinessLogicErrorContent,
 )
+
+from .custom_types import Sort
+
+if TYPE_CHECKING:
+    from beanie import Document
+
+
+type ProjectionModelType[Model] = type[Model] | None
+
+
+class QueryContext(BaseModel):
+    ignore_cache: bool = False
+    fetch_links: bool = False
+    nesting_depth: int | None = None
+    nesting_depths_per_field: dict[str, int] | None = None
+    lazy_parse: bool = False
+    pymongo_kwargs: AnyDict = Field(default_factory=dict)
+
+
+def prepare_sort[Doctype: "Document"](
+    sort: str | list[str] | None, document: type[Doctype]
+) -> Sort:
+    prepared_sort = _prepare_sort(sort)
+    if not prepared_sort:
+        return None
+    result = [s for s in prepared_sort if hasattr(document, s[0])]
+    if result:
+        return result
+    msg = f"Sorting by {sort} is not allowed"
+    raise ValueError(msg)
+
+
+def _prepare_sort(
+    sort: str | list[str] | None,
+) -> list[tuple[str, SortDirection]] | None:
+    if sort is None:
+        return None
+    if isinstance(sort, str):
+        return [_split_sort(sort)]
+    return [_split_sort(s) for s in sort if isinstance(s, str)]
+
+
+def _split_sort(sort: str) -> tuple[str, SortDirection]:
+    if sort.startswith(SORT_DESC_PREFIX):
+        return sort.removeprefix(SORT_DESC_PREFIX), SortDirection.DESCENDING
+    return sort, SortDirection.ASCENDING
 
 
 def convert_to_id(_id: str) -> PydanticObjectId:
@@ -40,31 +95,31 @@ def convert_to_id(_id: str) -> PydanticObjectId:
         )
 
 
-def convert_to_dto[DocType: Document, PydanticModel: BaseModel](
+def convert_to_dto[DocType: "Document", PydanticModel: "BaseModel"](
     document: DocType,
     dto_class: type[PydanticModel],
     *,
-    replace_links: bool = False,
+    is_replace_links: bool = False,
 ) -> PydanticModel:
     document_data = document.model_dump()
-    if replace_links:
-        _replace_links(document_data)
+    if is_replace_links:
+        replace_links(document_data)
     return dto_class.model_validate(document_data)
 
 
-def convert_to_dtos[DocumentType: Document, PydanticModel: BaseModel](
-    documents: Iterable[DocumentType],
+def convert_to_dtos[DocType: "Document", PydanticModel: "BaseModel"](
+    documents: Iterable[DocType],
     dto_class: type[PydanticModel],
     *,
-    replace_links: bool = False,
+    is_replace_links: bool = False,
 ) -> list[PydanticModel]:
     return [
-        convert_to_dto(document, dto_class, replace_links=replace_links)
+        convert_to_dto(document, dto_class, is_replace_links=is_replace_links)
         for document in documents
     ]
 
 
-def _replace_links(obj: MutableMapping[str, Any] | Sequence[Any]) -> None:
+def replace_links(obj: MutableMapping[str, Any] | Sequence[Any]) -> None:
     if isinstance(obj, dict):
         to_delete = []
         for k in obj:
@@ -73,9 +128,27 @@ def _replace_links(obj: MutableMapping[str, Any] | Sequence[Any]) -> None:
             elif isinstance(obj[k], BackLink):
                 to_delete.append(k)
             else:
-                _replace_links(obj[k])
+                replace_links(obj[k])
         for k in to_delete:
             del obj[k]
     elif isinstance(obj, list):
         for item in obj:
-            _replace_links(item)
+            replace_links(item)
+
+
+def normalize_batch_size(data: Sized, size: int | None = None) -> int:
+    if size is None:
+        if len(data) <= 100:
+            size = 10
+        elif len(data) <= 1000:
+            size = 50
+        else:
+            size = 100
+    return min(size, 1000)
+
+
+def set_batches(
+    data: Sequence[Any], size: int | None = None
+) -> Generator[Sequence[Any], None, None]:
+    size = normalize_batch_size(data, size)
+    return (data[i : i + size] for i in range(0, len(data), size))

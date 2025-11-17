@@ -4,54 +4,36 @@ from collections.abc import Sequence
 from beanie import Document, UnionDoc, View
 
 from .documents import (
-    InputsDocument,
-    InputSinglesDocument,
+    InputDocument,
+    InputSingleDocument,
+    InputTableChunkDocument,
     InputTableDocument,
-    InputTablesChunksDocument,
-    KeysDocument,
-    LayoutCardsDocument,
-    LayoutHeaderCellsDocument,
-    LayoutRequiredCellsDocument,
-    LayoutRequiredRowsDocument,
-    LayoutsDocument,
-    LayoutSinglesDocument,
-    LayoutStylesDocument,
-    LayoutTablesDocument,
-    LayoutTooltipsDocument,
-    LayoutValidationsDocument,
-    ModelsDocument,
-    ParentLayout,
-    ParentLayoutBlocks,
-    ParentLayoutCells,
-    ReferencesDocument,
+    LayoutCardDocument,
+    LayoutCellDocument,
+    LayoutDocument,
+    LayoutSingleDocument,
+    LayoutStyleDocument,
+    LayoutTableDocument,
+    LayoutValidationDocument,
 )
 
 __all__ = [
-    "InputSinglesDocument",
+    "InputDocument",
+    "InputSingleDocument",
+    "InputTableChunkDocument",
     "InputTableDocument",
-    "InputTablesChunksDocument",
-    "InputsDocument",
-    "KeysDocument",
-    "LayoutCardsDocument",
-    "LayoutHeaderCellsDocument",
-    "LayoutRequiredCellsDocument",
-    "LayoutRequiredRowsDocument",
-    "LayoutSinglesDocument",
-    "LayoutStylesDocument",
-    "LayoutTablesDocument",
-    "LayoutTooltipsDocument",
-    "LayoutValidationsDocument",
-    "LayoutsDocument",
-    "ModelsDocument",
-    "ParentLayout",
-    "ParentLayoutBlocks",
-    "ParentLayoutCells",
-    "ReferencesDocument",
+    "LayoutCardDocument",
+    "LayoutCellDocument",
+    "LayoutDocument",
+    "LayoutSingleDocument",
+    "LayoutStyleDocument",
+    "LayoutTableDocument",
+    "LayoutValidationDocument",
     "collect_documents",
 ]
 
 
-async def collect_documents() -> Sequence[
+def collect_documents() -> Sequence[
     type[Document] | type[UnionDoc] | type[View]
 ]:
     from inspect import getmembers, isclass  # noqa: PLC0415

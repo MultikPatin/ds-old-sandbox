@@ -1,30 +1,38 @@
-from common.core.custom_types import AnyDict
 from common.core.dtos import IdDTO, KeyDTO, OptionsDTO
 from pydantic import Field
 
-from .cells import (
-    LayoutHeaderCellCreate,
-    LayoutHeaderCellFullLinks,
-    LayoutRequiredRowCreate,
-    LayoutRequiredRowFullLInks,
-)
+from src.application.custom_types import NestingType
 
 
-class LayoutTableBase(KeyDTO, OptionsDTO):
+class _LayoutTableBase(OptionsDTO):
+    schemas: list[list[str]] | None = Field(default=None)
+    validations: list[list[str]] | None = Field(default=None)
+    styles: list[list[str]] | None = Field(default=None)
+
     static: bool = Field(default=False)
-    nesting: list[tuple[int, int]] | None = Field(default=None)
-    level_options: AnyDict | None = Field(default=None)
+    nesting: NestingType = Field(default=None)
 
 
-class LayoutTableCreate(LayoutTableBase):
-    headers: list[LayoutHeaderCellCreate]
-    rows: list[LayoutRequiredRowCreate] | None = Field(default=None)
+# Update
+
+
+class LayoutTableUpdateDTO(_LayoutTableBase):
+    pass
+
+
+# Base
+
+
+class LayoutTableBase(KeyDTO, _LayoutTableBase):
+    pass
 
 
 class LayoutTableDB(IdDTO, LayoutTableBase):
     pass
 
 
-class LayoutTableFullLinks(LayoutTableDB):
-    headers: list[LayoutHeaderCellFullLinks]
-    rows: list[LayoutRequiredRowFullLInks] | None = Field(default=None)
+# Create
+
+
+class LayoutTableCreateDTO(LayoutTableBase):
+    pass

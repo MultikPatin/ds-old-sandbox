@@ -1,49 +1,26 @@
-from common.core.custom_types import AnyList, AnyMatrix
 from common.core.dtos import IdDTO, KeyDTO
-from pydantic import BaseModel, Field
+from pydantic import BaseModel
+
+# Update
 
 
-class InputTableCreateDTO(KeyDTO):
-    columns: list[str]
-    values: AnyMatrix
+class InputTableUpdateDTO(BaseModel):
+    chunks: list[str]
 
 
-class InputTableUpdateDTO(IdDTO):
-    values: AnyMatrix
+# Base
 
 
-class InputTableBase(KeyDTO):
-    columns: list[str]
+class InputTableBase(InputTableUpdateDTO, KeyDTO):
+    pass
 
 
 class InputTableDB(IdDTO, InputTableBase):
     pass
 
 
-class InputTableInMatrix(InputTableDB):
-    values: AnyMatrix
+# Create
 
 
-class InputTableFullLinks(IdDTO, InputTableBase):
-    chunks: list["InputTableChunkDB"]
-
-
-# Chunks
-
-
-class InputTableChunkUpdateDTO(IdDTO):
-    values: AnyMatrix
-
-
-class InputTableChunkCreateDTO(BaseModel):
-    number: int = Field(gt=0)
-    values: AnyList
-
-
-class InputTableChunkBase(BaseModel):
-    number: int
-    values: AnyList
-
-
-class InputTableChunkDB(IdDTO, InputTableChunkBase):
+class InputTableCreateDTO(InputTableBase):
     pass

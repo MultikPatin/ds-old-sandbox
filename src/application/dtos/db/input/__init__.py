@@ -10,29 +10,24 @@ from .blocks import (
     InputTableChunkUpdateDTO,
     InputTableCreateDTO,
     InputTableDB,
-    InputTableFullLinks,
-    InputTableInMatrix,
     InputTableUpdateDTO,
 )
-from .card import InputCardDB
 from .input import (
     InputBase,
+    InputCardDTO,
     InputCreateDTO,
     InputDB,
     InputFullLinks,
     InputUpdateDTO,
-    InputWithTableInMatrix,
 )
-from .project import InputLayoutIDProject, InputTableChunksIDsProject
+from .project import InputTableChunksIDsProject
 
 __all__ = [
     "InputBase",
-    "InputCardDB",
+    "InputCardDTO",
     "InputCreateDTO",
     "InputDB",
     "InputFullLinks",
-    "InputLayoutIDProject",
-    "InputLayoutIDProject",
     "InputSingleBase",
     "InputSingleCreateDTO",
     "InputSingleDB",
@@ -45,9 +40,6 @@ __all__ = [
     "InputTableChunksIDsProject",
     "InputTableCreateDTO",
     "InputTableDB",
-    "InputTableFullLinks",
-    "InputTableInMatrix",
     "InputTableUpdateDTO",
     "InputUpdateDTO",
-    "InputWithTableInMatrix",
 ]

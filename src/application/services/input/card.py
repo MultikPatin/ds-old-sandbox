@@ -1,85 +1,72 @@
-from common.core.custom_types import AnyDict
-from common.core.dtos.pagination import (
-    CursorPageDTO,
-    CursorParamsDTO,
-    LimitOffsetPageDTO,
-    LimitOffsetParamsDTO,
-    PagesPageDTO,
-    PagesParamsDTO,
-)
-from common.core.protocols import SessionProtocol
+from typing import TYPE_CHECKING
 
-from src.application.dtos.db.input import InputCardDB
-from src.application.dtos.filters import InputCardFilters
-from src.application.protocols.repositories.input import (
-    InputCardRepositoryProtocol,
-)
-from src.application.protocols.repositories.key import KeyRepositoryProtocol
+from common.core.custom_types import AnyDict
+
+if TYPE_CHECKING:
+    from common.core.dtos.pagination import (
+        CursorPageDTO,
+        LimitOffsetPageDTO,
+        PagesPageDTO,
+    )
+    from common.core.protocols import SessionProtocol
+
+    from src.application.dtos.db import InputCardDTO
+    from src.application.protocols import (
+        InputCardCursorFiltersProtocol,
+        InputCardInRichFiltersProtocol,
+        InputCardLimitOffsetFiltersProtocol,
+        InputCardPagesFiltersProtocol,
+        InputCardRepositoryProtocol,
+        LayoutServiceProtocol,
+    )
 
 
 class InputCardSrvice:
     def __init__(
         self,
-        repo: InputCardRepositoryProtocol[SessionProtocol],
-        key_repo: KeyRepositoryProtocol[SessionProtocol],
+        repo: "InputCardRepositoryProtocol[SessionProtocol]",
+        *,
+        layout_service: "LayoutServiceProtocol",
     ):
         self._repo = repo
-        self._key_repo = key_repo
+        self._layout = layout_service
 
-    async def get_all_like_pages(
+    async def get_all_pages(
         self,
-        params: PagesParamsDTO,
-        filters: InputCardFilters,
+        filters: "InputCardPagesFiltersProtocol",
         *,
-        session: SessionProtocol | None = None,
-    ) -> PagesPageDTO[InputCardDB]:
-        filters.layout_ids = await self._get_layout_ids(
-            filters.model_id, session=session
-        )
-        return await self._repo.get_all_like_pages(
-            params, filters, session=session
-        )
+        session: "SessionProtocol",
+    ) -> "PagesPageDTO[InputCardDTO]":
+        await self._enrich(filters, session=session)
+        return await self._repo.get_all_pages(filters, session=session)
 
-    async def get_all_like_limit_offset(
+    async def get_all_limit_offset(
         self,
-        params: LimitOffsetParamsDTO,
-        filters: InputCardFilters,
+        filters: "InputCardLimitOffsetFiltersProtocol",
         *,
-        session: SessionProtocol | None = None,
-    ) -> LimitOffsetPageDTO[InputCardDB]:
-        layout_ids = await self._get_layout_ids(
-            filters.model_id, session=session
-        )
-        filters.layout_ids = layout_ids
-        return await self._repo.get_all_like_limit_offset(
-            params, filters, session=session
-        )
+        session: "SessionProtocol",
+    ) -> "LimitOffsetPageDTO[InputCardDTO]":
+        await self._enrich(filters, session=session)
+        return await self._repo.get_all_limit_offset(filters, session=session)
 
-    async def get_all_like_cursor(
+    async def get_all_cursor(
         self,
-        params: CursorParamsDTO,
-        filters: InputCardFilters,
+        filters: "InputCardCursorFiltersProtocol",
         *,
-        session: SessionProtocol | None = None,
-    ) -> CursorPageDTO[InputCardDB]:
-        layout_ids = await self._get_layout_ids(
-            filters.model_id, session=session
-        )
-        filters.layout_ids = layout_ids
-        return await self._repo.get_all_like_cursor(
-            params, filters, session=session
-        )
+        session: "SessionProtocol",
+    ) -> "CursorPageDTO[InputCardDTO]":
+        await self._enrich(filters, session=session)
+        return await self._repo.get_all_cursor(filters, session=session)
 
-    async def _get_layout_ids(
+    async def _enrich(
         self,
-        model_id: str,
+        filters: "InputCardInRichFiltersProtocol",
         *,
-        session: SessionProtocol | None = None,
-    ) -> list[str]:
-        # TODO: Вероятно кеширования ответа get_by_model_id
-        # TODO: Продумать механизм инвалидации кеша
-        keys = await self._key_repo.get_by_model_id(model_id, session=session)
-        return [key.layout for key in keys]
+        session: "SessionProtocol",
+    ) -> None:
+        filters.layout_ids = await self._layout.get_ids_by(
+            filters.layouts_key, session=session
+        )
 
 
 async def generate_card(layout_id: str) -> list[AnyDict] | None:

@@ -1,0 +1,15 @@
+from common.core.settings import set_model_config
+from common.fastapi import VSettings
+
+from src.application.constants import (
+    STORAGE_API_ENV_PREFIX,
+    get_versioned_prefix,
+)
+
+
+class Settings(VSettings):
+    model_config = set_model_config(
+        env_prefix=get_versioned_prefix(
+            prefix=STORAGE_API_ENV_PREFIX, version=3
+        )
+    )

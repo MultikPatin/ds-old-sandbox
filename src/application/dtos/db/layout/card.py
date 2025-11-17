@@ -5,13 +5,26 @@ class LayoutCardTitle(TitleDTO):
     path: list[str]
 
 
-class LayoutCardBase(OptionsDTO):
-    rows: list[LayoutCardTitle]
+# Update
 
 
-class LayoutCardCreate(LayoutCardBase):
+class LayoutCardUpdateDTO(OptionsDTO):
+    cells: list[LayoutCardTitle]
+
+
+# Base
+
+
+class LayoutCardBase(LayoutCardUpdateDTO):
     pass
 
 
 class LayoutCardDB(IdDTO, LayoutCardBase):
+    pass
+
+
+# Create
+
+
+class LayoutCardCreateDTO(LayoutCardBase):
     pass

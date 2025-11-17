@@ -1,57 +1,88 @@
-from common.core.custom_types import AnyDict, AnyList
+from common.core.custom_types import AnyDict
 from common.core.dtos import (
     CreatedDTO,
+    DescriptionDTO,
     IdDTO,
+    KeyDTO,
+    LabelDTO,
     LifeStatusDTO,
     MajorVersionDTO,
     MinorVersionDTO,
     OptionsDTO,
     RefCountDTO,
     UpdatedDTO,
+    UseUntilDTO,
 )
 from pydantic import Field
 
 from .blocks import (
-    LayoutSingleCreate,
-    LayoutSingleFullLinks,
-    LayoutTableCreate,
-    LayoutTableFullLinks,
+    LayoutSingleCreateDTO,
+    LayoutSingleDB,
+    LayoutSingleUpdateDTO,
+    LayoutTableCreateDTO,
+    LayoutTableDB,
+    LayoutTableUpdateDTO,
 )
-from .card import LayoutCardCreate, LayoutCardDB
+from .card import LayoutCardCreateDTO, LayoutCardDB, LayoutCardUpdateDTO
+
+
+class _LayoutShort(
+    LabelDTO,
+    UpdatedDTO,
+    DescriptionDTO,
+):
+    pass
+
+
+class _LayoutBase(_LayoutShort, OptionsDTO, LifeStatusDTO):
+    sections: list[AnyDict]
+
+
+# Update
+
+
+class LayoutUpdateDTO(_LayoutBase):
+    singles: list[LayoutSingleUpdateDTO] | None = Field(default=None)
+    tables: list[LayoutTableUpdateDTO] | None = Field(default=None)
+    card: LayoutCardUpdateDTO | None = Field(default=None)
+
+
+# Base
 
 
 class LayoutBase(
+    _LayoutBase,
+    KeyDTO,
     RefCountDTO,
     MajorVersionDTO,
     MinorVersionDTO,
-    LifeStatusDTO,
-    OptionsDTO,
     CreatedDTO,
-    UpdatedDTO,
+    UseUntilDTO,
 ):
     sections: list[AnyDict]
 
 
-class LayoutFromOldForm(LifeStatusDTO):
-    version: str
-    key: str
-    meta_options: AnyDict | None = Field(default=None)
-    input_info: AnyDict | None = Field(default=None)
-    bars: AnyDict | None = Field(default=None)
-    sections: AnyList = Field(min_length=1)
-
-
-class LayoutCreate(LayoutBase):
-    singles: list[LayoutSingleCreate] | None = Field(default=None)
-    tables: list[LayoutTableCreate] | None = Field(default=None)
-    card: LayoutCardCreate | None = Field(default=None)
+class LayoutShortDTO(IdDTO, KeyDTO, _LayoutShort, CreatedDTO):
+    pass
 
 
 class LayoutDB(IdDTO, LayoutBase):
     pass
 
 
-class LayoutFullLinks(LayoutDB):
-    singles: list[LayoutSingleFullLinks] | None = Field(default=None)
-    tables: list[LayoutTableFullLinks] | None = Field(default=None)
+class LayoutWithBlocks(LayoutDB):
+    singles: list[LayoutSingleDB] | None = Field(default=None)
+    tables: list[LayoutTableDB] | None = Field(default=None)
+
+
+class LayoutFullLinks(LayoutWithBlocks):
     card: LayoutCardDB | None = Field(default=None)
+
+
+# Create
+
+
+class LayoutCreateDTO(LayoutBase):
+    singles: list[LayoutSingleCreateDTO] | None = Field(default=None)
+    tables: list[LayoutTableCreateDTO] | None = Field(default=None)
+    card: LayoutCardCreateDTO | None = Field(default=None)

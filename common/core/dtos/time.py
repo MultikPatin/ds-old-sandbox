@@ -1,8 +1,9 @@
-from datetime import UTC, datetime
+from datetime import datetime
 
 from pydantic import BaseModel, Field
 
 from common.core.constants import DEFAULT_DELETED_AT_DATETIME
+from common.core.utils import time_now
 
 
 class UseUntilDTO(BaseModel):
@@ -10,11 +11,11 @@ class UseUntilDTO(BaseModel):
 
 
 class CreatedDTO(BaseModel):
-    created: datetime = Field(default_factory=lambda: datetime.now(UTC))
+    created: datetime = Field(default_factory=time_now)
 
 
 class UpdatedDTO(BaseModel):
-    updated: datetime = Field(default_factory=lambda: datetime.now(UTC))
+    updated: datetime = Field(default_factory=time_now)
 
 
 class DateTimeStartDTO(BaseModel):
