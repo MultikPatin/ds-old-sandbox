@@ -10,8 +10,7 @@ from common.core.constants import (
     ID_DEFAULT_ALIAS,
     ID_INTEGER_DESCRIPTION,
     ID_INTEGER_EXAMPLES,
-    ID_INTEGER_MAX_VALUE,
-    ID_INTEGER_MIN_VALUE,
+    ID_INTEGER_MIN_LENGTH,
     ID_INTEGER_TITLE,
     ID_UUID4_DESCRIPTION,
     ID_UUID4_EXAMPLES,
@@ -37,8 +36,7 @@ class BsonIDSchema(BaseModel):
 class IntegerIDSchema(BaseModel):
     id: str = Field(  # type: ignore
         alias=ID_DEFAULT_ALIAS,
-        ge=ID_INTEGER_MIN_VALUE,
-        lt=ID_INTEGER_MAX_VALUE,
+        min_length=ID_INTEGER_MIN_LENGTH,
         title=ID_INTEGER_TITLE,
         description=ID_INTEGER_DESCRIPTION,
         examples=ID_INTEGER_EXAMPLES,

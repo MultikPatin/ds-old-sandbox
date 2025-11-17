@@ -16,7 +16,7 @@ class LifeStatusOrNoneDTO(BaseModel):
 
 
 class LifeActionTimeSortOrNoneDTO(BaseModel):
-    live_time_sort: LifeActionTimeSortEnum | None = Field(default=None)
+    life_time_sort: LifeActionTimeSortEnum | None = Field(default=None)
 
 
 class LifeActionsPeriodFieldDTO(BaseModel):

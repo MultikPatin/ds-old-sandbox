@@ -1,11 +1,11 @@
 from typing import Any, Protocol
 
 
-class APIProtocol(Protocol):
+class MAppProtocol(Protocol):
     @property
     def api(self) -> Any: ...
 
 
-class VersionedAPIProtocol(APIProtocol, Protocol):
+class VAppProtocol(MAppProtocol, Protocol):
     @property
     def path(self) -> str: ...

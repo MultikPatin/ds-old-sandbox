@@ -1,19 +1,31 @@
 from common.core.dtos import IdDTO, KeyDTO
+from pydantic import BaseModel, Field
 
-from .cells import LayoutHeaderCellCreate, LayoutHeaderCellFullLinks
+
+class _LayoutSingleBase(BaseModel):
+    schemas: list[str] | None = Field(default=None)
+    validations: list[str] | None = Field(default=None)
+    styles: list[str] | None = Field(default=None)
 
 
-class LayoutSingleBase(KeyDTO):
+# Update
+
+
+class LayoutSingleUpdateDTO(_LayoutSingleBase):
     pass
 
 
-class LayoutSingleCreate(KeyDTO):
-    cells: list[LayoutHeaderCellCreate]
+# Base
+class LayoutSingleBase(KeyDTO, _LayoutSingleBase):
+    pass
 
 
 class LayoutSingleDB(IdDTO, LayoutSingleBase):
     pass
 
 
-class LayoutSingleFullLinks(LayoutSingleDB):
-    cells: list[LayoutHeaderCellFullLinks]
+# Create
+
+
+class LayoutSingleCreateDTO(LayoutSingleBase):
+    pass

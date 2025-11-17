@@ -1,37 +1,59 @@
 from .client import Client
-from .documents import DocType
 from .enums import KeysEnum
 from .mixins import (
     AddMixin,
+    AddWithReturnIdMixin,
     Base,
     BaseDTO,
     CountMixin,
     DeleteMixin,
+    DeleteSoftMixin,
     ExistsMixin,
+    GetByIDsMixin,
     GetMixin,
     UpdateMixin,
+    UpdateWithReturnIdMixin,
 )
-from .pagination import cursor_paginator, limit_offset_paginator, page_paginator
+from .paginators import (
+    paginator_cursor,
+    paginator_limit_offset,
+    paginator_pages,
+)
+from .projections import IDProjection
 from .settings import Settings
-from .utils import convert_to_dto, convert_to_dtos, convert_to_id
+from .utils import (
+    QueryContext,
+    convert_to_dto,
+    convert_to_dtos,
+    convert_to_id,
+    prepare_sort,
+    replace_links,
+)
 
 __all__ = [
     "AddMixin",
+    "AddWithReturnIdMixin",
     "Base",
     "BaseDTO",
     "Client",
     "CountMixin",
     "DeleteMixin",
-    "DocType",
+    "DeleteSoftMixin",
     "ExistsMixin",
+    "GetByIDsMixin",
     "GetMixin",
+    "IDProjection",
     "KeysEnum",
+    "QueryContext",
     "Settings",
     "UpdateMixin",
+    "UpdateWithReturnIdMixin",
     "convert_to_dto",
     "convert_to_dtos",
     "convert_to_id",
-    "cursor_paginator",
-    "limit_offset_paginator",
-    "page_paginator",
+    "paginator_cursor",
+    "paginator_limit_offset",
+    "paginator_pages",
+    "prepare_sort",
+    "replace_links",
 ]

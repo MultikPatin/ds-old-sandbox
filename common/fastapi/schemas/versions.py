@@ -7,7 +7,7 @@ class MajorVersionSchema(BaseModel):
         alias="major_version",
         title="Major version",
         description="Major version number",
-        lt=1000,
+        lt=100,
     )
 
 
@@ -17,5 +17,5 @@ class MinorVersionSchema(BaseModel):
         alias="minor_version",
         title="Minor version",
         description="Minor version number",
-        lt=1000,
+        lt=100,
     )

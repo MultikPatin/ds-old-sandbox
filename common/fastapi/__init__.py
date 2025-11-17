@@ -1,4 +1,4 @@
-from .app import App, VersionedApp
-from .settings import MainAPISettings, VersionedAPISettings
+from .app import MApp, VApp
+from .settings import MSettings, VSettings
 
-__all__ = ["App", "MainAPISettings", "VersionedAPISettings", "VersionedApp"]
+__all__ = ["MApp", "MSettings", "VApp", "VSettings"]

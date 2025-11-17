@@ -1,22 +1,22 @@
 from common.mongo import AddMixin, GetMixin
 
 from src.application.dtos.db.layout import (
-    LayoutSingleCreate,
+    LayoutSingleCreateDTO,
     LayoutSingleDB,
-    LayoutTableCreate,
+    LayoutTableCreateDTO,
     LayoutTableDB,
 )
 
 
 class LayoutSingleRepository(
     GetMixin[LayoutSingleDB],
-    AddMixin[LayoutSingleCreate, LayoutSingleDB],
+    AddMixin[LayoutSingleCreateDTO, LayoutSingleDB],
 ):
     pass
 
 
 class LayoutTableRepository(
     GetMixin[LayoutTableDB],
-    AddMixin[LayoutTableCreate, LayoutTableDB],
+    AddMixin[LayoutTableCreateDTO, LayoutTableDB],
 ):
     pass

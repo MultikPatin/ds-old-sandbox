@@ -15,8 +15,7 @@ from common.core.constants import (
     ID_INTEGER_DESCRIPTION,
     ID_INTEGER_EXAMPLE,
     ID_INTEGER_EXAMPLES,
-    ID_INTEGER_MAX_VALUE,
-    ID_INTEGER_MIN_VALUE,
+    ID_INTEGER_MIN_LENGTH,
     ID_INTEGER_TITLE,
     ID_UUID4_DESCRIPTION,
     ID_UUID4_EXAMPLE,
@@ -43,8 +42,7 @@ def _dispatch_params(id_type: IDTypesEnum) -> dict[str, Any]:
             }
         case IDTypesEnum.integer:
             params = {
-                "ge": ID_INTEGER_MIN_VALUE,
-                "lt": ID_INTEGER_MAX_VALUE,
+                "min_length": ID_INTEGER_MIN_LENGTH,
                 "title": ID_INTEGER_TITLE,
                 "description": ID_INTEGER_DESCRIPTION,
                 "example": ID_INTEGER_EXAMPLE,

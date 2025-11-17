@@ -1,8 +1,8 @@
-from .single import InputSingleService
-from .table import InputTableChunkService, InputTableService
+# from .single import InputSingleService
+from .table import InputTableChunkService
 
 __all__ = [
-    "InputSingleService",
+    # "InputSingleService",
     "InputTableChunkService",
-    "InputTableService",
+    # "InputTableService",
 ]

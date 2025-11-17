@@ -1,4 +1,4 @@
-from typing import TypeVar
+from typing import TYPE_CHECKING
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
@@ -11,28 +11,24 @@ from common.core.constants import (
     API_HEADER_PROCESS_TIME,
 )
 from common.core.enums import URLEnum
-from common.core.protocols import VersionedAPIProtocol
 
-from .base import _App, _VersionedApp
+from .base import MBaseApp, VBaseApp
 from .errors_handlers import register_errors_handlers
 from .middlewares import ProcessTimeHeaderMiddleware
-from .settings import MainAPISettings, VersionedAPISettings
-from .static import register_static_docs_routes
+from .static_docs import register as register_static_docs
 
-_MainSettings = TypeVar("_MainSettings", bound=MainAPISettings)
-_VersionedAPISettings = TypeVar(
-    "_VersionedAPISettings", bound=VersionedAPISettings
-)
+if TYPE_CHECKING:
+    from common.core.protocols import VAppProtocol
+
+    from .settings import MSettings, VSettings
 
 
-class App(_App):
-    def __init__(
+class MApp(MBaseApp):
+    def __init__[Settings: "MSettings"](
         self,
-        settings: _MainSettings,
+        settings: Settings,
         lifespan: Lifespan[FastAPI] | None = None,
     ):
-        self._check_path(API_DEFAULT_ROOT_PATH)
-
         self._api = FastAPI(
             default_response_class=ORJSONResponse,
             lifespan=lifespan,
@@ -59,19 +55,17 @@ class App(_App):
                 compresslevel=settings.GZIP_COMPRESS_LEVEL,
             )
 
-    def mount(self, app: VersionedAPIProtocol) -> None:
-        self._api.mount(app.path, app.api)
+    def mount(self, app: "VAppProtocol") -> None:
+        self._api.mount(path=app.path, app=app.api)
 
 
-class VersionedApp(_VersionedApp):
-    def __init__(
+class VApp(VBaseApp):
+    def __init__[Settings: "VSettings"](
         self,
         is_dev_mode: bool,
-        settings: _VersionedAPISettings,
+        settings: Settings,
     ) -> None:
-        self._check_path(settings.PATH)
-        self._path = settings.PATH
-
+        self._path = settings.path
         docs_url = (
             None if settings.IS_STATIC_DOCS or not is_dev_mode else URLEnum.docs
         )
@@ -80,14 +74,12 @@ class VersionedApp(_VersionedApp):
             default_response_class=ORJSONResponse,
             title=settings.TITLE,
             description=settings.DESCRIPTION,
-            version=settings.VERSION,
+            version=settings.version,
             docs_url=docs_url,
         )
 
         register_errors_handlers(app=self._api)
 
         if settings.IS_STATIC_DOCS and is_dev_mode:
-            register_static_docs_routes(
-                app=self._api,
-                path=API_DEFAULT_ROOT_PATH + self._path,
-            )
+            path = API_DEFAULT_ROOT_PATH + self._path
+            register_static_docs(app=self._api, path=path)

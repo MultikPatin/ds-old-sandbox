@@ -1,4 +1,4 @@
-from .api import APIProtocol, VersionedAPIProtocol
+from .api import MAppProtocol, VAppProtocol
 from .initialization import InitComponentProtocol, InitComponentsProtocol
 from .methods import (
     AdderProtocol,
@@ -8,19 +8,23 @@ from .methods import (
     BulkUpdateWithReturnId,
     CountProtocol,
     DeleterProtocol,
+    DeleterSoftProtocol,
     ExistedProtocol,
+    GetterByIDsProtocol,
     GetterProtocol,
     UpdaterProtocol,
 )
 from .pagination import (
+    PaginationCursorParamsProtocol,
     PaginationCursorProtocol,
     PaginationLiminOffsetProtocol,
+    PaginationLimitOffsetParamsProtocol,
     PaginationPageProtocol,
+    PaginationPagesParamsProtocol,
 )
 from .session import SessionProtocol
 
 __all__ = [
-    "APIProtocol",
     "AdderProtocol",
     "BulkAdd",
     "BulkAddWithReturnId",
@@ -28,14 +32,20 @@ __all__ = [
     "BulkUpdateWithReturnId",
     "CountProtocol",
     "DeleterProtocol",
+    "DeleterSoftProtocol",
     "ExistedProtocol",
+    "GetterByIDsProtocol",
     "GetterProtocol",
     "InitComponentProtocol",
     "InitComponentsProtocol",
+    "MAppProtocol",
+    "PaginationCursorParamsProtocol",
     "PaginationCursorProtocol",
     "PaginationLiminOffsetProtocol",
+    "PaginationLimitOffsetParamsProtocol",
     "PaginationPageProtocol",
+    "PaginationPagesParamsProtocol",
     "SessionProtocol",
     "UpdaterProtocol",
-    "VersionedAPIProtocol",
+    "VAppProtocol",
 ]

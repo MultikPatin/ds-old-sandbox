@@ -45,7 +45,7 @@ deployments:
     containers:
       api:
         name: api
-        command: [ "entrypoint_forms_api.sh" ]
+        command: [ "entrypoint-storage-api.sh" ]
         resources:
           requests:
             memory: "256Mi"
@@ -92,7 +92,7 @@ deployments:
     containers:
       constructor-api:
         name: constructor-api
-        command: [ "entrypoint_constructor_api.sh" ]
+        command: [ "entrypoint-constructor-api.sh" ]
         resources:
           requests:
             memory: "256Mi"

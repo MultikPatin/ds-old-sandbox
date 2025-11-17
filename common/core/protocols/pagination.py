@@ -1,56 +1,66 @@
-from typing import Protocol
+from typing import TYPE_CHECKING, Protocol
 
-from pydantic import BaseModel
+if TYPE_CHECKING:
+    from pydantic import BaseModel
 
-from common.core.dtos import (
-    CursorPageDTO,
-    CursorParamsDTO,
-    LimitOffsetPageDTO,
-    LimitOffsetParamsDTO,
-    PagesPageDTO,
-    PagesParamsDTO,
-)
+    from common.core.dtos.pagination import (
+        CursorPageDTO,
+        LimitOffsetPageDTO,
+        PagesPageDTO,
+    )
 
-from .session import SessionProtocol
+    from .session import SessionProtocol
+
+
+class PaginationPagesParamsProtocol(Protocol):
+    number: int
+    size: int
+
+
+class PaginationLimitOffsetParamsProtocol(Protocol):
+    limit: int
+    offset: int
+
+
+class PaginationCursorParamsProtocol(Protocol):
+    cursor: str | None
+    size: int
 
 
 class PaginationPageProtocol[
-    FiltersSchema: BaseModel,
-    ReturnSchema: BaseModel,
-    Session: SessionProtocol,
+    FiltersSchema: "PaginationPagesParamsProtocol",
+    ReturnSchema: "BaseModel",
+    Session: "SessionProtocol",
 ](Protocol):
-    async def get_all_like_pages(
+    async def get_all_pages(
         self,
-        params: PagesParamsDTO,
         filters: FiltersSchema,
         *,
-        session: Session | None = None,
-    ) -> PagesPageDTO[ReturnSchema]: ...
+        session: Session,
+    ) -> "PagesPageDTO[ReturnSchema]": ...
 
 
 class PaginationLiminOffsetProtocol[
-    FiltersSchema: BaseModel,
-    ReturnSchema: BaseModel,
-    Session: SessionProtocol,
+    FiltersSchema: "PaginationLimitOffsetParamsProtocol",
+    ReturnSchema: "BaseModel",
+    Session: "SessionProtocol",
 ](Protocol):
-    async def get_all_like_limit_offset(
+    async def get_all_limit_offset(
         self,
-        params: LimitOffsetParamsDTO,
         filters: FiltersSchema,
         *,
-        session: Session | None = None,
-    ) -> LimitOffsetPageDTO[ReturnSchema]: ...
+        session: Session,
+    ) -> "LimitOffsetPageDTO[ReturnSchema]": ...
 
 
 class PaginationCursorProtocol[
-    FiltersSchema: BaseModel,
-    ReturnSchema: BaseModel,
-    Session: SessionProtocol,
+    FiltersSchema: "PaginationCursorParamsProtocol",
+    ReturnSchema: "BaseModel",
+    Session: "SessionProtocol",
 ](Protocol):
-    async def get_all_like_cursor(
+    async def get_all_cursor(
         self,
-        params: CursorParamsDTO,
         filters: FiltersSchema,
         *,
-        session: Session | None = None,
-    ) -> CursorPageDTO[ReturnSchema]: ...
+        session: Session,
+    ) -> "CursorPageDTO[ReturnSchema]": ...

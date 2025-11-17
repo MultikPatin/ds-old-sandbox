@@ -1,31 +1,162 @@
+from typing import TYPE_CHECKING
+
+from common.core.custom_types import AnyList
+from common.core.enums import LifeStatusEnum
 from common.core.exceptions import NoContentError
 from common.mongo import (
-    Base,
+    DeleteSoftMixin,
+    GetMixin,
+    IDProjection,
     KeysEnum,
     convert_to_dto,
     convert_to_id,
+    paginator_cursor,
+    paginator_limit_offset,
+    paginator_pages,
+    # prepare_sort,
 )
-from pymongo.asynchronous.client_session import AsyncClientSession
 
-from src.application.dtos.db.layout import LayoutFullLinks
+from src.adapters.db.mongo.projections import LayoutShortProjection
+from src.application.dtos.db import LayoutDB, LayoutWithBlocks
+from src.application.dtos.db.layout import LayoutFullLinks, LayoutShortDTO
+
+if TYPE_CHECKING:
+    from beanie import Document
+    from beanie.odm.queries.find import FindMany
+    from common.core.dtos.pagination import (
+        CursorPageDTO,
+        LimitOffsetPageDTO,
+        PagesPageDTO,
+    )
+    from pydantic import BaseModel
+    from pymongo.asynchronous.client_session import AsyncClientSession
+
+    from src.application.protocols import (
+        LayoutShortCursorFiltersProtocol,
+        LayoutShortFiltersProtocol,
+        LayoutShortLimitOffsetFiltersProtocol,
+        LayoutShortPagesFiltersProtocol,
+    )
+
+type FindManyQueryType[DocType, ProjectionModelType] = (
+    FindMany[DocType] | FindMany[ProjectionModelType]
+)
 
 
-class LayoutRepository(Base):
-    async def get(
-        self, _id: str, *, session: AsyncClientSession | None = None
+class LayoutRepository(GetMixin[LayoutDB], DeleteSoftMixin):
+    async def get_all_pages(
+        self,
+        filters: "LayoutShortPagesFiltersProtocol",
+        *,
+        session: "AsyncClientSession",
+    ) -> "PagesPageDTO[LayoutShortDTO]":
+        return await paginator_pages(
+            query=self._create_query(filters, session=session),
+            params=filters,
+            session=session,
+            # sort=prepare_sort(filters.life_time_sort, self._collection),
+            items_return_type=LayoutShortDTO,
+            projection_model=LayoutShortProjection,
+        )
+
+    async def get_all_limit_offset(
+        self,
+        filters: "LayoutShortLimitOffsetFiltersProtocol",
+        *,
+        session: "AsyncClientSession",
+    ) -> "LimitOffsetPageDTO[LayoutShortDTO]":
+        return await paginator_limit_offset(
+            query=self._create_query(filters, session=session),
+            params=filters,
+            session=session,
+            # sort=prepare_sort(filters.life_time_sort, self._collection),
+            items_return_type=LayoutShortDTO,
+            projection_model=LayoutShortProjection,
+        )
+
+    async def get_all_cursor(
+        self,
+        filters: "LayoutShortCursorFiltersProtocol",
+        *,
+        session: "AsyncClientSession",
+    ) -> "CursorPageDTO[LayoutShortDTO]":
+        return await paginator_cursor(
+            query=self._create_query(filters, session=session),
+            params=filters,
+            session=session,
+            # sort=prepare_sort(filters.life_time_sort, self._collection),
+            items_return_type=LayoutShortDTO,
+            projection_model=LayoutShortProjection,
+        )
+
+    def _create_query[DocType: Document, ProjectionModelType: BaseModel](
+        self,
+        filters: "LayoutShortFiltersProtocol",
+        *,
+        session: "AsyncClientSession",
+    ) -> FindManyQueryType[DocType, ProjectionModelType]:
+        conditions = self._create_conditions(filters)
+        return self._collection.find_many(*conditions, session=session)
+
+    def _create_conditions(
+        self, filters: "LayoutShortFiltersProtocol"
+    ) -> AnyList:
+        conditions: AnyList = []
+
+        if filters.status:
+            conditions.append(self._collection.status == filters.status)
+        else:
+            conditions.append(
+                self._collection.status == LifeStatusEnum.published
+            )
+        return conditions
+
+    async def get_full_links(
+        self, _id: str, *, session: "AsyncClientSession"
     ) -> LayoutFullLinks:
         document = await self._collection.find_one(
             {KeysEnum.id: convert_to_id(_id)},
             session=session,
             fetch_links=True,
             nesting_depths_per_field={
-                "inputs": 0,
-                "keys": 0,
                 "card": 1,
-                "singles": 3,
-                "tables": 4,
+                "singles": 1,
+                "tables": 1,
             },
         )
-        if document is None:
+        if not document:
             raise NoContentError
         return convert_to_dto(document, LayoutFullLinks)
+
+    async def get_by_key(
+        self, key: str, *, session: "AsyncClientSession"
+    ) -> "LayoutWithBlocks":
+        conditions = [
+            self._collection.key == key,
+            self._collection.status == LifeStatusEnum.published,
+        ]
+        document = await self._collection.find_one(
+            *conditions,
+            session=session,
+            fetch_links=True,
+            nesting_depths_per_field={
+                "card": 0,
+                "singles": 1,
+                "tables": 1,
+            },
+        )
+        if not document:
+            raise NoContentError
+        return convert_to_dto(document, LayoutWithBlocks, is_replace_links=True)
+
+    async def get_ids_by(
+        self, key: str, *, session: "AsyncClientSession"
+    ) -> list[str]:
+        documents = await self._collection.find_many(
+            {self._collection.key: key},
+            session=session,
+            projection_model=IDProjection,
+        ).to_list()
+        if not documents:
+            raise NoContentError
+        return [document.id for document in documents]

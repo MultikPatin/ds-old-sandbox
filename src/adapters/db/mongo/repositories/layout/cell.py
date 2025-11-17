@@ -1,58 +1,34 @@
-from common.mongo import AddMixin, GetMixin
+from common.mongo import AddMixin, GetByIDsMixin, GetMixin
 
-from src.application.dtos.db.layout import (
-    LayoutHeaderCellCreate,
-    LayoutHeaderCellDB,
-    LayoutRequiredCellCreate,
-    LayoutRequiredCellFullLinks,
-    LayoutRequiredRowCreate,
-    LayoutRequiredRowFullLInks,
-    LayoutStyleCreate,
+from src.application.dtos.db import (
+    LayoutSchemaCreateDTO,
+    LayoutSchemaDB,
+    LayoutStyleCreateDTO,
     LayoutStyleDB,
-    LayoutTooltipCreate,
-    LayoutTooltipDB,
-    LayoutValidationCreate,
+    LayoutValidationCreateDTO,
     LayoutValidationDB,
 )
 
 
-class LayoutRequiredRowRepository(
-    GetMixin[LayoutRequiredRowFullLInks],
-    AddMixin[LayoutRequiredRowCreate, LayoutRequiredRowFullLInks],
-):
-    pass
-
-
-class LayoutRequiredCellRepository(
-    GetMixin[LayoutRequiredCellFullLinks],
-    AddMixin[LayoutRequiredCellCreate, LayoutRequiredCellFullLinks],
-):
-    pass
-
-
-class LayoutHeaderCellRepository(
-    GetMixin[LayoutHeaderCellDB],
-    AddMixin[LayoutHeaderCellCreate, LayoutHeaderCellDB],
-):
-    pass
-
-
-class LayoutTooltipRepository(
-    GetMixin[LayoutTooltipDB],
-    AddMixin[LayoutTooltipCreate, LayoutTooltipDB],
+class LayoutCellRepository(
+    GetMixin[LayoutSchemaDB],
+    GetByIDsMixin[LayoutSchemaDB],
+    AddMixin[LayoutSchemaCreateDTO, LayoutSchemaDB],
 ):
     pass
 
 
 class LayoutStyleRepository(
     GetMixin[LayoutStyleDB],
-    AddMixin[LayoutStyleCreate, LayoutStyleDB],
+    GetByIDsMixin[LayoutStyleDB],
+    AddMixin[LayoutStyleCreateDTO, LayoutStyleDB],
 ):
     pass
 
 
 class LayoutValidationRepository(
     GetMixin[LayoutValidationDB],
-    AddMixin[LayoutValidationCreate, LayoutValidationDB],
+    GetByIDsMixin[LayoutValidationDB],
+    AddMixin[LayoutValidationCreateDTO, LayoutValidationDB],
 ):
     pass

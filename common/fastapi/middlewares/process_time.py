@@ -1,25 +1,28 @@
 import time
 from collections.abc import Awaitable, Callable
+from typing import TYPE_CHECKING
 
-from fastapi import Request, Response
 from starlette.middleware.base import BaseHTTPMiddleware
-from starlette.types import ASGIApp
+
+if TYPE_CHECKING:
+    from fastapi import Request, Response
+    from starlette.types import ASGIApp
+
+type CallNext = Callable[["Request"], Awaitable["Response"]]
 
 
 class ProcessTimeHeaderMiddleware(BaseHTTPMiddleware):
     def __init__(
         self,
-        app: ASGIApp,
+        app: "ASGIApp",
         header_name: str,
     ) -> None:
         super().__init__(app=app)
         self.header_name = header_name
 
     async def dispatch(
-        self,
-        request: Request,
-        call_next: Callable[[Request], Awaitable[Response]],
-    ) -> Response:
+        self, request: "Request", call_next: CallNext
+    ) -> "Response":
         start_time = time.perf_counter()
         response = await call_next(request)
         process_time = time.perf_counter() - start_time

@@ -21,6 +21,6 @@ class PagesParams(BaseModel):
 
 
 class PagesPageResponse[Item: BaseModel](_BasePageSchema[Item]):
-    current_page: str | None = _current_page_field()
-    previous_page: str | None = _previous_page_field()
-    next_page: str | None = _next_page_field()
+    current_page: int | None = _current_page_field()
+    previous_page: int | None = _previous_page_field()
+    next_page: int | None = _next_page_field()

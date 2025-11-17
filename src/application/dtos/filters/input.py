@@ -5,15 +5,32 @@ from common.core.dtos import (
     LifeActionTimeSortOrNoneDTO,
     LifeStatusOrNoneDTO,
 )
+from common.core.dtos.pagination import (
+    CursorParamsDTO,
+    LimitOffsetParamsDTO,
+    PagesParamsDTO,
+)
 from pydantic import Field
 
 
 class InputCardFilters(
-    LifeActionTimeSortOrNoneDTO,
-    LifeStatusOrNoneDTO,
     DateTimeStartDTO,
     DateTimeEndDTO,
     LifeActionsPeriodFieldDTO,
+    LifeStatusOrNoneDTO,
+    LifeActionTimeSortOrNoneDTO,
 ):
-    model_id: str
     layout_ids: list[str] = Field(default_factory=list)
+    layouts_key: str = Field(min_length=1)
+
+
+class InputCardPagesFilters(InputCardFilters, PagesParamsDTO):
+    pass
+
+
+class InputCardLimitOffsetFilters(InputCardFilters, LimitOffsetParamsDTO):
+    pass
+
+
+class InputCardCursorFilters(InputCardFilters, CursorParamsDTO):
+    pass

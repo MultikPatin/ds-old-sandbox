@@ -20,3 +20,4 @@ class KeysEnum(StrEnum):
     all = "$all"
     regex = "$regex"
     options = "$options"
+    in_ = "$in"

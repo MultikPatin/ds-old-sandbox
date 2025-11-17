@@ -1,3 +1,5 @@
+from typing import TYPE_CHECKING
+
 from common.core.exceptions import NoContentError
 from common.mongo import (
     AddMixin,
@@ -5,17 +7,19 @@ from common.mongo import (
     convert_to_dto,
     convert_to_id,
 )
-from pymongo.asynchronous.client_session import AsyncClientSession
 
-from src.application.dtos.db.layout import LayoutCardCreate, LayoutCardDB
+from src.application.dtos.db.layout import LayoutCardCreateDTO, LayoutCardDB
+
+if TYPE_CHECKING:
+    from pymongo.asynchronous.client_session import AsyncClientSession
 
 
 class LayoutCardRepository(
     GetMixin[LayoutCardDB],
-    AddMixin[LayoutCardCreate, LayoutCardDB],
+    AddMixin[LayoutCardCreateDTO, LayoutCardDB],
 ):
     async def get_by_layout_id(
-        self, layout_id: str, *, session: AsyncClientSession | None = None
+        self, layout_id: str, *, session: "AsyncClientSession"
     ) -> LayoutCardDB:
         document = await self._collection.find_one(
             self._collection.layout.id == convert_to_id(layout_id),
@@ -23,6 +27,6 @@ class LayoutCardRepository(
             fetch_links=True,
             nesting_depths_per_field={"layout": 1},
         )
-        if document is None:
+        if not document:
             raise NoContentError
         return convert_to_dto(document, LayoutCardDB)

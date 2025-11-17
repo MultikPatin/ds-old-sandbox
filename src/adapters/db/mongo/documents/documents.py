@@ -1,6 +1,6 @@
-from beanie import BackLink, Document, Link, UnionDoc
+from beanie import Document, Link
 from pydantic import Field
-from pymongo import ASCENDING, DESCENDING, IndexModel
+from pymongo import DESCENDING, IndexModel
 
 from src.application.dtos.db.input import (
     InputBase,
@@ -8,125 +8,106 @@ from src.application.dtos.db.input import (
     InputTableBase,
     InputTableChunkBase,
 )
-from src.application.dtos.db.key import KeyBase
 from src.application.dtos.db.layout import (
     LayoutBase,
     LayoutCardBase,
-    LayoutHeaderCellBase,
-    LayoutRequiredCellBase,
-    LayoutRequiredRowBase,
+    LayoutSchemaBase,
     LayoutSingleBase,
     LayoutStyleBase,
     LayoutTableBase,
-    LayoutTooltipBase,
     LayoutValidationBase,
 )
-from src.application.dtos.db.model import ModelBase
-from src.application.dtos.db.reference import ReferenceBase
 
-# INPUT PROPERTIES -------------------
+# INPUT PROPERTIES
 
 
-class InputsDocument(InputBase, Document):
-    layout: Link["LayoutsDocument"]
-
-    singles: list[Link["InputSinglesDocument"]] | None = Field(default=None)
+class InputDocument(InputBase, Document):
+    singles: list[Link["InputSingleDocument"]] | None = Field(default=None)
     tables: list[Link["InputTableDocument"]] | None = Field(default=None)
+    layout: Link["LayoutDocument"]
 
     class Settings:
         name = "inputs"
         use_state_management = True
-        indexes = [  # noqa: RUF012
-            IndexModel(
-                [("created", DESCENDING)],
-                name="created_idx_DESCENDING",
-            ),
-            IndexModel(
-                [("updated", DESCENDING)],
-                name="updated_idx_DESCENDING",
-            ),
-        ]
+        max_nesting_depth = 1
 
 
-class InputSinglesDocument(InputSingleBase, Document):
+# INPUT BLOCK PROPERTIES
+
+
+class InputSingleDocument(InputSingleBase, Document):
     class Settings:
         name = "input_singles"
-        use_state_management = True
         max_nesting_depth = 0
 
 
 class InputTableDocument(InputTableBase, Document):
-    chunks: list[Link["InputTablesChunksDocument"]]
-
     class Settings:
         name = "input_tables"
-        use_state_management = True
-        max_nesting_depth = 1
+        max_nesting_depth = 0
 
 
-class InputTablesChunksDocument(InputTableChunkBase, Document):
+class InputTableChunkDocument(InputTableChunkBase, Document):
     class Settings:
         name = "input_table_chunks"
-        use_state_management = True
         max_nesting_depth = 0
 
 
-# MODEL PROPERTIES -------------------
+# LAYOUT PROPERTIES
 
 
-class ModelsDocument(ModelBase, Document):
-    keys: list[BackLink["KeysDocument"]] = Field(
-        json_schema_extra={"original_field": "model"}
-    )
+class LayoutDocument(LayoutBase, Document):
+    singles: list[Link["LayoutSingleDocument"]] | None = Field(default=None)
+    tables: list[Link["LayoutTableDocument"]] | None = Field(default=None)
+    card: Link["LayoutCardDocument"] | None = Field(default=None)
 
     class Settings:
-        name = "models"
+        name = "layouts"
         use_state_management = True
+        max_nesting_depth = 1
         indexes = [  # noqa: RUF012
-            IndexModel(
-                [("created", DESCENDING)],
-                name="created_idx_DESCENDING",
-            ),
-            IndexModel(
-                [("updated", DESCENDING)],
-                name="updated_idx_DESCENDING",
-            ),
             IndexModel(
                 [
-                    ("title", ASCENDING),
-                    ("major_version", ASCENDING),
-                    ("minor_version", ASCENDING),
+                    ("major_version", DESCENDING),
+                    ("minor_version", DESCENDING),
+                    ("key", DESCENDING),
                 ],
-                name="title_version_idx_ASCENDING",
+                name="key_version_unique_idx_DESCENDING",
                 unique=True,
             ),
         ]
 
 
-# KEY PROPERTIES -------------------
+# LAYOUT CARD PROPERTIES
 
 
-class KeysDocument(KeyBase, Document):
-    model: Link["ModelsDocument"]
-    layout: Link["LayoutsDocument"]
-
+class LayoutCardDocument(LayoutCardBase, Document):
     class Settings:
-        name = "keys"
-        indexes = [  # noqa: RUF012
-            IndexModel(
-                [("model", ASCENDING), ("layout", ASCENDING)],
-                name="model_layout_idx_ASCENDING",
-                unique=True,
-            )
-        ]
+        name = "layout_cards"
+        max_nesting_depth = 0
 
 
-# LAYOUT OTHER PROPERTIES -------------------
+# LAYOUT BLOCK PROPERTIES
 
 
-class ReferencesDocument(ReferenceBase, Document):
+class LayoutSingleDocument(LayoutSingleBase, Document):
     class Settings:
-        name = "references"
+        name = "layout_singles"
+        max_nesting_depth = 0
+
+
+class LayoutTableDocument(LayoutTableBase, Document):
+    class Settings:
+        name = "layout_tables"
+        max_nesting_depth = 0
+
+
+# LAYOUT CELL PROPERTIES
+
+
+class LayoutCellDocument(LayoutSchemaBase, Document):
+    class Settings:
+        name = "layout_cell_schemas"
         max_nesting_depth = 0
         indexes = [  # noqa: RUF012
             IndexModel(
@@ -137,82 +118,10 @@ class ReferencesDocument(ReferenceBase, Document):
         ]
 
 
-# LAYOUT PROPERTIES -------------------
-
-
-class ParentLayout(UnionDoc):
+class LayoutValidationDocument(LayoutValidationBase, Document):
     class Settings:
-        name = "layouts_union"
-        class_id = "_class_id"
-
-
-class LayoutsDocument(LayoutBase, Document):
-    card: Link["LayoutCardsDocument"] | None = Field(default=None)
-
-    singles: list[Link["LayoutSinglesDocument"]] | None = Field(default=None)
-    tables: list[Link["LayoutTablesDocument"]] | None = Field(default=None)
-
-    class Settings:
-        name = "layout"
-        use_state_management = True
-        union_doc = ParentLayout
-        max_nesting_depth = 4
-        indexes = [  # noqa: RUF012
-            IndexModel(
-                [("created", DESCENDING)],
-                name="created_idx_DESCENDING",
-            ),
-            IndexModel(
-                [("updated", DESCENDING)],
-                name="updated_idx_DESCENDING",
-            ),
-        ]
-
-
-class LayoutCardsDocument(LayoutCardBase, Document):
-    class Settings:
-        name = "card"
-        union_doc = ParentLayout
+        name = "layout_cell_validations"
         max_nesting_depth = 0
-
-
-# LAYOUT BLOCK PROPERTIES -------------------
-
-
-class ParentLayoutBlocks(UnionDoc):
-    class Settings:
-        name = "layout_blocks_union"
-        class_id = "_class_id"
-
-
-class LayoutSinglesDocument(LayoutSingleBase, Document):
-    cells: list[Link["LayoutHeaderCellsDocument"]] | None = Field(default=None)
-
-    class Settings:
-        name = "single"
-        union_doc = ParentLayoutBlocks
-        use_state_management = True
-        max_nesting_depth = 2
-
-
-class LayoutTablesDocument(LayoutTableBase, Document):
-    headers: list[Link["LayoutHeaderCellsDocument"]]
-    rows: list[Link["LayoutRequiredRowsDocument"]] | None = Field(default=None)
-
-    class Settings:
-        name = "table"
-        union_doc = ParentLayoutBlocks
-        use_state_management = True
-        max_nesting_depth = 3
-
-
-# LAYOUT CELL PROPERTIES -------------------
-
-
-class ParentLayoutCells(UnionDoc):
-    class Settings:
-        name = "layout_cells_union"
-        class_id = "_class_id"
         indexes = [  # noqa: RUF012
             IndexModel(
                 [("hash", DESCENDING)],
@@ -222,55 +131,14 @@ class ParentLayoutCells(UnionDoc):
         ]
 
 
-class LayoutRequiredRowsDocument(LayoutRequiredRowBase, Document):
-    cells: list[Link["LayoutRequiredCellsDocument"]] | None = Field(
-        default=None
-    )
-
+class LayoutStyleDocument(LayoutStyleBase, Document):
     class Settings:
-        name = "row_required"
-        union_doc = ParentLayoutCells
-        use_state_management = True
-        max_nesting_depth = 2
-
-
-class LayoutRequiredCellsDocument(LayoutRequiredCellBase, Document):
-    tooltip: Link["LayoutTooltipsDocument"] | None = Field(default=None)
-
-    class Settings:
-        name = "cell_required"
-        union_doc = ParentLayoutCells
-        max_nesting_depth = 1
-
-
-class LayoutHeaderCellsDocument(LayoutHeaderCellBase, Document):
-    validation: Link["LayoutValidationsDocument"] | None = Field(default=None)
-    style: Link["LayoutStylesDocument"] | None = Field(default=None)
-    tooltip: Link["LayoutTooltipsDocument"] | None = Field(default=None)
-    references: list[Link["ReferencesDocument"]] | None = Field(default=None)
-
-    class Settings:
-        name = "cell_header"
-        union_doc = ParentLayoutCells
-        max_nesting_depth = 1
-
-
-class LayoutTooltipsDocument(LayoutTooltipBase, Document):
-    class Settings:
-        name = "tooltip"
-        union_doc = ParentLayoutCells
+        name = "layout_cell_styles"
         max_nesting_depth = 0
-
-
-class LayoutStylesDocument(LayoutStyleBase, Document):
-    class Settings:
-        name = "style"
-        union_doc = ParentLayoutCells
-        max_nesting_depth = 0
-
-
-class LayoutValidationsDocument(LayoutValidationBase, Document):
-    class Settings:
-        name = "validation"
-        union_doc = ParentLayoutCells
-        max_nesting_depth = 0
+        indexes = [  # noqa: RUF012
+            IndexModel(
+                [("hash", DESCENDING)],
+                name="hash_idx_DESCENDING",
+                unique=True,
+            )
+        ]
