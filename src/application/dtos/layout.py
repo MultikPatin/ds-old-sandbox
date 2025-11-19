@@ -11,15 +11,15 @@ from .db import (
 
 
 class LayoutSingleWithLayersDTO(LayoutSingleDB):
-    schemas: list[LayoutSchemaDB] | None = Field(default=None)
-    validations: list[LayoutValidationDB] | None = Field(default=None)
-    styles: list[LayoutStyleDB] | None = Field(default=None)
+    schemas: list[LayoutSchemaDB] | None = Field(default=None)  # type: ignore
+    validations: list[LayoutValidationDB] | None = Field(default=None)  # type: ignore
+    styles: list[LayoutStyleDB] | None = Field(default=None)  # type: ignore
 
 
 class LayoutTableWithLayersDTO(LayoutTableDB):
-    schemas: list[list[LayoutSchemaDB]] | None = Field(default=None)
-    validations: list[list[LayoutValidationDB]] | None = Field(default=None)
-    styles: list[list[LayoutStyleDB]] | None = Field(default=None)
+    schemas: list[list[LayoutSchemaDB]] | None = Field(default=None)  # type: ignore
+    validations: list[list[LayoutValidationDB]] | None = Field(default=None)  # type: ignore
+    styles: list[list[LayoutStyleDB]] | None = Field(default=None)  # type: ignore
 
 
 class LayoutWithBlockLayersDTO(LayoutDB):

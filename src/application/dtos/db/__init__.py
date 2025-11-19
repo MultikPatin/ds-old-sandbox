@@ -32,12 +32,14 @@ from .layout import (
     LayoutSingleUpdateDTO,
     LayoutStyleCreateDTO,
     LayoutStyleDB,
+    LayoutStyleUpdateDTO,
     LayoutTableCreateDTO,
     LayoutTableDB,
     LayoutTableUpdateDTO,
     LayoutUpdateDTO,
     LayoutValidationCreateDTO,
     LayoutValidationDB,
+    LayoutValidationUpdateDTO,
     LayoutWithBlocks,
 )
 
@@ -73,11 +75,13 @@ __all__ = [
     "LayoutSingleUpdateDTO",
     "LayoutStyleCreateDTO",
     "LayoutStyleDB",
+    "LayoutStyleUpdateDTO",
     "LayoutTableCreateDTO",
     "LayoutTableDB",
     "LayoutTableUpdateDTO",
     "LayoutUpdateDTO",
     "LayoutValidationCreateDTO",
     "LayoutValidationDB",
+    "LayoutValidationUpdateDTO",
     "LayoutWithBlocks",
 ]

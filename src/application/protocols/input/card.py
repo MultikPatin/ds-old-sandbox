@@ -21,7 +21,7 @@ from src.application.dtos.db import InputCardDTO
 
 class InputCardInRichFiltersProtocol(Protocol):
     layout_ids: list[str]
-    layouts_key: str
+    layout_key: str
 
 
 class InputCardFiltersProtocol(InputCardInRichFiltersProtocol, Protocol):

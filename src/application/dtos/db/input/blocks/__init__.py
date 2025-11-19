@@ -1,9 +1,3 @@
-from .chunks import (
-    InputTableChunkBase,
-    InputTableChunkCreateDTO,
-    InputTableChunkDB,
-    InputTableChunkUpdateDTO,
-)
 from .single import (
     InputSingleBase,
     InputSingleCreateDTO,
@@ -12,6 +6,10 @@ from .single import (
 )
 from .table import (
     InputTableBase,
+    InputTableChunkBase,
+    InputTableChunkCreateDTO,
+    InputTableChunkDB,
+    InputTableChunkUpdateDTO,
     InputTableCreateDTO,
     InputTableDB,
     InputTableUpdateDTO,

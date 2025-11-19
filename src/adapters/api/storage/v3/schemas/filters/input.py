@@ -20,8 +20,8 @@ class _InputCardFilters(
     LifeStatusOrNoneSchema,
     LifeActionSortOrNoneSchema,
 ):
-    layouts_key: str = Field(
-        alias="layouts_key",
+    layout_key: str = Field(
+        alias="layout_key",
         title="Layouts key",
         description="Key of layouts",
         min_length=1,

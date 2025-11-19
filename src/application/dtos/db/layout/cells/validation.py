@@ -1,4 +1,4 @@
-from common.core.dtos import HashDTO, IdDTO, OptionsDTO
+from common.core.dtos import HashDTO, HashOrNoneDTO, IdDTO, OptionsDTO
 from pydantic import Field
 
 
@@ -16,7 +16,7 @@ class _LayoutValidationBase(OptionsDTO):
 # Update
 
 
-class LayoutValidationUpdateDTO(_LayoutValidationBase):
+class LayoutValidationUpdateDTO(HashOrNoneDTO, _LayoutValidationBase):
     pass
 
 
@@ -34,5 +34,5 @@ class LayoutValidationDB(IdDTO, LayoutValidationBase):
 # Create
 
 
-class LayoutValidationCreateDTO(_LayoutValidationBase):
+class LayoutValidationCreateDTO(HashOrNoneDTO, _LayoutValidationBase):
     pass

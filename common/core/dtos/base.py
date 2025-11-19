@@ -45,6 +45,10 @@ class HashDTO(RefCountDTO):
     hash: str = Field(min_length=8, max_length=255)
 
 
+class HashOrNoneDTO(RefCountDTO):
+    hash: str | None = Field(default=None, min_length=8, max_length=255)
+
+
 class OptionsDTO(BaseModel):
     options: AnyDict | None = Field(default=None)
 

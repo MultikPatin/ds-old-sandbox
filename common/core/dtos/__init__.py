@@ -1,6 +1,7 @@
 from .base import (
     DescriptionDTO,
     HashDTO,
+    HashOrNoneDTO,
     IdDTO,
     KeyDTO,
     LabelDTO,
@@ -37,6 +38,7 @@ __all__ = [
     "DateTimeStartDTO",
     "DescriptionDTO",
     "HashDTO",
+    "HashOrNoneDTO",
     "IdDTO",
     "KeyDTO",
     "LabelDTO",

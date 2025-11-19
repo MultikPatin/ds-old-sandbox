@@ -1,7 +1,7 @@
-from .block import LayoutSingleRepository, LayoutTableRepository
+from .blocks import LayoutSingleRepository, LayoutTableRepository
 from .card import LayoutCardRepository
-from .cell import (
-    LayoutCellRepository,
+from .cells import (
+    LayoutSchemaRepository,
     LayoutStyleRepository,
     LayoutValidationRepository,
 )
@@ -9,8 +9,8 @@ from .layout import LayoutRepository
 
 __all__ = [
     "LayoutCardRepository",
-    "LayoutCellRepository",
     "LayoutRepository",
+    "LayoutSchemaRepository",
     "LayoutSingleRepository",
     "LayoutStyleRepository",
     "LayoutTableRepository",

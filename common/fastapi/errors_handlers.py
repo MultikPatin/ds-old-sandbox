@@ -25,8 +25,10 @@ def register_errors_handlers(*, app: "FastAPI") -> None:
     async def handle_lock_operation_error(
         request: "Request",
         exc: LockedOperationError,
-    ) -> Response:
-        return Response(status_code=status.HTTP_423_LOCKED)
+    ) -> ORJSONResponse:
+        return ORJSONResponse(
+            status_code=status.HTTP_423_LOCKED, content=exc.content
+        )
 
     @app.exception_handler(BusinessLogicError)
     async def handle_business_logic_error(
@@ -34,6 +36,5 @@ def register_errors_handlers(*, app: "FastAPI") -> None:
         exc: BusinessLogicError,
     ) -> ORJSONResponse:
         return ORJSONResponse(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            content=exc.content,
+            status_code=status.HTTP_400_BAD_REQUEST, content=exc.content
         )

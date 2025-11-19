@@ -1,4 +1,4 @@
-from .chunks import InputTableChunkService
+from .chunk import InputTableChunkService
 
 # from .table import InputTableService
 

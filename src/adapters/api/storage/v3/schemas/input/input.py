@@ -17,6 +17,7 @@ class InputResponse(
     UpdatedSchema,
     OptionsSchema,
 ):
+    layout: str
     singles: list[InputSingleResponse] | None = Field(
         default=None,
         alias="singles",
@@ -29,3 +30,4 @@ class InputResponse(
         title="Tables",
         description="Block of type 'tables' of the layout",
     )
+

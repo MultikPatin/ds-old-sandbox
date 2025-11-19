@@ -6,20 +6,25 @@ from .mixins import (
     Base,
     BaseDTO,
     CountMixin,
+    DecRefCountMixin,
     DeleteMixin,
     DeleteSoftMixin,
+    DeleteWithRefCountMixin,
     ExistsMixin,
+    GetByHashMixin,
+    GetByHashWithReturnIdMixin,
     GetByIDsMixin,
     GetMixin,
+    IncRefCountMixin,
     UpdateMixin,
     UpdateWithReturnIdMixin,
 )
+from .mixins.projections import ProjectionID
 from .paginators import (
     paginator_cursor,
     paginator_limit_offset,
     paginator_pages,
 )
-from .projections import IDProjection
 from .settings import Settings
 from .utils import (
     QueryContext,
@@ -37,13 +42,18 @@ __all__ = [
     "BaseDTO",
     "Client",
     "CountMixin",
+    "DecRefCountMixin",
     "DeleteMixin",
     "DeleteSoftMixin",
+    "DeleteWithRefCountMixin",
     "ExistsMixin",
+    "GetByHashMixin",
+    "GetByHashWithReturnIdMixin",
     "GetByIDsMixin",
     "GetMixin",
-    "IDProjection",
+    "IncRefCountMixin",
     "KeysEnum",
+    "ProjectionID",
     "QueryContext",
     "Settings",
     "UpdateMixin",

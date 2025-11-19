@@ -21,7 +21,7 @@ class InputCardFilters(
     LifeActionTimeSortOrNoneDTO,
 ):
     layout_ids: list[str] = Field(default_factory=list)
-    layouts_key: str = Field(min_length=1)
+    layout_key: str = Field(min_length=1)
 
 
 class InputCardPagesFilters(InputCardFilters, PagesParamsDTO):

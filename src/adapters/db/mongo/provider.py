@@ -53,8 +53,8 @@ from .repositories import (
     InputTableChunkRepository,
     InputTableRepository,
     LayoutCardRepository,
-    LayoutCellRepository,
     LayoutRepository,
+    LayoutSchemaRepository,
     LayoutSingleRepository,
     LayoutStyleRepository,
     LayoutTableRepository,
@@ -154,7 +154,7 @@ class MongoProvider(Provider):
     async def layout_cell(
         self,
     ) -> LayoutSchemaRepositoryProtocol[AsyncClientSession]:
-        return LayoutCellRepository(LayoutCellDocument, LayoutSchemaDB)
+        return LayoutSchemaRepository(LayoutCellDocument, LayoutSchemaDB)
 
     layout_style_alias = alias(
         source=LayoutStyleRepositoryProtocol[AsyncClientSession],

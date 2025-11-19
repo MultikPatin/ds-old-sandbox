@@ -6,8 +6,8 @@ from common.core.exceptions import NoContentError
 from common.mongo import (
     DeleteSoftMixin,
     GetMixin,
-    IDProjection,
     KeysEnum,
+    ProjectionID,
     convert_to_dto,
     convert_to_id,
     paginator_cursor,
@@ -155,7 +155,7 @@ class LayoutRepository(GetMixin[LayoutDB], DeleteSoftMixin):
         documents = await self._collection.find_many(
             {self._collection.key: key},
             session=session,
-            projection_model=IDProjection,
+            projection_model=ProjectionID,
         ).to_list()
         if not documents:
             raise NoContentError

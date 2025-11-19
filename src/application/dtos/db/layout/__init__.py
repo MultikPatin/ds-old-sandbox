@@ -23,9 +23,11 @@ from .cells import (
     LayoutStyleBase,
     LayoutStyleCreateDTO,
     LayoutStyleDB,
+    LayoutStyleUpdateDTO,
     LayoutValidationBase,
     LayoutValidationCreateDTO,
     LayoutValidationDB,
+    LayoutValidationUpdateDTO,
 )
 from .layout import (
     LayoutBase,
@@ -59,6 +61,7 @@ __all__ = [
     "LayoutStyleBase",
     "LayoutStyleCreateDTO",
     "LayoutStyleDB",
+    "LayoutStyleUpdateDTO",
     "LayoutTableBase",
     "LayoutTableCreateDTO",
     "LayoutTableDB",
@@ -67,5 +70,6 @@ __all__ = [
     "LayoutValidationBase",
     "LayoutValidationCreateDTO",
     "LayoutValidationDB",
+    "LayoutValidationUpdateDTO",
     "LayoutWithBlocks",
 ]

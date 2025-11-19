@@ -7,11 +7,25 @@ if TYPE_CHECKING:
     from .session import SessionProtocol
 
 
-class GetterProtocol[
+class GetterProtocol[ReturnSchema: "BaseModel", Session: "SessionProtocol"](
+    Protocol
+):
+    async def get(self, _id: str, *, session: Session) -> ReturnSchema: ...
+
+
+class GetterByHashProtocol[
     ReturnSchema: "BaseModel",
     Session: "SessionProtocol",
 ](Protocol):
-    async def get(self, _id: str, *, session: Session) -> ReturnSchema: ...
+    async def get_by_hash(
+        self, _hash: str, *, session: Session
+    ) -> ReturnSchema: ...
+
+
+class GetterByHashWithReturnIdProtocol[Session: "SessionProtocol"](Protocol):
+    async def get_by_hash_with_return_id(
+        self, _hash: str, *, session: Session
+    ) -> str: ...
 
 
 class GetterByIDsProtocol[
@@ -52,12 +66,24 @@ class DeleterProtocol[Session: "SessionProtocol"](Protocol):
     async def delete(self, _id: str, *, session: Session) -> str: ...
 
 
+class DeleteWithRefCountProtocol[Session: "SessionProtocol"](Protocol):
+    async def delete(self, _id: str, *, session: Session) -> str: ...
+
+
 class DeleterSoftProtocol[Session: "SessionProtocol"](Protocol):
     async def delete_soft(self, _id: str, *, session: Session) -> str: ...
 
 
 class ExistedProtocol[Session: "SessionProtocol"](Protocol):
     async def exists(self, _id: str, *, session: Session) -> bool: ...
+
+
+class IncRefCountProtocol[Session: "SessionProtocol"](Protocol):
+    async def inc_ref(self, _id: str, *, session: Session) -> None: ...
+
+
+class DecRefCountProtocol[Session: "SessionProtocol"](Protocol):
+    async def dec_ref(self, _id: str, *, session: Session) -> None: ...
 
 
 class CountProtocol[Session: "SessionProtocol"](Protocol):
