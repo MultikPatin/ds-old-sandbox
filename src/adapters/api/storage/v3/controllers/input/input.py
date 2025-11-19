@@ -1,4 +1,3 @@
-from http import HTTPStatus
 from typing import Annotated
 
 from common.core.enums import URLEnum
@@ -6,7 +5,7 @@ from common.core.protocols import SessionProtocol
 from common.fastapi.annotations import IDPath
 from dishka import FromDishka
 from dishka.integrations.fastapi import DishkaRoute
-from fastapi import APIRouter, Query
+from fastapi import APIRouter, Query, status
 
 from src.adapters.api.storage.v3.schemas import InputResponse
 from src.application.protocols import InputServiceProtocol
@@ -21,7 +20,7 @@ router.include_router(cards_router, prefix="/cards")
     URLEnum.root,
     summary="Create an input as template",
     response_model=InputResponse,
-    status_code=HTTPStatus.CREATED,
+    status_code=status.HTTP_202_ACCEPTED,
     responses={},
     deprecated=True,
 )
@@ -41,7 +40,7 @@ async def add_as_template(
     summary="Return an existing input",
     response_model=InputResponse,
     responses={
-        HTTPStatus.NO_CONTENT: {"model": None},
+        status.HTTP_204_NO_CONTENT: {"model": None},
     },
 )
 async def get(
@@ -58,9 +57,9 @@ async def get(
 @router.delete(
     URLEnum.id,
     summary="Sort delete an existing input",
-    status_code=HTTPStatus.ACCEPTED,
+    status_code=status.HTTP_202_ACCEPTED,
     responses={
-        HTTPStatus.NO_CONTENT: {"model": None},
+        status.HTTP_204_NO_CONTENT: {"model": None},
     },
 )
 async def delete_soft(

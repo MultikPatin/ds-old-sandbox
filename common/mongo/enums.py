@@ -21,3 +21,4 @@ class KeysEnum(StrEnum):
     regex = "$regex"
     options = "$options"
     in_ = "$in"
+    inc = "$inc"

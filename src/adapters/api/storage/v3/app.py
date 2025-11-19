@@ -1,6 +1,5 @@
-from http import HTTPStatus
-
 from common.fastapi import VApp
+from fastapi import status
 
 from .controllers import input_router, layout_router
 from .settings import Settings
@@ -15,7 +14,7 @@ class App(VApp):
             prefix="/layouts",
             tags=["Layout"],
             responses={
-                HTTPStatus.NO_CONTENT: {"model": None},
+                status.HTTP_202_ACCEPTED: {"model": None},
             },
         )
         self._api.include_router(

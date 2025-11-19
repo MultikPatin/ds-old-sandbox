@@ -7,8 +7,8 @@ from .input import (
 )
 from .layout import (
     LayoutCardRepository,
-    LayoutCellRepository,
     LayoutRepository,
+    LayoutSchemaRepository,
     LayoutSingleRepository,
     LayoutStyleRepository,
     LayoutTableRepository,
@@ -22,8 +22,8 @@ __all__ = [
     "InputTableChunkRepository",
     "InputTableRepository",
     "LayoutCardRepository",
-    "LayoutCellRepository",
     "LayoutRepository",
+    "LayoutSchemaRepository",
     "LayoutSingleRepository",
     "LayoutStyleRepository",
     "LayoutTableRepository",

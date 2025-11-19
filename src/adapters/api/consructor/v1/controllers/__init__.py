@@ -1,3 +1,3 @@
-from .hello import router as hello_router
+from .layout import schema_router, style_router, validation_router
 
-__all__ = ["hello_router"]
+__all__ = ["schema_router", "style_router", "validation_router"]

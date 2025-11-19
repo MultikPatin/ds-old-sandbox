@@ -18,7 +18,7 @@ class MSettings(BaseSettings):
     ALLOW_HEADERS: list[str] = Field(default=["*"], min_length=1)
     ALLOW_METHODS: list[str] = Field(default=["*"], min_length=1)
 
-    IS_GZIP: bool = Field(default=False)
+    IS_GZIP: bool = Field(default=True)
     GZIP_MIN_SIZE: int = Field(default=500, gt=100, lt=1024 * 10)
     GZIP_COMPRESS_LEVEL: int = Field(default=6, gt=0, le=9)
 

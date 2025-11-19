@@ -65,7 +65,7 @@ class InputCardSrvice:
         session: "SessionProtocol",
     ) -> None:
         filters.layout_ids = await self._layout.get_ids_by(
-            filters.layouts_key, session=session
+            filters.layout_key, session=session
         )
 
 

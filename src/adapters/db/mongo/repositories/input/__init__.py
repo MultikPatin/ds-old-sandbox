@@ -1,4 +1,4 @@
-from .block import (
+from .blocks import (
     InputSingleRepository,
     InputTableChunkRepository,
     InputTableRepository,

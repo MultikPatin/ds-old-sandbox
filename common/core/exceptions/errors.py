@@ -1,4 +1,6 @@
-from typing import Any, TypeVar
+from typing import TypeVar
+
+from common.core.custom_types import AnyDict
 
 from .contents import BaseErrorContent
 
@@ -17,7 +19,7 @@ class AppError(Exception):
         return self._content.message
 
     @property
-    def content(self) -> dict[str, Any]:
+    def content(self) -> AnyDict:
         return self._content.model_dump()
 
 
@@ -27,7 +29,7 @@ class NoContentError(Exception):
     """
 
 
-class LockedOperationError(Exception):
+class LockedOperationError(AppError):
     """
     Raised when an operation is locked by service owner.
     """

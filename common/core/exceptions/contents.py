@@ -17,3 +17,7 @@ class BaseErrorContent(BaseModel):
 
 class BusinessLogicErrorContent(BaseErrorContent):
     pass
+
+
+class LockedOperationErrorContent(BaseErrorContent):
+    pass

@@ -2,8 +2,10 @@ from typing import Any
 
 from pydantic import BaseModel, Field, field_validator
 
+__all__ = ["ProjectionID"]
 
-class IDProjection(BaseModel):
+
+class ProjectionID(BaseModel):
     id: str = Field(validation_alias="_id")
 
     @field_validator("id", mode="before")

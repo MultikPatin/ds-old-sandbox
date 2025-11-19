@@ -2,6 +2,7 @@ from typing import Any
 
 from common.core.dtos import (
     HashDTO,
+    HashOrNoneDTO,
     IdDTO,
     KeyDTO,
     LabelDTO,
@@ -19,7 +20,7 @@ class _LayoutSchemaBase(LabelDTO, RequiredDTO):
 # Update
 
 
-class LayoutSchemaUpdateDTO(_LayoutSchemaBase):
+class LayoutSchemaUpdateDTO(HashOrNoneDTO, _LayoutSchemaBase):
     pass
 
 
@@ -37,5 +38,6 @@ class LayoutSchemaDB(IdDTO, LayoutSchemaBase):
 # Create
 
 
-class LayoutSchemaCreateDTO(KeyDTO, _LayoutSchemaBase):
+# TODO Убрать ключ и сделать его генерируемым
+class LayoutSchemaCreateDTO(HashOrNoneDTO, KeyDTO, _LayoutSchemaBase):
     type: LayoutDataType

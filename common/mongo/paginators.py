@@ -41,6 +41,8 @@ type _ReturnItemsType[ReturnModel, ProjectionModel] = (
     ReturnModel | ProjectionModel
 )
 
+# TODO: Добавить ошибки по некорректно заданным параметрам пагинации
+
 
 async def paginator_pages[  # noqa: PLR0913
     DocType: Document,
@@ -55,8 +57,6 @@ async def paginator_pages[  # noqa: PLR0913
     sort: Sort = None,
     projection_model: _ProjectionModelType[ProjectionModel] = None,
 ) -> _PagesReturnType[ReturnModel]:
-    print(sort)
-
     if items_return_type is None:
         msg = "Either items_return_type must be provided"
         raise ValueError(msg)
@@ -180,7 +180,8 @@ async def paginator_cursor[  # noqa: PLR0913
     session: "AsyncClientSession",
     items_return_type: _ReturnModelType[ReturnModel],
     ctx: QueryContext = QueryContext(),
-    # sort: _Sort = None,
+    # TODO: Добавить сортировку с питом Sort
+    # sort: Sort = None,
     sort: str | None = None,
     projection_model: _ProjectionModelType[ProjectionModel] = None,
 ) -> _CursorReturnType[ReturnModel]:
