@@ -3,7 +3,7 @@ from collections.abc import (
     Iterable,
     MutableMapping,
     Sequence,
-    Sized,
+    Set,
 )
 from typing import TYPE_CHECKING, Any
 
@@ -136,19 +136,22 @@ def replace_links(obj: MutableMapping[str, Any] | Sequence[Any]) -> None:
             replace_links(item)
 
 
-def normalize_batch_size(data: Sized, size: int | None = None) -> int:
+def generate_batches[Item: Any](
+    data: Sequence[Item] | Set[Item], size: int | None = None
+) -> Generator[Sequence[Item], None, None]:
+    length = len(data)
+
     if size is None:
-        if len(data) <= 100:
-            size = 10
-        elif len(data) <= 1000:
-            size = 50
+        if length <= 100:
+            s = 10
+        elif length <= 1000:
+            s = 50
         else:
-            size = 100
-    return min(size, 1000)
+            s = 100
+    else:
+        s = min(size, 1000)
 
+    if isinstance(data, Set):
+        data = list(data)
 
-def set_batches(
-    data: Sequence[Any], size: int | None = None
-) -> Generator[Sequence[Any], None, None]:
-    size = normalize_batch_size(data, size)
-    return (data[i : i + size] for i in range(0, len(data), size))
+    return (data[i : i + s] for i in range(0, length, s))

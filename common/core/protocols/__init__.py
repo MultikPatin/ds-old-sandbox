@@ -2,10 +2,10 @@ from .api import MAppProtocol, VAppProtocol
 from .initialization import InitComponentProtocol, InitComponentsProtocol
 from .methods import (
     AdderProtocol,
-    BulkAdd,
-    BulkAddWithReturnId,
-    BulkUpdate,
-    BulkUpdateWithReturnId,
+    BulkAddProtocol,
+    BulkAddWithReturnIdProtocol,
+    BulkUpdateProtocol,
+    BulkUpdateWithReturnIdProtocol,
     CountProtocol,
     DecRefCountProtocol,
     DeleterProtocol,
@@ -31,10 +31,10 @@ from .session import SessionProtocol
 
 __all__ = [
     "AdderProtocol",
-    "BulkAdd",
-    "BulkAddWithReturnId",
-    "BulkUpdate",
-    "BulkUpdateWithReturnId",
+    "BulkAddProtocol",
+    "BulkAddWithReturnIdProtocol",
+    "BulkUpdateProtocol",
+    "BulkUpdateWithReturnIdProtocol",
     "CountProtocol",
     "DecRefCountProtocol",
     "DeleteWithRefCountProtocol",

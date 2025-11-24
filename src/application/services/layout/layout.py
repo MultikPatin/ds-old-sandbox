@@ -23,6 +23,7 @@ if TYPE_CHECKING:
     )
     from src.application.protocols import (
         InputRepositoryProtocol,
+        LayoutDefaultServiceProtocol,
         LayoutFiltersProtocol,
         LayoutRepositoryProtocol,
         LayoutSchemaServiceProtocol,
@@ -35,7 +36,7 @@ if TYPE_CHECKING:
 
 
 class LayoutService:
-    def __init__(
+    def __init__(  # noqa: PLR0913
         self,
         repo: "LayoutRepositoryProtocol[SessionProtocol]",
         *,
@@ -43,12 +44,14 @@ class LayoutService:
         cell_schema_service: "LayoutSchemaServiceProtocol",
         cell_style_service: "LayoutStyleServiceProtocol",
         cell_validation_service: "LayoutValidationServiceProtocol",
+        cell_default_service: "LayoutDefaultServiceProtocol",
     ):
         self._repo = repo
         self._input = input_repo
         self._schema = cell_schema_service
         self._style = cell_style_service
         self._validation = cell_validation_service
+        self._default = cell_default_service
 
     async def get_all_pages(
         self,
@@ -107,12 +110,12 @@ class LayoutService:
 
     async def _get_with_layers(
         self,
-        layout: "LayoutWithBlocks",
+        instance: "LayoutWithBlocks",
         filters: "LayoutFiltersProtocol",
         *,
         session: "SessionProtocol",
     ) -> LayoutWithBlockLayersDTO:
-        ids = get_ids_by_layers(layout, exclude=filters.excluded_layers)
+        ids = get_ids_by_layers(instance, exclude=filters.excluded_layers)
 
         keys: list[LayoutLayersEnum] = []
         coro: list[Coroutine[None, None, list[Any]]] = []
@@ -125,6 +128,8 @@ class LayoutService:
                 coro.append(self._style.get_by_ids(v, session=session))
             elif k == LayoutLayersEnum.validations:
                 coro.append(self._validation.get_by_ids(v, session=session))
+            elif k == LayoutLayersEnum.defaults:
+                coro.append(self._default.get_by_ids(v, session=session))
 
         results = await asyncio.gather(*coro)
 
@@ -132,7 +137,7 @@ class LayoutService:
         for k, r in zip(keys, results, strict=False):
             changes[k] = {m.id: m.model_dump() for m in r}
 
-        return LayoutWithBlockLayersDTO(**replace_layers(layout, changes))
+        return LayoutWithBlockLayersDTO(**replace_layers(instance, changes))
 
     async def get_by_input(
         self,

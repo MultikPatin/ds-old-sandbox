@@ -1,24 +1,14 @@
 # from common.core.custom_types import AnyMatrix
-# from common.core.decorators import transaction
 # from common.core.enums import LifeStatusEnum
+import asyncio
 from typing import TYPE_CHECKING
 
-from src.application.dtos import InputWithValuesDTO
+from common.core.decorators import transaction
+
+from src.application.dtos import InputCreateValuesDTO, InputWithValuesDTO
+from src.application.dtos.db import InputCreateDTO
 
 from .replacer import get_chunk_ids, replace_layers
-
-# from src.application.dtos.db.input import (
-# InputTableChunkDB,
-# InputTableFullLinks,
-# InputTableInMatrix,
-# InputUpdateDTO,
-# InputCreateDTO,
-# )
-
-# from src.application.dtos.input import InputCreate
-
-
-# from .card import generate_card
 
 if TYPE_CHECKING:
     from common.core.protocols import SessionProtocol
@@ -27,9 +17,9 @@ if TYPE_CHECKING:
     from src.application.protocols import (
         InputRepositoryProtocol,
         # InputCardServiceProtocol,
-        # InputSingleServiceProtocol,
+        InputSingleServiceProtocol,
         InputTableChunkServiceProtocol,
-        # InputTableServiceProtocol,
+        InputTableServiceProtocol,
         InputToolsServiceProtocol,
     )
 
@@ -40,23 +30,17 @@ class InputService:
         repo: "InputRepositoryProtocol[SessionProtocol]",
         *,
         # card_service: "InputCardServiceProtocol",
-        # single_service: "InputSingleServiceProtocol",
-        # table_service: "InputTableServiceProtocol",
+        single_service: "InputSingleServiceProtocol",
+        table_service: "InputTableServiceProtocol",
         table_chunk_service: "InputTableChunkServiceProtocol",
         tools_service: "InputToolsServiceProtocol",
     ):
         self._repo = repo
         # self._card = card_service
-        # self._single = single_service
-        # self._table = table_service
+        self._single = single_service
+        self._table = table_service
         self._chunk = table_chunk_service
         self._tool = tools_service
-
-    async def add_as_template(
-        self, layout_key: str, *, session: "SessionProtocol"
-    ) -> InputWithValuesDTO:
-        template = await self._tool.template(layout_key, session=session)
-        raise NotImplementedError
 
     async def delete_soft(self, _id: str, *, session: "SessionProtocol") -> str:
         return await self._repo.delete_soft(_id, session=session)
@@ -69,10 +53,58 @@ class InputService:
     ) -> "InputFullLinks":
         return await self._repo.get_full_links(_id, session=session)
 
+    async def add_as_template(
+        self, layout_key: str, *, session: "SessionProtocol"
+    ) -> InputWithValuesDTO:
+        template = await self._tool.template(layout_key, session=session)
+        return await self._add(template, session=session)
+
+    @transaction
+    async def _add(
+        self,
+        condition: InputCreateValuesDTO,
+        *,
+        session: "SessionProtocol",
+    ) -> InputWithValuesDTO:
+        s_tasks, t_tasks = None, None
+
+        async with asyncio.TaskGroup() as tg:
+            if condition.singles:
+                s_tasks = tg.create_task(
+                    self._single.bulk_add(condition.singles, session=session)
+                )
+            if condition.tables:
+                t_tasks = tg.create_task(
+                    self._table.bulk_add(condition.tables, session=session)
+                )
+
+        singles = s_tasks.result() if s_tasks else None
+        tables = t_tasks.result() if t_tasks else None
+
+        cond = InputCreateDTO(
+            **condition.model_dump(exclude={"singles", "tables"}),
+            singles=[s.id for s in singles] if singles else None,
+            tables=[t.id for t in tables] if tables else None,
+        )
+        # TODO Продумать работу по генерации карточки
+        instance = await self._repo.add(cond, session=session)
+        # TODO При реализации отдачи чанков по номера
+        #   предусмотреть отдачу только первого чанка
+        return InputWithValuesDTO(
+            **instance.model_dump(),
+            singles=singles,
+            tables=tables,
+        )
+
     async def get_with_values(
         self, _id: str, *, session: "SessionProtocol"
     ) -> InputWithValuesDTO:
         instance = await self._repo.get_full_links(_id, session=session)
+        return await self._get_with_values(instance, session=session)
+
+    async def _get_with_values(
+        self, instance: "InputFullLinks", *, session: "SessionProtocol"
+    ) -> InputWithValuesDTO:
         ids = get_chunk_ids(instance)
         results = await self._chunk.get_by_ids(ids, session=session)
         changes = {r.id: r.model_dump() for r in results}

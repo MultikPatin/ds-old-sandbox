@@ -1,5 +1,3 @@
-from typing import Any
-
 from common.fastapi.schemas import (
     BsonIDSchema,
     KeySchema,
@@ -8,18 +6,18 @@ from common.fastapi.schemas import (
 )
 from pydantic import BaseModel, Field
 
-from src.application.enums import LayoutDataType
+from src.application.enums import LayoutDataTypeEnum
 
 
 class _LayoutSchema(
     LabelSchema,
     RequiredSchema,
 ):
-    default: Any = Field(default=None)
+    default: str | None = Field(default=None)
 
 
 class _SchemaType(BaseModel):
-    type: LayoutDataType
+    type: LayoutDataTypeEnum
 
 
 class LayoutSchemaUpdateRequest(_LayoutSchema):

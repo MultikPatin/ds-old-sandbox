@@ -16,6 +16,10 @@ from .card import (
     LayoutCardUpdateDTO,
 )
 from .cells import (
+    LayoutDefaultBase,
+    LayoutDefaultCreateDTO,
+    LayoutDefaultDB,
+    LayoutDefaultUpdateDTO,
     LayoutSchemaBase,
     LayoutSchemaCreateDTO,
     LayoutSchemaDB,
@@ -48,6 +52,10 @@ __all__ = [
     "LayoutCardUpdateDTO",
     "LayoutCreateDTO",
     "LayoutDB",
+    "LayoutDefaultBase",
+    "LayoutDefaultCreateDTO",
+    "LayoutDefaultDB",
+    "LayoutDefaultUpdateDTO",
     "LayoutFullLinks",
     "LayoutSchemaBase",
     "LayoutSchemaCreateDTO",

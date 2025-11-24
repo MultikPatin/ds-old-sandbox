@@ -8,11 +8,12 @@ from pymongo.asynchronous.client_session import AsyncClientSession
 
 from src.application.dtos.db import (
     InputDB,
-    # InputSingleDB,
+    InputSingleDB,
     InputTableChunkDB,
-    # InputTableDB,
+    InputTableDB,
     LayoutCardDB,
     LayoutDB,
+    LayoutDefaultDB,
     LayoutSchemaDB,
     LayoutSingleDB,
     LayoutStyleDB,
@@ -26,6 +27,7 @@ from src.application.protocols import (
     InputTableChunkRepositoryProtocol,
     InputTableRepositoryProtocol,
     LayoutCardRepositoryProtocol,
+    LayoutDefaultRepositoryProtocol,
     LayoutRepositoryProtocol,
     LayoutSchemaRepositoryProtocol,
     LayoutSingleRepositoryProtocol,
@@ -36,10 +38,13 @@ from src.application.protocols import (
 
 from .documents import (
     InputDocument,
+    InputSingleDocument,
     InputTableChunkDocument,
+    InputTableDocument,
     LayoutCardDocument,
-    LayoutCellDocument,
+    LayoutDefaultDocument,
     LayoutDocument,
+    LayoutSchemaDocument,
     LayoutSingleDocument,
     LayoutStyleDocument,
     LayoutTableDocument,
@@ -53,6 +58,7 @@ from .repositories import (
     InputTableChunkRepository,
     InputTableRepository,
     LayoutCardRepository,
+    LayoutDefaultRepository,
     LayoutRepository,
     LayoutSchemaRepository,
     LayoutSingleRepository,
@@ -151,10 +157,10 @@ class MongoProvider(Provider):
     # LAYOUT CELLS
 
     @provide(scope=Scope.APP)
-    async def layout_cell(
+    async def layout_schema(
         self,
     ) -> LayoutSchemaRepositoryProtocol[AsyncClientSession]:
-        return LayoutSchemaRepository(LayoutCellDocument, LayoutSchemaDB)
+        return LayoutSchemaRepository(LayoutSchemaDocument, LayoutSchemaDB)
 
     layout_style_alias = alias(
         source=LayoutStyleRepositoryProtocol[AsyncClientSession],
@@ -179,6 +185,17 @@ class MongoProvider(Provider):
         return LayoutValidationRepository(
             LayoutValidationDocument, LayoutValidationDB
         )
+
+    layout_default_alias = alias(
+        source=LayoutDefaultRepositoryProtocol[AsyncClientSession],
+        provides=LayoutDefaultRepositoryProtocol[SessionProtocol],
+    )
+
+    @provide(scope=Scope.APP)
+    async def layout_default(
+        self,
+    ) -> LayoutDefaultRepositoryProtocol[AsyncClientSession]:
+        return LayoutDefaultRepository(LayoutDefaultDocument, LayoutDefaultDB)
 
     # INPUT
 
@@ -215,8 +232,7 @@ class MongoProvider(Provider):
     async def input_single(
         self,
     ) -> InputSingleRepositoryProtocol[AsyncClientSession]:
-        # return InputSingleRepository(InputSingleDocument, InputSingleDB)
-        return InputSingleRepository()
+        return InputSingleRepository(InputSingleDocument, InputSingleDB)
 
     input_table_alias = alias(
         source=InputTableRepositoryProtocol[AsyncClientSession],
@@ -227,8 +243,7 @@ class MongoProvider(Provider):
     async def input_table(
         self,
     ) -> InputTableRepositoryProtocol[AsyncClientSession]:
-        # return InputTableRepository(InputTableDocument, InputTableDB)
-        return InputTableRepository()
+        return InputTableRepository(InputTableDocument, InputTableDB)
 
     input_table_chunk_alias = alias(
         source=InputTableChunkRepositoryProtocol[AsyncClientSession],

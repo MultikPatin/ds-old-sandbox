@@ -1,4 +1,4 @@
-from collections.abc import Sequence, Set
+from collections.abc import Iterable, Sequence, Set
 from typing import TYPE_CHECKING, Protocol
 
 if TYPE_CHECKING:
@@ -90,36 +90,44 @@ class CountProtocol[Session: "SessionProtocol"](Protocol):
     async def count(self, *, session: Session) -> int: ...
 
 
-class BulkAdd[
+class BulkAddProtocol[
     CreateSchema: "BaseModel",
     ReturnSchema: "BaseModel",
     Session: "SessionProtocol",
 ](Protocol):
     async def bulk_add(
-        self, conditions: Sequence[CreateSchema], *, session: Session
+        self,
+        conditions: Iterable[CreateSchema],
+        *,
+        session: Session,
+        max_concurrent: int = 25,
     ) -> list[ReturnSchema]: ...
 
 
-class BulkAddWithReturnId[
+class BulkAddWithReturnIdProtocol[
     CreateSchema: "BaseModel",
     Session: "SessionProtocol",
 ](Protocol):
     async def bulk_add_with_return_id(
-        self, conditions: Sequence[CreateSchema], *, session: Session
+        self, conditions: Iterable[CreateSchema], *, session: Session
     ) -> list[str]: ...
 
 
-class BulkUpdate[
+class BulkUpdateProtocol[
     UpdateSchema: "BaseModel",
     ReturnSchema: "BaseModel",
     Session: "SessionProtocol",
 ](Protocol):
     async def bulk_update(
-        self, conditions: Sequence[UpdateSchema], *, session: Session
+        self,
+        conditions: Iterable[UpdateSchema],
+        *,
+        session: Session,
+        max_concurrent: int = 25,
     ) -> list[ReturnSchema]: ...
 
 
-class BulkUpdateWithReturnId[
+class BulkUpdateWithReturnIdProtocol[
     UpdateSchema: "BaseModel",
     Session: "SessionProtocol",
 ](Protocol):

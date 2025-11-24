@@ -6,11 +6,11 @@ from common.fastapi.schemas import (
 )
 from pydantic import Field
 
-from src.application.enums import LayoutDataType, LayoutStyleType
+from src.application.enums import LayoutDataTypeEnum, LayoutStyleTypeEnum
 
 
 class LayoutStyleResponse(BsonIDSchema):
-    type: LayoutStyleType
+    type: LayoutStyleTypeEnum
     width: int | None = Field(default=None)
     decimal_places: int | None = Field(default=None)
     postfix: str | None = Field(default=None)
@@ -18,6 +18,7 @@ class LayoutStyleResponse(BsonIDSchema):
 
 
 class LayoutValidationResponse(BsonIDSchema):
+    type: LayoutDataTypeEnum
     gt: int | None = Field(default=None)
     ge: int | None = Field(default=None)
     lt: int | None = Field(default=None)
@@ -31,4 +32,4 @@ class LayoutValidationResponse(BsonIDSchema):
 class LayoutSchemaResponse(
     BsonIDSchema, KeySchema, LabelSchema, RequiredSchema
 ):
-    type: LayoutDataType
+    default: str | None = Field(default=None)

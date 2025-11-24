@@ -27,10 +27,8 @@ class LayoutValidationService:
         *,
         session: "SessionProtocol",
         batch_size: int | None = None,
-        max_concurrent: int = 10,
+        max_concurrent: int = 25,
     ) -> list["LayoutValidationDB"]:
-        if isinstance(ids, Set):
-            ids = list(ids)
         return await self._repo.get_by_ids(
             ids,
             session=session,

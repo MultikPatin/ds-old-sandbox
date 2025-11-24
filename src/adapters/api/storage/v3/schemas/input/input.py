@@ -30,4 +30,3 @@ class InputResponse(
         title="Tables",
         description="Block of type 'tables' of the layout",
     )
-

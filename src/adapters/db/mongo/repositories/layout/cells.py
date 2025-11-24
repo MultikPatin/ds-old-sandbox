@@ -16,6 +16,9 @@ from common.mongo import (
 )
 
 from src.application.dtos.db import (
+    LayoutDefaultCreateDTO,
+    LayoutDefaultDB,
+    LayoutDefaultUpdateDTO,
     LayoutSchemaCreateDTO,
     LayoutSchemaDB,
     LayoutSchemaUpdateDTO,
@@ -134,6 +137,16 @@ class LayoutValidationRepository(
         LayoutValidationDB,
         LayoutValidationCreateDTO,
         LayoutValidationUpdateDTO,
+    ]
+):
+    pass
+
+
+class LayoutDefaultRepository(
+    _Repository[
+        LayoutDefaultDB,
+        LayoutDefaultCreateDTO,
+        LayoutDefaultUpdateDTO,
     ]
 ):
     pass

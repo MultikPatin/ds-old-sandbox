@@ -1,4 +1,5 @@
 from .cells import (
+    LayoutDefaultService,
     LayoutSchemaService,
     LayoutStyleService,
     LayoutValidationService,
@@ -6,6 +7,7 @@ from .cells import (
 from .layout import LayoutService
 
 __all__ = [
+    "LayoutDefaultService",
     "LayoutSchemaService",
     "LayoutService",
     "LayoutStyleService",

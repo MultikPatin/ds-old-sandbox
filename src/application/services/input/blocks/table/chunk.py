@@ -1,27 +1,15 @@
-# from collections.abc import AsyncGenerator
-#
-# from common.core.custom_types import AnyMatrix
-# from common.core.decorators import transaction
-# from common.core.enums import CRUDCommandEnum
-from collections.abc import Sequence, Set
-
-#
-# from src.application.constants import (
-#     MAX_NUMBER_OF_CHUNKS,
-#     MAX_ROW_COUNT_PER_CHUNK,
-# )
-# from src.application.dtos.db.input import (
-#     InputTableChunkCreateDTO,
-#     InputTableChunkUpdateDTO,
-# )
-# from src.application.dtos.input import (
-#     InputTableChunkCreate,
-#     InputTableChunkUpdate,
-# )
-# from src.application.protocols import (
-#     InputTableChunkRepositoryProtocol,
-# )
+from collections.abc import Generator, Sequence, Set
 from typing import TYPE_CHECKING
+
+# from common.core.enums import CRUDCommandEnum
+from common.core.custom_types import AnyMatrix
+from common.core.decorators import transaction
+
+from src.application.constants import (
+    MAX_NUMBER_OF_CHUNKS,
+    MAX_ROW_COUNT_PER_CHUNK,
+)
+from src.application.dtos.db import InputTableChunkCreateDTO
 
 if TYPE_CHECKING:
     from common.core.protocols import SessionProtocol
@@ -42,10 +30,8 @@ class InputTableChunkService:
         *,
         session: "SessionProtocol",
         batch_size: int | None = None,
-        max_concurrent: int = 10,
+        max_concurrent: int = 25,
     ) -> list["InputTableChunkDB"]:
-        if isinstance(ids, Set):
-            ids = list(ids)
         return await self._repo.get_by_ids(
             ids,
             session=session,
@@ -53,26 +39,27 @@ class InputTableChunkService:
             max_concurrent=max_concurrent,
         )
 
+    @transaction
+    async def add(
+        self,
+        values: AnyMatrix,
+        *,
+        session: "SessionProtocol",
+        max_concurrent: int = 25,
+    ) -> list["InputTableChunkDB"]:
+        conditions = (
+            InputTableChunkCreateDTO(values=chunk)
+            for chunk in chunks_generator(
+                values, MAX_ROW_COUNT_PER_CHUNK, MAX_NUMBER_OF_CHUNKS
+            )
+        )
+        return await self._repo.bulk_add(
+            conditions,
+            session=session,
+            max_concurrent=max_concurrent,
+        )
 
-#     async def add_from_matrix(
-#         self,
-#         matrix: AnyMatrix,
-#         *,
-#         session: SessionProtocol | None = None,
-#     ) -> list[InputTableChunkDB]:
-#         conditions = []
-#         number = 1
-#         async for chunk in chunks_generator(
-#             matrix,
-#             MAX_ROW_COUNT_PER_CHUNK,
-#             MAX_NUMBER_OF_CHUNKS,
-#         ):
-#             conditions.extend(
-#                 [InputTableChunkCreateDTO(number=number, values=chunk)]
-#             )
-#             number += 1
-#         return await self._bulk_add(conditions, session=session)
-#
+
 #     async def rebuild_chunks(
 #         self,
 #         chuck_ids: list[str],
@@ -209,27 +196,28 @@ class InputTableChunkService:
 #
 #     return actions
 #
-#
-# async def chunks_generator(
-#     matrix: AnyMatrix, chunk_capacity: int, max_chunks: int
-# ) -> AsyncGenerator[AnyMatrix]:
-#     count = len(matrix)
-#     if count // chunk_capacity + 1 > max_chunks:
-#         # TODO: Добавить корректное исключение
-#         context = {
-#             "matrix_rows": count,
-#             "chunk_capacity": chunk_capacity,
-#             "max_chunks": max_chunks,
-#         }
-#         raise ValueError(context)
-#     offset = 0
-#     while count >= 0:
-#         yield matrix[offset : offset + chunk_capacity]
-#         offset += chunk_capacity
-#         count -= chunk_capacity
-#
-#
-# async def _check_row_count(matrix: AnyMatrix, max_rows: int) -> None:
+
+
+def chunks_generator(
+    matrix: AnyMatrix, capacity: int, max_chunks: int
+) -> Generator[AnyMatrix]:
+    count = len(matrix)
+    if count // capacity + 1 > max_chunks:
+        # TODO: Добавить корректное исключение
+        context = {
+            "max_rows": count,
+            "capacity": capacity,
+            "max_chunks": max_chunks,
+        }
+        raise ValueError(context)
+    offset = 0
+    while count >= 0:
+        yield matrix[offset : offset + capacity]
+        offset += capacity
+        count -= capacity
+
+
+# def _check_row_count(matrix: AnyMatrix, max_rows: int) -> None:
 #     if len(matrix) > max_rows:
 #         # TODO: Добавить корректное исключение
 #         context = {

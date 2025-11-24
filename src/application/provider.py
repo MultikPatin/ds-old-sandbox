@@ -13,9 +13,15 @@ from src.application.protocols import (
     InputCardServiceProtocol,
     InputRepositoryProtocol,
     InputServiceProtocol,
+    InputSingleRepositoryProtocol,
+    InputSingleServiceProtocol,
     InputTableChunkRepositoryProtocol,
     InputTableChunkServiceProtocol,
+    InputTableRepositoryProtocol,
+    InputTableServiceProtocol,
     InputToolsServiceProtocol,
+    LayoutDefaultRepositoryProtocol,
+    LayoutDefaultServiceProtocol,
     LayoutRepositoryProtocol,
     LayoutSchemaRepositoryProtocol,
     LayoutSchemaServiceProtocol,
@@ -28,10 +34,11 @@ from src.application.protocols import (
 from src.application.services import (
     InputCardSrvice,
     InputService,
+    InputSingleService,
     InputTableChunkService,
+    InputTableService,
     InputToolsService,
-    #     InputTableService,
-    #     InputTemplateService,
+    LayoutDefaultService,
     LayoutSchemaService,
     LayoutService,
     LayoutStyleService,
@@ -59,7 +66,7 @@ class ApplicationProvider(Provider):
     # LAYOUT
 
     @provide(scope=Scope.APP)
-    def layout(
+    def layout(  # noqa: PLR0913
         self,
         repo: Annotated[
             LayoutRepositoryProtocol[SessionProtocol],
@@ -72,6 +79,7 @@ class ApplicationProvider(Provider):
         cell_schema_service: LayoutSchemaServiceProtocol,
         cell_style_service: LayoutStyleServiceProtocol,
         cell_validation_service: LayoutValidationServiceProtocol,
+        cell_default_service: LayoutDefaultServiceProtocol,
     ) -> LayoutServiceProtocol:
         return LayoutService(
             repo,
@@ -79,6 +87,7 @@ class ApplicationProvider(Provider):
             cell_schema_service=cell_schema_service,
             cell_style_service=cell_style_service,
             cell_validation_service=cell_validation_service,
+            cell_default_service=cell_default_service,
         )
 
     # LAYOUT CELLS
@@ -113,6 +122,16 @@ class ApplicationProvider(Provider):
     ) -> LayoutValidationServiceProtocol:
         return LayoutValidationService(repo)
 
+    @provide(scope=Scope.APP)
+    def layout_default(
+        self,
+        repo: Annotated[
+            LayoutDefaultRepositoryProtocol[SessionProtocol],
+            FromComponent(database),
+        ],
+    ) -> LayoutDefaultServiceProtocol:
+        return LayoutDefaultService(repo)
+
     # INPUT SERVICE
 
     @provide(scope=Scope.APP)
@@ -123,16 +142,16 @@ class ApplicationProvider(Provider):
             FromComponent(database),
         ],
         # card_service: InputCardServiceProtocol,
-        # single_service: InputSingleServiceProtocol,
-        # table_service: InputTableServiceProtocol,
+        single_service: InputSingleServiceProtocol,
+        table_service: InputTableServiceProtocol,
         table_chunk_service: InputTableChunkServiceProtocol,
         tools_service: "InputToolsServiceProtocol",
     ) -> InputServiceProtocol:
         return InputService(
             repo,
             # card_service=card_service,
-            # single_service=single_service,
-            # table_service=table_service,
+            single_service=single_service,
+            table_service=table_service,
             table_chunk_service=table_chunk_service,
             tools_service=tools_service,
         )
@@ -158,27 +177,27 @@ class ApplicationProvider(Provider):
             layout_service=layout_service,
         )
 
-    # @provide(scope=Scope.APP)
-    # def input_single(
-    #     self,
-    #     repo: Annotated[
-    #         InputSingleRepositoryProtocol[SessionProtocol],
-    #         FromComponent(database),
-    #     ],
-    # ) -> InputSingleServiceProtocol:
-    #     return InputSingleService(repo)
-    #
-    # @provide(scope=Scope.APP)
-    # def input_table(
-    #     self,
-    #     repo: Annotated[
-    #         InputTableRepositoryProtocol[SessionProtocol],
-    #         FromComponent(database),
-    #     ],
-    #     chunk_service: InputTableChunkServiceProtocol,
-    # ) -> InputTableServiceProtocol:
-    #     return InputTableService(repo, chunk_service)
-    #
+    @provide(scope=Scope.APP)
+    def input_single(
+        self,
+        repo: Annotated[
+            InputSingleRepositoryProtocol[SessionProtocol],
+            FromComponent(database),
+        ],
+    ) -> InputSingleServiceProtocol:
+        return InputSingleService(repo)
+
+    @provide(scope=Scope.APP)
+    def input_table(
+        self,
+        repo: Annotated[
+            InputTableRepositoryProtocol[SessionProtocol],
+            FromComponent(database),
+        ],
+        chunk_service: InputTableChunkServiceProtocol,
+    ) -> InputTableServiceProtocol:
+        return InputTableService(repo, chunk_service)
+
     @provide(scope=Scope.APP)
     def input_table_chunk(
         self,

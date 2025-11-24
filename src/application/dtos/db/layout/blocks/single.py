@@ -6,6 +6,7 @@ class _LayoutSingleBase(BaseModel):
     schemas: list[str] | None = Field(default=None)
     validations: list[str] | None = Field(default=None)
     styles: list[str] | None = Field(default=None)
+    defaults: list[str] | None = Field(default=None)
 
 
 # Update
@@ -16,6 +17,8 @@ class LayoutSingleUpdateDTO(_LayoutSingleBase):
 
 
 # Base
+
+
 class LayoutSingleBase(KeyDTO, _LayoutSingleBase):
     pass
 

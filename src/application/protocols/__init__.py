@@ -18,6 +18,8 @@ from .input import (
 )
 from .layout import (
     LayoutCardRepositoryProtocol,
+    LayoutDefaultRepositoryProtocol,
+    LayoutDefaultServiceProtocol,
     LayoutFiltersProtocol,
     LayoutRepositoryProtocol,
     LayoutSchemaRepositoryProtocol,
@@ -53,6 +55,8 @@ __all__ = [
     "InputTableServiceProtocol",
     "InputToolsServiceProtocol",
     "LayoutCardRepositoryProtocol",
+    "LayoutDefaultRepositoryProtocol",
+    "LayoutDefaultServiceProtocol",
     "LayoutFiltersProtocol",
     "LayoutRepositoryProtocol",
     "LayoutSchemaRepositoryProtocol",

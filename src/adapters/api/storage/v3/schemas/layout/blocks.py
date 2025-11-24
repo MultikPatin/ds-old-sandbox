@@ -5,7 +5,7 @@ from common.fastapi.schemas import (
 )
 from pydantic import Field
 
-from src.adapters.api.storage.v3.schemas.layout.cells import (
+from .cells import (
     LayoutSchemaResponse,
     LayoutStyleResponse,
     LayoutValidationResponse,

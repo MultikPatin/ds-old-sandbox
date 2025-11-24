@@ -1,8 +1,4 @@
 from .chunk import InputTableChunkService
+from .table import InputTableService
 
-# from .table import InputTableService
-
-__all__ = [
-    "InputTableChunkService",
-    # "InputTableService",
-]
+__all__ = ["InputTableChunkService", "InputTableService"]

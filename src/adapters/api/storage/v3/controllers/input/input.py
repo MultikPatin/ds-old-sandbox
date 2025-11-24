@@ -22,7 +22,6 @@ router.include_router(cards_router, prefix="/cards")
     response_model=InputResponse,
     status_code=status.HTTP_202_ACCEPTED,
     responses={},
-    deprecated=True,
 )
 async def add_as_template(
     layout_key: Annotated[

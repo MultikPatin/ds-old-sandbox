@@ -2,7 +2,7 @@ from typing import TYPE_CHECKING, Protocol
 
 # from common.core.enums import LifeStatusEnum
 from common.core.protocols import (
-    # AdderProtocol,
+    AdderProtocol,
     DeleterSoftProtocol,
     # UpdaterProtocol,
     # DeleterProtocol,
@@ -11,9 +11,9 @@ from common.core.protocols import (
 )
 
 from src.application.dtos.db import (
-    InputDB,
-    # InputCreateDTO,
+    InputCreateDTO,
     # InputUpdateDTO,
+    InputDB,
 )
 
 if TYPE_CHECKING:
@@ -29,7 +29,6 @@ class _GetFullLinks[Session: SessionProtocol](Protocol):
 
 class InputServiceProtocol(
     GetterProtocol[InputDB, SessionProtocol],
-    # AdderProtocol[InputCreateDTO, InputFullLinks, SessionProtocol],
     # UpdaterProtocol[InputUpdateDTO, InputFullLinks, SessionProtocol],
     DeleterSoftProtocol[SessionProtocol],
     _GetFullLinks[SessionProtocol],
@@ -53,7 +52,7 @@ class InputServiceProtocol(
 
 class InputRepositoryProtocol[Session: SessionProtocol](
     GetterProtocol[InputDB, Session],
-    # AdderProtocol[InputCreate, InputDB, Session],
+    AdderProtocol[InputCreateDTO, InputDB, Session],
     DeleterSoftProtocol[Session],
     _GetFullLinks[Session],
     Protocol,
