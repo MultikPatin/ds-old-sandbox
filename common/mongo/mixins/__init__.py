@@ -1,4 +1,9 @@
-from .adders import AddMixin, AddWithReturnIdMixin
+from .adders import (
+    AddMixin,
+    AddWithReturnIdMixin,
+    BulkAddMixin,
+    BulkAddWithReturnIdMixin,
+)
 from .base import Base, BaseDTO
 from .deleters import DeleteMixin, DeleteSoftMixin, DeleteWithRefCountMixin
 from .getters import (
@@ -16,6 +21,8 @@ __all__ = [
     "Base",
     "BaseDTO",
     "BaseDTO",
+    "BulkAddMixin",
+    "BulkAddWithReturnIdMixin",
     "CountMixin",
     "DecRefCountMixin",
     "DeleteMixin",

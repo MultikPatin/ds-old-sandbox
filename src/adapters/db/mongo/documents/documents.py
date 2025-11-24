@@ -11,6 +11,7 @@ from src.application.dtos.db.input import (
 from src.application.dtos.db.layout import (
     LayoutBase,
     LayoutCardBase,
+    LayoutDefaultBase,
     LayoutSchemaBase,
     LayoutSingleBase,
     LayoutStyleBase,
@@ -105,7 +106,7 @@ class LayoutTableDocument(LayoutTableBase, Document):
 # LAYOUT CELL PROPERTIES
 
 
-class LayoutCellDocument(LayoutSchemaBase, Document):
+class LayoutSchemaDocument(LayoutSchemaBase, Document):
     class Settings:
         name = "layout_cell_schemas"
         max_nesting_depth = 0
@@ -134,6 +135,19 @@ class LayoutValidationDocument(LayoutValidationBase, Document):
 class LayoutStyleDocument(LayoutStyleBase, Document):
     class Settings:
         name = "layout_cell_styles"
+        max_nesting_depth = 0
+        indexes = [  # noqa: RUF012
+            IndexModel(
+                [("hash", DESCENDING)],
+                name="hash_idx_DESCENDING",
+                unique=True,
+            )
+        ]
+
+
+class LayoutDefaultDocument(LayoutDefaultBase, Document):
+    class Settings:
+        name = "layout_cell_defaults"
         max_nesting_depth = 0
         indexes = [  # noqa: RUF012
             IndexModel(

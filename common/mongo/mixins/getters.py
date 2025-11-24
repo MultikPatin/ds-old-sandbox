@@ -12,7 +12,7 @@ from common.mongo.utils import (
     convert_to_dto,
     convert_to_dtos,
     convert_to_id,
-    set_batches,
+    generate_batches,
 )
 
 from .base import Base, BaseDTO
@@ -92,25 +92,29 @@ class GetByIDsMixin[ReturnSchema: BaseModel](BaseDTO[ReturnSchema]):
         batch_size: int | None = None,
         max_concurrent: int = 25,
     ) -> list[ReturnSchema]:
-        if isinstance(ids, Set):
-            ids = list(ids)
-
-        batches = set_batches(ids, batch_size)
+        if not ids:
+            msg = "Must provide at least one id"
+            # TODO: Реализовать специфическую ошибку
+            raise ValueError(msg)
 
         semaphore = asyncio.Semaphore(max_concurrent)
 
-        async def process_batch(batch_ids: Sequence[str]) -> list[ReturnSchema]:
+        async def process(_ids: Sequence[str]) -> list[ReturnSchema]:
             async with semaphore:
                 docs = await self._collection.find_many(
-                    In(KeysEnum.id, [convert_to_id(_id) for _id in batch_ids]),
+                    In(KeysEnum.id, [convert_to_id(_id) for _id in _ids]),
                     session=session,
                 ).to_list()
                 return convert_to_dtos(docs, self._dto, is_replace_links=True)
 
-        tasks = [process_batch(batch) for batch in batches]
+        async with asyncio.TaskGroup() as tg:
+            tasks = [
+                tg.create_task(process(b))
+                for b in generate_batches(ids, batch_size)
+            ]
 
         documents = []
-        for coro in asyncio.as_completed(tasks):
-            documents.extend(await coro)
+        for t in tasks:
+            documents.extend(t.result())
 
         return documents

@@ -1,11 +1,11 @@
 from common.fastapi.schemas import BsonIDSchema, OptionsSchema
 from pydantic import Field
 
-from src.application.enums import LayoutStyleType
+from src.application.enums import LayoutStyleTypeEnum
 
 
 class _LayoutStyle(OptionsSchema):
-    type: LayoutStyleType = Field(default=LayoutStyleType.default)
+    type: LayoutStyleTypeEnum = Field(default=LayoutStyleTypeEnum.default)
     width: int | None = Field(default=None)
     decimal_places: int | None = Field(default=None)
     postfix: str | None = Field(default=None)

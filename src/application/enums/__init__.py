@@ -1,18 +1,16 @@
 from .input import InputBlocksEnum, InputLayersEnum
 from .layuot import (
     LayoutBlocksEnum,
-    LayoutDataType,
-    LayoutKeys,
+    LayoutDataTypeEnum,
     LayoutLayersEnum,
-    LayoutStyleType,
+    LayoutStyleTypeEnum,
 )
 
 __all__ = [
     "InputBlocksEnum",
     "InputLayersEnum",
     "LayoutBlocksEnum",
-    "LayoutDataType",
-    "LayoutKeys",
+    "LayoutDataTypeEnum",
     "LayoutLayersEnum",
-    "LayoutStyleType",
+    "LayoutStyleTypeEnum",
 ]

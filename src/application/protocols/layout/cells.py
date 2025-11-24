@@ -14,6 +14,9 @@ from common.core.protocols import (
 )
 
 from src.application.dtos.db import (
+    LayoutDefaultCreateDTO,
+    LayoutDefaultDB,
+    LayoutDefaultUpdateDTO,
     LayoutSchemaCreateDTO,
     LayoutSchemaDB,
     LayoutSchemaUpdateDTO,
@@ -91,6 +94,16 @@ class LayoutValidationServiceProtocol(
 ): ...
 
 
+class LayoutDefaultServiceProtocol(
+    _ServiceProtocol[
+        LayoutDefaultDB,
+        LayoutDefaultCreateDTO,
+        LayoutDefaultUpdateDTO,
+    ],
+    Protocol,
+): ...
+
+
 class LayoutSchemaRepositoryProtocol[Session: SessionProtocol](
     _RepositoryProtocol[
         LayoutSchemaDB,
@@ -118,6 +131,17 @@ class LayoutValidationRepositoryProtocol[Session: SessionProtocol](
         LayoutValidationDB,
         LayoutValidationCreateDTO,
         LayoutValidationUpdateDTO,
+        Session,
+    ],
+    Protocol,
+): ...
+
+
+class LayoutDefaultRepositoryProtocol[Session: SessionProtocol](
+    _RepositoryProtocol[
+        LayoutDefaultDB,
+        LayoutDefaultCreateDTO,
+        LayoutDefaultUpdateDTO,
         Session,
     ],
     Protocol,

@@ -1,5 +1,3 @@
-from typing import Any
-
 from common.core.dtos import (
     HashDTO,
     HashOrNoneDTO,
@@ -10,11 +8,11 @@ from common.core.dtos import (
 )
 from pydantic import Field
 
-from src.application.enums import LayoutDataType
+from src.application.enums import LayoutDataTypeEnum
 
 
 class _LayoutSchemaBase(LabelDTO, RequiredDTO):
-    default: Any = Field(default=None)
+    default: str | None = Field(default=None)
 
 
 # Update
@@ -28,7 +26,7 @@ class LayoutSchemaUpdateDTO(HashOrNoneDTO, _LayoutSchemaBase):
 
 
 class LayoutSchemaBase(HashDTO, KeyDTO, _LayoutSchemaBase):
-    type: LayoutDataType
+    type: LayoutDataTypeEnum
 
 
 class LayoutSchemaDB(IdDTO, LayoutSchemaBase):
@@ -40,4 +38,4 @@ class LayoutSchemaDB(IdDTO, LayoutSchemaBase):
 
 # TODO Убрать ключ и сделать его генерируемым
 class LayoutSchemaCreateDTO(HashOrNoneDTO, KeyDTO, _LayoutSchemaBase):
-    type: LayoutDataType
+    type: LayoutDataTypeEnum

@@ -1,8 +1,11 @@
 from common.fastapi.schemas import BsonIDSchema, OptionsSchema
 from pydantic import Field
 
+from src.application.enums import LayoutDataTypeEnum
+
 
 class _LayoutValidation(OptionsSchema):
+    type: LayoutDataTypeEnum
     gt: int | None = Field(default=None)
     ge: int | None = Field(default=None)
     lt: int | None = Field(default=None)

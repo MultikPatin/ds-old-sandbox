@@ -9,10 +9,8 @@ from common.core.dtos import (
 from pydantic import BaseModel, Field
 
 from .blocks import (
-    InputSingleCreateDTO,
     InputSingleDB,
     InputSingleUpdateDTO,
-    InputTableCreateDTO,
     InputTableDB,
     InputTableUpdateDTO,
 )
@@ -63,5 +61,5 @@ class InputFullLinks(InputDB):
 
 class InputCreateDTO(_Card, OptionsDTO):
     layout: str
-    singles: list[InputSingleCreateDTO] | None = Field(default=None)
-    tables: list[InputTableCreateDTO] | None = Field(default=None)
+    singles: list[str] | None = Field(default=None)
+    tables: list[str] | None = Field(default=None)

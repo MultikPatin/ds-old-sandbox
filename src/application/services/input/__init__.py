@@ -1,7 +1,7 @@
 from .blocks import (
-    # InputSingleService,
+    InputSingleService,
     InputTableChunkService,
-    # InputTableService,
+    InputTableService,
 )
 from .card import InputCardSrvice
 from .input import InputService
@@ -10,8 +10,8 @@ from .tools import InputToolsService
 __all__ = [
     "InputCardSrvice",
     "InputService",
-    # "InputSingleService",
+    "InputSingleService",
     "InputTableChunkService",
-    # "InputTableService",
+    "InputTableService",
     "InputToolsService",
 ]

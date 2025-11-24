@@ -4,6 +4,8 @@ from .blocks import (
 )
 from .card import LayoutCardRepositoryProtocol
 from .cells import (
+    LayoutDefaultRepositoryProtocol,
+    LayoutDefaultServiceProtocol,
     LayoutSchemaRepositoryProtocol,
     LayoutSchemaServiceProtocol,
     LayoutStyleRepositoryProtocol,
@@ -23,6 +25,8 @@ from .layout import (
 
 __all__ = [
     "LayoutCardRepositoryProtocol",
+    "LayoutDefaultRepositoryProtocol",
+    "LayoutDefaultServiceProtocol",
     "LayoutFiltersProtocol",
     "LayoutRepositoryProtocol",
     "LayoutSchemaRepositoryProtocol",

@@ -15,8 +15,8 @@ from src.adapters.api.storage.v3.schemas import (
     LayoutShortCursorFiltersRequest,
     LayoutShortLimitOffsetFiltersRequest,
     LayoutShortPagesFiltersRequest,
+    LayoutShortResponse,
 )
-from src.adapters.api.storage.v3.schemas.layout import LayoutShortResponse
 from src.application.dtos.filters import (
     LayoutShortCursorFilters,
     LayoutShortLimitOffsetFilters,

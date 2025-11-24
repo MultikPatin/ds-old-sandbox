@@ -17,6 +17,7 @@ class LayoutLayersEnum(StrEnum):
     schemas = auto()
     validations = auto()
     styles = auto()
+    defaults = auto()
 
     @classmethod
     def layers(cls, exclude: Sequence[Self] | None = None) -> list[Self]:
@@ -24,7 +25,7 @@ class LayoutLayersEnum(StrEnum):
         return [m for m in cls if m not in exs]
 
 
-class LayoutStyleType(StrEnum):
+class LayoutStyleTypeEnum(StrEnum):
     default = auto()
     range_slider = auto()
     range_datetime = auto()
@@ -37,7 +38,7 @@ class LayoutStyleType(StrEnum):
     textarea = auto()
 
 
-class LayoutDataType(StrEnum):
+class LayoutDataTypeEnum(StrEnum):
     local_dropdown = auto()
     string = auto()
     bool = auto()
@@ -47,20 +48,4 @@ class LayoutDataType(StrEnum):
     time = auto()
     datetime = auto()
     integer = auto()
-
-
-class LayoutKeys(StrEnum):
-    sections = auto()
-    subsections = auto()
-    blocks = auto()
-    nesting_level = auto()
-    sub_rows = auto()
-    key = auto()
-    type = auto()
-    values = auto()
-    rows = auto()
-    name = auto()  # type: ignore
-    columns = auto()
-    entity = auto()
-    required = auto()
-    validate = auto()
+    stub = auto()

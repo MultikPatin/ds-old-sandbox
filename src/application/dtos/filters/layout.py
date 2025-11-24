@@ -13,6 +13,7 @@ class LayoutFilters(BaseModel):
     include_schema_layer: bool = Field(default=True)
     include_validation_layer: bool = Field(default=False)
     include_style_layer: bool = Field(default=True)
+    include_default_layer: bool = Field(default=False)
 
     @property
     def excluded_layers(self) -> tuple[LayoutLayersEnum, ...]:
@@ -23,6 +24,8 @@ class LayoutFilters(BaseModel):
             exclude.append(LayoutLayersEnum.styles)
         if not self.include_validation_layer:
             exclude.append(LayoutLayersEnum.validations)
+        if not self.include_default_layer:
+            exclude.append(LayoutLayersEnum.defaults)
 
         return tuple(exclude)
 

@@ -5,6 +5,7 @@ from typing import TYPE_CHECKING
 
 from common.core.exceptions import NoContentError
 from common.mongo import (
+    AddMixin,
     DeleteSoftMixin,
     GetMixin,
     KeysEnum,
@@ -13,7 +14,7 @@ from common.mongo import (
 )
 
 from src.adapters.db.mongo.projections import InputLayoutProjection
-from src.application.dtos.db import InputFullLinks
+from src.application.dtos.db import InputCreateDTO, InputFullLinks
 
 # from src.adapters.db.mongo.documents import InputDocument
 from src.application.dtos.db.input import (
@@ -31,7 +32,7 @@ if TYPE_CHECKING:
 
 class InputRepository(
     GetMixin[InputDB],
-    # AddMixin[InputCreate, InputDB],
+    AddMixin[InputCreateDTO, InputDB],
     DeleteSoftMixin,
 ):
     async def get_full_links(
