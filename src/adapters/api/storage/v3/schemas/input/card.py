@@ -1,3 +1,4 @@
+from common.core.custom_types import AnyDict
 from common.fastapi.schemas import (
     BsonIDSchema,
     CreatedSchema,
@@ -11,5 +12,5 @@ from pydantic import Field
 class InputCardResponse(
     BsonIDSchema, LifeStatusSchema, CreatedSchema, UpdatedSchema, OptionsSchema
 ):
-    card: list[dict[str, str]] | None = Field(default=None)
+    card: list[AnyDict] | None = Field(default=None)
     layout: str
