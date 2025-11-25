@@ -79,7 +79,7 @@ class InputCardRepository(Base):
             query=self._create_query(filters, session=session),
             params=filters,
             session=session,
-            # sort=prepare_sort(filters.life_time_sort, self._collection),
+            sort=prepare_sort(filters.life_time_sort, self._collection),
             items_return_type=InputCardDTO,
             projection_model=InputCardProjection,
         )
