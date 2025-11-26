@@ -14,28 +14,28 @@ repos:
   # Checking dependencies
   - repo: https://github.com/astral-sh/uv-pre-commit
     # uv version.
-    rev: 0.9.3
+    rev: 0.9.12
     hooks:
       - id: uv-lock
 
-#  # Ruff checks & formatting
-#  - repo: https://github.com/astral-sh/ruff-pre-commit
-#    # ruff version.
-#    rev: v0.14.0
-#    hooks:
-#      - id: ruff
-#        args: [ --fix ]
-#        types_or: [ python, pyi ]
-#      - id: ruff-format
-#        types_or: [ python, pyi ]
-#
-#  # Mypy static type checking
-#  - repo: local
-#    hooks:
-#      - id: mypy
-#        name: mypy
-#        entry: bash -c 'mypy ./src --config-file mypy.ini'
-#        language: system
-#        types: [ python ]
-#        require_serial: true
-#        pass_filenames: false
+  # Ruff checks & formatting
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    # ruff version.
+    rev: v0.14.6
+    hooks:
+      - id: ruff
+        args: [ --fix ]
+        types_or: [ python, pyi ]
+      - id: ruff-format
+        types_or: [ python, pyi ]
+
+  # Mypy static type checking
+  - repo: local
+    hooks:
+      - id: mypy
+        name: mypy
+        entry: bash -c 'mypy ./src --config-file mypy.ini'
+        language: system
+        types: [ python ]
+        require_serial: true
+        pass_filenames: false

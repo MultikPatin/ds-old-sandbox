@@ -15,21 +15,6 @@ from common.mongo import (
     UpdateMixin,
 )
 
-from src.application.dtos.db import (
-    LayoutDefaultCreateDTO,
-    LayoutDefaultDB,
-    LayoutDefaultUpdateDTO,
-    LayoutSchemaCreateDTO,
-    LayoutSchemaDB,
-    LayoutSchemaUpdateDTO,
-    LayoutStyleCreateDTO,
-    LayoutStyleDB,
-    LayoutStyleUpdateDTO,
-    LayoutValidationCreateDTO,
-    LayoutValidationDB,
-    LayoutValidationUpdateDTO,
-)
-
 if TYPE_CHECKING:
     from pydantic import BaseModel
     from pymongo.asynchronous.client_session import AsyncClientSession
@@ -110,43 +95,3 @@ class _Repository[
             return await super().update(_id, condition, session=session)
         else:
             return document
-
-
-class LayoutSchemaRepository(
-    _Repository[
-        LayoutSchemaDB,
-        LayoutSchemaCreateDTO,
-        LayoutSchemaUpdateDTO,
-    ]
-):
-    pass
-
-
-class LayoutStyleRepository(
-    _Repository[
-        LayoutStyleDB,
-        LayoutStyleCreateDTO,
-        LayoutStyleUpdateDTO,
-    ]
-):
-    pass
-
-
-class LayoutValidationRepository(
-    _Repository[
-        LayoutValidationDB,
-        LayoutValidationCreateDTO,
-        LayoutValidationUpdateDTO,
-    ]
-):
-    pass
-
-
-class LayoutDefaultRepository(
-    _Repository[
-        LayoutDefaultDB,
-        LayoutDefaultCreateDTO,
-        LayoutDefaultUpdateDTO,
-    ]
-):
-    pass

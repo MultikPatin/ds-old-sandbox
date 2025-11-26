@@ -22,6 +22,7 @@ from .layout import (
     LayoutShortLimitOffsetFiltersProtocol,
     LayoutShortPagesFiltersProtocol,
 )
+from .tools import LayoutToolsServiceProtocol
 
 __all__ = [
     "LayoutCardRepositoryProtocol",
@@ -40,6 +41,7 @@ __all__ = [
     "LayoutStyleRepositoryProtocol",
     "LayoutStyleServiceProtocol",
     "LayoutTableRepositoryProtocol",
+    "LayoutToolsServiceProtocol",
     "LayoutValidationRepositoryProtocol",
     "LayoutValidationServiceProtocol",
 ]

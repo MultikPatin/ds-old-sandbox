@@ -55,10 +55,7 @@ class InputTableServiceProtocol(
 ): ...
 
 
-class InputTableChunkServiceProtocol(
-    GetterByIDsProtocol[InputTableChunkDB, SessionProtocol],
-    Protocol,
-):
+class InputTableChunkServiceProtocol(Protocol):
     async def add(
         self,
         values: AnyMatrix,

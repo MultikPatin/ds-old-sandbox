@@ -38,7 +38,6 @@ class _ServiceProtocol[
     UpdateSchema: BaseModel,
 ](
     GetterProtocol[ReturnSchema, SessionProtocol],
-    GetterByIDsProtocol[ReturnSchema, SessionProtocol],
     AdderProtocol[CreateSchema, ReturnSchema, SessionProtocol],
     UpdaterProtocol[UpdateSchema, ReturnSchema, SessionProtocol],
     DeleterProtocol[SessionProtocol],

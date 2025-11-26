@@ -28,6 +28,7 @@ from src.application.protocols import (
     LayoutServiceProtocol,
     LayoutStyleRepositoryProtocol,
     LayoutStyleServiceProtocol,
+    LayoutToolsServiceProtocol,
     LayoutValidationRepositoryProtocol,
     LayoutValidationServiceProtocol,
 )
@@ -44,6 +45,7 @@ from src.application.services import (
     LayoutStyleService,
     LayoutValidationService,
 )
+from src.application.services.layout import LayoutToolsService
 
 database = ComponentsEnum.mongo
 
@@ -66,28 +68,49 @@ class ApplicationProvider(Provider):
     # LAYOUT
 
     @provide(scope=Scope.APP)
-    def layout(  # noqa: PLR0913
+    def layout(
         self,
         repo: Annotated[
             LayoutRepositoryProtocol[SessionProtocol],
             FromComponent(database),
         ],
+        tools_service: "LayoutToolsServiceProtocol",
+    ) -> LayoutServiceProtocol:
+        return LayoutService(
+            repo,
+            tools_service=tools_service,
+        )
+
+    @provide(scope=Scope.APP)
+    def layout_tools(
+        self,
         input_repo: Annotated[
             InputRepositoryProtocol[SessionProtocol],
             FromComponent(database),
         ],
-        cell_schema_service: LayoutSchemaServiceProtocol,
-        cell_style_service: LayoutStyleServiceProtocol,
-        cell_validation_service: LayoutValidationServiceProtocol,
-        cell_default_service: LayoutDefaultServiceProtocol,
-    ) -> LayoutServiceProtocol:
-        return LayoutService(
-            repo,
+        schema_repo: Annotated[
+            LayoutSchemaRepositoryProtocol[SessionProtocol],
+            FromComponent(database),
+        ],
+        style_repo: Annotated[
+            LayoutStyleRepositoryProtocol[SessionProtocol],
+            FromComponent(database),
+        ],
+        validation_repo: Annotated[
+            LayoutValidationRepositoryProtocol[SessionProtocol],
+            FromComponent(database),
+        ],
+        default_repo: Annotated[
+            LayoutDefaultRepositoryProtocol[SessionProtocol],
+            FromComponent(database),
+        ],
+    ) -> LayoutToolsServiceProtocol:
+        return LayoutToolsService(
             input_repo=input_repo,
-            cell_schema_service=cell_schema_service,
-            cell_style_service=cell_style_service,
-            cell_validation_service=cell_validation_service,
-            cell_default_service=cell_default_service,
+            schema_repo=schema_repo,
+            style_repo=style_repo,
+            validation_repo=validation_repo,
+            default_repo=default_repo,
         )
 
     # LAYOUT CELLS
@@ -144,7 +167,6 @@ class ApplicationProvider(Provider):
         # card_service: InputCardServiceProtocol,
         single_service: InputSingleServiceProtocol,
         table_service: InputTableServiceProtocol,
-        table_chunk_service: InputTableChunkServiceProtocol,
         tools_service: "InputToolsServiceProtocol",
     ) -> InputServiceProtocol:
         return InputService(
@@ -152,7 +174,6 @@ class ApplicationProvider(Provider):
             # card_service=card_service,
             single_service=single_service,
             table_service=table_service,
-            table_chunk_service=table_chunk_service,
             tools_service=tools_service,
         )
 
@@ -160,8 +181,15 @@ class ApplicationProvider(Provider):
     def input_tools(
         self,
         layout_service: LayoutServiceProtocol,
+        table_chunk_repo: Annotated[
+            InputTableChunkRepositoryProtocol[SessionProtocol],
+            FromComponent(database),
+        ],
     ) -> InputToolsServiceProtocol:
-        return InputToolsService(layout_service)
+        return InputToolsService(
+            layout_service=layout_service,
+            table_chunk_repo=table_chunk_repo,
+        )
 
     @provide(scope=Scope.APP)
     def input_card(

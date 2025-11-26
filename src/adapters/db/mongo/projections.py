@@ -17,13 +17,22 @@ from pydantic import BaseModel, field_validator
 
 
 class LayoutShortProjection(
-    ProjectionID, KeyDTO, LabelDTO, CreatedDTO, UpdatedDTO, DescriptionDTO
+    ProjectionID,
+    KeyDTO,
+    LabelDTO,
+    CreatedDTO,
+    UpdatedDTO,
+    DescriptionDTO,
 ):
     pass
 
 
 class InputCardProjection(
-    ProjectionID, LifeStatusDTO, UpdatedDTO, OptionsDTO, CreatedDTO
+    ProjectionID,
+    LifeStatusDTO,
+    UpdatedDTO,
+    OptionsDTO,
+    CreatedDTO,
 ):
     card: list[AnyDict] | None
     layout: str
