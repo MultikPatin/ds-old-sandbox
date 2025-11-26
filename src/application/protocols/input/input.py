@@ -18,13 +18,13 @@ from src.application.dtos.db import (
 
 if TYPE_CHECKING:
     from src.application.dtos import InputWithValuesDTO
-    from src.application.dtos.db.input import InputFullLinks
+    from src.application.dtos.db.input import InputWithBlocks
 
 
 class _GetFullLinks[Session: SessionProtocol](Protocol):
     async def get_full_links(
         self, _id: str, *, session: Session
-    ) -> "InputFullLinks": ...
+    ) -> "InputWithBlocks": ...
 
 
 class InputServiceProtocol(

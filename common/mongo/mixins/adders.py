@@ -88,4 +88,4 @@ class BulkAddMixin[CreateSchema: BaseModel, ReturnSchema: BaseModel](
                 # TODO: Реализовать специфическую ошибку
                 raise ValueError(msg)
 
-        return [task.result() for task in tasks]
+        return [t.result() for t in tasks]

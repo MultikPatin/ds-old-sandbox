@@ -14,7 +14,7 @@ from common.mongo import (
 )
 
 from src.adapters.db.mongo.projections import InputLayoutProjection
-from src.application.dtos.db import InputCreateDTO, InputFullLinks
+from src.application.dtos.db import InputCreateDTO, InputWithBlocks
 
 # from src.adapters.db.mongo.documents import InputDocument
 from src.application.dtos.db.input import (
@@ -37,7 +37,7 @@ class InputRepository(
 ):
     async def get_full_links(
         self, _id: str, *, session: "AsyncClientSession"
-    ) -> InputFullLinks:
+    ) -> InputWithBlocks:
         document = await self._collection.find_one(
             {KeysEnum.id: convert_to_id(_id)},
             session=session,
@@ -50,7 +50,7 @@ class InputRepository(
         )
         if not document:
             raise NoContentError
-        return convert_to_dto(document, InputFullLinks, is_replace_links=True)
+        return convert_to_dto(document, InputWithBlocks, is_replace_links=True)
 
     async def get_layout_id(
         self, _id: str, *, session: "AsyncClientSession"

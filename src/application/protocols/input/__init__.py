@@ -16,7 +16,7 @@ from .card import (
     InputCardServiceProtocol,
 )
 from .input import InputRepositoryProtocol, InputServiceProtocol
-from .template import InputToolsServiceProtocol
+from .tools import InputToolsServiceProtocol
 
 __all__ = [
     "InputCardCursorFiltersProtocol",

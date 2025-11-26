@@ -6,10 +6,10 @@ requires-python = ">=3.12"
 dependencies = [
     # Core
     "dishka==1.7.*",
-    "pydantic-settings==2.11.*",
+    "pydantic-settings==2.12.*",
     # API
-    "fastapi==0.119.*",
-    "uvicorn==0.37.*",
+    "fastapi==0.122.*",
+    "uvicorn==0.38.*",
     "orjson==3.11.*",
     # MongoDB
     "beanie==2.0.*",
@@ -18,9 +18,13 @@ dependencies = [
 
 [dependency-groups]
 dev = [
-    "pre-commit==4.3.*",
+    "pre-commit==4.5.*",
     # Static type checking
     "mypy==1.18.*",
     # Checks & formatting
     "ruff==0.14.*",
 ]
+
+[[tool.uv.index]]
+name = "abgroup"
+url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/simple"

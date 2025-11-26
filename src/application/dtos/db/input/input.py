@@ -51,7 +51,7 @@ class InputDB(IdDTO, InputBase):
     layout: str
 
 
-class InputFullLinks(InputDB):
+class InputWithBlocks(InputDB):
     singles: list[InputSingleDB] | None = Field(default=None)
     tables: list[InputTableDB] | None = Field(default=None)
 

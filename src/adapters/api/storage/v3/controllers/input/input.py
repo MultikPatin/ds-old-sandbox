@@ -55,7 +55,7 @@ async def get(
 
 @router.delete(
     URLEnum.id,
-    summary="Sort delete an existing input",
+    summary="Soft delete an existing input",
     status_code=status.HTTP_202_ACCEPTED,
     responses={
         status.HTTP_204_NO_CONTENT: {"model": None},

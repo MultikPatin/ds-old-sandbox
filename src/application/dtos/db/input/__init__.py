@@ -17,8 +17,8 @@ from .input import (
     InputCardDTO,
     InputCreateDTO,
     InputDB,
-    InputFullLinks,
     InputUpdateDTO,
+    InputWithBlocks,
 )
 from .project import InputTableChunksIDsProject
 
@@ -27,7 +27,6 @@ __all__ = [
     "InputCardDTO",
     "InputCreateDTO",
     "InputDB",
-    "InputFullLinks",
     "InputSingleBase",
     "InputSingleCreateDTO",
     "InputSingleDB",
@@ -42,4 +41,5 @@ __all__ = [
     "InputTableDB",
     "InputTableUpdateDTO",
     "InputUpdateDTO",
+    "InputWithBlocks",
 ]

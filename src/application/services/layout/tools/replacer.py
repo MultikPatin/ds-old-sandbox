@@ -29,16 +29,16 @@ def get_ids_by_layers(
     ids: _IDsByLayers = {x: set() for x in LayoutLayersEnum.layers(exclude)}
 
     if layout.singles:
-        for single in layout.singles:
+        for s in layout.singles:
             for k, v in ids.items():
-                attr = getattr(single, k)
+                attr = getattr(s, k)
                 if isinstance(attr, Iterable):
                     v.update(attr)
 
     if layout.tables:
-        for table in layout.tables:
+        for t in layout.tables:
             for k, v in ids.items():
-                attr = getattr(table, k)
+                attr = getattr(t, k)
                 if isinstance(attr, Iterable):
                     v.update(chain(*attr))
 
@@ -58,8 +58,8 @@ def replace_layers(layout: "LayoutWithBlocks", changes: _Changes) -> AnyDict:
 
     # TODO: Проверить и реализовать удаление блоков если они не нужны
 
-    for block in LayoutBlocksEnum:
-        _replace_layers_in_blocks(obj[block], changes)
+    for k in LayoutBlocksEnum:
+        _replace_layers_in_blocks(obj[k], changes)
 
     return obj
 

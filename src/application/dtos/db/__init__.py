@@ -2,7 +2,6 @@ from .input import (
     InputCardDTO,
     InputCreateDTO,
     InputDB,
-    InputFullLinks,
     InputSingleCreateDTO,
     InputSingleDB,
     InputSingleUpdateDTO,
@@ -14,6 +13,7 @@ from .input import (
     InputTableDB,
     InputTableUpdateDTO,
     InputUpdateDTO,
+    InputWithBlocks,
 )
 from .layout import (
     LayoutCardCreateDTO,
@@ -50,7 +50,6 @@ __all__ = [
     "InputCardDTO",
     "InputCreateDTO",
     "InputDB",
-    "InputFullLinks",
     "InputSingleCreateDTO",
     "InputSingleDB",
     "InputSingleUpdateDTO",
@@ -62,6 +61,7 @@ __all__ = [
     "InputTableDB",
     "InputTableUpdateDTO",
     "InputUpdateDTO",
+    "InputWithBlocks",
     "LayoutCardCreateDTO",
     "LayoutCardDB",
     "LayoutCardTitle",

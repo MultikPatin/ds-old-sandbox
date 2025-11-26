@@ -1,4 +1,3 @@
-from collections.abc import Sequence, Set
 from typing import TYPE_CHECKING
 
 from common.core.hashing import get_md5hash
@@ -20,21 +19,6 @@ class LayoutValidationService:
         repo: "LayoutValidationRepositoryProtocol[SessionProtocol]",
     ):
         self._repo = repo
-
-    async def get_by_ids(
-        self,
-        ids: Sequence[str] | Set[str],
-        *,
-        session: "SessionProtocol",
-        batch_size: int | None = None,
-        max_concurrent: int = 25,
-    ) -> list["LayoutValidationDB"]:
-        return await self._repo.get_by_ids(
-            ids,
-            session=session,
-            batch_size=batch_size,
-            max_concurrent=max_concurrent,
-        )
 
     async def get(
         self, _id: str, *, session: "SessionProtocol"

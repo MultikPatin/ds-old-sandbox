@@ -1,11 +1,6 @@
-import asyncio
-from collections.abc import Coroutine
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING
 
 from src.application.dtos import LayoutWithBlockLayersDTO
-from src.application.enums import LayoutLayersEnum
-
-from .replacer import get_ids_by_layers, replace_layers
 
 if TYPE_CHECKING:
     from common.core.dtos.pagination import (
@@ -19,39 +14,26 @@ if TYPE_CHECKING:
         LayoutDB,
         LayoutFullLinks,
         LayoutShortDTO,
-        LayoutWithBlocks,
     )
     from src.application.protocols import (
-        InputRepositoryProtocol,
-        LayoutDefaultServiceProtocol,
         LayoutFiltersProtocol,
         LayoutRepositoryProtocol,
-        LayoutSchemaServiceProtocol,
         LayoutShortCursorFiltersProtocol,
         LayoutShortLimitOffsetFiltersProtocol,
         LayoutShortPagesFiltersProtocol,
-        LayoutStyleServiceProtocol,
-        LayoutValidationServiceProtocol,
+        LayoutToolsServiceProtocol,
     )
 
 
 class LayoutService:
-    def __init__(  # noqa: PLR0913
+    def __init__(
         self,
         repo: "LayoutRepositoryProtocol[SessionProtocol]",
         *,
-        input_repo: "InputRepositoryProtocol[SessionProtocol]",
-        cell_schema_service: "LayoutSchemaServiceProtocol",
-        cell_style_service: "LayoutStyleServiceProtocol",
-        cell_validation_service: "LayoutValidationServiceProtocol",
-        cell_default_service: "LayoutDefaultServiceProtocol",
+        tools_service: "LayoutToolsServiceProtocol",
     ):
         self._repo = repo
-        self._input = input_repo
-        self._schema = cell_schema_service
-        self._style = cell_style_service
-        self._validation = cell_validation_service
-        self._default = cell_default_service
+        self._tools = tools_service
 
     async def get_all_pages(
         self,
@@ -95,8 +77,10 @@ class LayoutService:
         *,
         session: "SessionProtocol",
     ) -> LayoutWithBlockLayersDTO:
-        layout = await self._repo.get_by_key(key, session=session)
-        return await self._get_with_layers(layout, filters, session=session)
+        instance = await self._repo.get_by_key(key, session=session)
+        return await self._tools.replace_layers(
+            instance, filters, session=session
+        )
 
     async def get_with_layers(
         self,
@@ -105,39 +89,10 @@ class LayoutService:
         *,
         session: "SessionProtocol",
     ) -> LayoutWithBlockLayersDTO:
-        layout = await self._repo.get_full_links(_id, session=session)
-        return await self._get_with_layers(layout, filters, session=session)
-
-    async def _get_with_layers(
-        self,
-        instance: "LayoutWithBlocks",
-        filters: "LayoutFiltersProtocol",
-        *,
-        session: "SessionProtocol",
-    ) -> LayoutWithBlockLayersDTO:
-        ids = get_ids_by_layers(instance, exclude=filters.excluded_layers)
-
-        keys: list[LayoutLayersEnum] = []
-        coro: list[Coroutine[None, None, list[Any]]] = []
-        for k, v in ids.items():
-            keys.append(k)
-
-            if k == LayoutLayersEnum.schemas:
-                coro.append(self._schema.get_by_ids(v, session=session))
-            elif k == LayoutLayersEnum.styles:
-                coro.append(self._style.get_by_ids(v, session=session))
-            elif k == LayoutLayersEnum.validations:
-                coro.append(self._validation.get_by_ids(v, session=session))
-            elif k == LayoutLayersEnum.defaults:
-                coro.append(self._default.get_by_ids(v, session=session))
-
-        results = await asyncio.gather(*coro)
-
-        changes = {}
-        for k, r in zip(keys, results, strict=False):
-            changes[k] = {m.id: m.model_dump() for m in r}
-
-        return LayoutWithBlockLayersDTO(**replace_layers(instance, changes))
+        instance = await self._repo.get_full_links(_id, session=session)
+        return await self._tools.replace_layers(
+            instance, filters, session=session
+        )
 
     async def get_by_input(
         self,
@@ -146,8 +101,8 @@ class LayoutService:
         *,
         session: "SessionProtocol",
     ) -> LayoutWithBlockLayersDTO:
-        _id = await self._input.get_layout_id(_id, session=session)
-        return await self.get_with_layers(_id, filters, session=session)
+        layout_id = await self._tools.get_id_by_input(_id, session=session)
+        return await self.get_with_layers(layout_id, filters, session=session)
 
     async def get_ids_by(
         self, key: str, *, session: "SessionProtocol"

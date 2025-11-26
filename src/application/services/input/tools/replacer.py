@@ -12,7 +12,7 @@ from common.core.custom_types import AnyDict, AnyList
 from src.application.enums import InputBlocksEnum, InputLayersEnum
 
 if TYPE_CHECKING:
-    from src.application.dtos.db.input import InputFullLinks
+    from src.application.dtos.db.input import InputWithBlocks
 
 
 type _Chunks = MutableSequence[Mapping[InputLayersEnum, Sequence[Any]]]
@@ -21,7 +21,7 @@ type _TableWithChunks = MutableMapping[InputLayersEnum, _Chunks]
 type _Changes = Mapping[str, Any]
 
 
-def get_chunk_ids(instance: "InputFullLinks") -> set[str]:
+def get_chunk_ids(instance: "InputWithBlocks") -> set[str]:
     ids = set()
 
     if instance.tables:
@@ -31,7 +31,7 @@ def get_chunk_ids(instance: "InputFullLinks") -> set[str]:
     return ids
 
 
-def replace_layers(instance: "InputFullLinks", changes: _Changes) -> AnyDict:
+def replace_layers(instance: "InputWithBlocks", changes: _Changes) -> AnyDict:
     obj = instance.model_dump()
 
     if InputBlocksEnum.tables in obj:

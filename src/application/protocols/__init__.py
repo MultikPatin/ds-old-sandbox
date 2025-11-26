@@ -33,6 +33,7 @@ from .layout import (
     LayoutStyleRepositoryProtocol,
     LayoutStyleServiceProtocol,
     LayoutTableRepositoryProtocol,
+    LayoutToolsServiceProtocol,
     LayoutValidationRepositoryProtocol,
     LayoutValidationServiceProtocol,
 )
@@ -70,6 +71,7 @@ __all__ = [
     "LayoutStyleRepositoryProtocol",
     "LayoutStyleServiceProtocol",
     "LayoutTableRepositoryProtocol",
+    "LayoutToolsServiceProtocol",
     "LayoutValidationRepositoryProtocol",
     "LayoutValidationServiceProtocol",
 ]

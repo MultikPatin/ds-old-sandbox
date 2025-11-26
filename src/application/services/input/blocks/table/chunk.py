@@ -1,4 +1,4 @@
-from collections.abc import Generator, Sequence, Set
+from collections.abc import Generator
 from typing import TYPE_CHECKING
 
 # from common.core.enums import CRUDCommandEnum
@@ -24,21 +24,6 @@ class InputTableChunkService:
     ):
         self._repo = repo
 
-    async def get_by_ids(
-        self,
-        ids: Sequence[str] | Set[str],
-        *,
-        session: "SessionProtocol",
-        batch_size: int | None = None,
-        max_concurrent: int = 25,
-    ) -> list["InputTableChunkDB"]:
-        return await self._repo.get_by_ids(
-            ids,
-            session=session,
-            batch_size=batch_size,
-            max_concurrent=max_concurrent,
-        )
-
     @transaction
     async def add(
         self,
@@ -49,9 +34,7 @@ class InputTableChunkService:
     ) -> list["InputTableChunkDB"]:
         conditions = (
             InputTableChunkCreateDTO(values=chunk)
-            for chunk in chunks_generator(
-                values, MAX_ROW_COUNT_PER_CHUNK, MAX_NUMBER_OF_CHUNKS
-            )
+            for chunk in chunks_generator(values)
         )
         return await self._repo.bulk_add(
             conditions,
@@ -198,9 +181,10 @@ class InputTableChunkService:
 #
 
 
-def chunks_generator(
-    matrix: AnyMatrix, capacity: int, max_chunks: int
-) -> Generator[AnyMatrix]:
+def chunks_generator(matrix: AnyMatrix) -> Generator[AnyMatrix]:
+    capacity = MAX_ROW_COUNT_PER_CHUNK
+    max_chunks = MAX_NUMBER_OF_CHUNKS
+
     count = len(matrix)
     if count // capacity + 1 > max_chunks:
         # TODO: Добавить корректное исключение
