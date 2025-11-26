@@ -1,31 +1,73 @@
 from typing import Annotated
 
-from common.core.enums import URLEnum
+from common.core.enums import LifeStatusEnum, URLEnum
+from common.core.exceptions import BusinessLogicErrorContent
 from common.core.protocols import SessionProtocol
 from common.fastapi.annotations import IDPath
 from dishka import FromDishka
 from dishka.integrations.fastapi import DishkaRoute
 from fastapi import APIRouter, Query, status
 
-from src.adapters.api.storage.v3.schemas import InputResponse
+from src.adapters.api.storage.v3.schemas import (
+    InputResponse,
+    InputStatusResponse,
+)
 from src.application.protocols import InputServiceProtocol
 
-from .card import router as cards_router
-
 router = APIRouter(route_class=DishkaRoute)
-router.include_router(cards_router, prefix="/cards")
+
+
+@router.patch(
+    URLEnum.id + URLEnum.status,
+    summary="Update the status of an existing input",
+    status_code=status.HTTP_201_CREATED,
+    response_model=InputStatusResponse,
+    responses={
+        status.HTTP_204_NO_CONTENT: {"model": None},
+        status.HTTP_400_BAD_REQUEST: {"model": BusinessLogicErrorContent},
+    },
+)
+async def update_status(
+    _id: Annotated[str, IDPath(description_prefix="Input identifier <br><br>")],
+    service: FromDishka[InputServiceProtocol],
+    session: FromDishka[SessionProtocol],
+    value: Annotated[
+        LifeStatusEnum,
+        Query(
+            alias="status",
+            title="Status",
+            description="Status value to set in the input <br><br>",
+        ),
+    ] = LifeStatusEnum.archived,
+) -> InputStatusResponse:
+    return InputStatusResponse(
+        id=_id,
+        status=await service.update_status(
+            _id=_id, status=value, session=session
+        ),
+    )
 
 
 @router.post(
     URLEnum.root,
     summary="Create an input as template",
     response_model=InputResponse,
-    status_code=status.HTTP_202_ACCEPTED,
-    responses={},
+    status_code=status.HTTP_201_CREATED,
+    responses={
+        # TODO Ошибка не корректного ключа макета
+        # status.HTTP_400_BAD_REQUEST: {"model": BusinessLogicErrorContent},
+    },
 )
 async def add_as_template(
     layout_key: Annotated[
-        str, Query(description_prefix="Идентификатор макета <br><br>")
+        str,
+        Query(
+            alias="layout_key",
+            title="Layout key",
+            description="Key to find published layout <br><br>",
+            min_length=1,
+            max_length=32,
+        ),
     ],
     service: FromDishka[InputServiceProtocol],
     session: FromDishka[SessionProtocol],
@@ -43,9 +85,7 @@ async def add_as_template(
     },
 )
 async def get(
-    _id: Annotated[
-        str, IDPath(description_prefix="Идентификатор отчёта <br><br>")
-    ],
+    _id: Annotated[str, IDPath(description_prefix="Input identifier <br><br>")],
     service: FromDishka[InputServiceProtocol],
     session: FromDishka[SessionProtocol],
 ) -> InputResponse:
@@ -62,9 +102,7 @@ async def get(
     },
 )
 async def delete_soft(
-    _id: Annotated[
-        str, IDPath(description_prefix="Идентификатор отчёта <br><br>")
-    ],
+    _id: Annotated[str, IDPath(description_prefix="Input identifier <br><br>")],
     service: FromDishka[InputServiceProtocol],
     session: FromDishka[SessionProtocol],
 ) -> None:

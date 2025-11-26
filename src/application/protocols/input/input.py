@@ -1,6 +1,5 @@
 from typing import TYPE_CHECKING, Protocol
 
-# from common.core.enums import LifeStatusEnum
 from common.core.protocols import (
     AdderProtocol,
     DeleterSoftProtocol,
@@ -17,6 +16,8 @@ from src.application.dtos.db import (
 )
 
 if TYPE_CHECKING:
+    from common.core.enums import LifeStatusEnum
+
     from src.application.dtos import InputWithValuesDTO
     from src.application.dtos.db.input import InputWithBlocks
 
@@ -40,14 +41,9 @@ class InputServiceProtocol(
     async def get_with_values(
         self, _id: str, *, session: SessionProtocol
     ) -> "InputWithValuesDTO": ...
-
-    # async def update_status(
-    #     self,
-    #     _id: str,
-    #     status: LifeStatusEnum,
-    #     *,
-    #     session: SessionProtocol | None = None,
-    # ) -> LifeStatusEnum: ...
+    async def update_status(
+        self, _id: str, status: "LifeStatusEnum", *, session: SessionProtocol
+    ) -> "LifeStatusEnum": ...
 
 
 class InputRepositoryProtocol[Session: SessionProtocol](
@@ -58,6 +54,9 @@ class InputRepositoryProtocol[Session: SessionProtocol](
     Protocol,
 ):
     async def get_layout_id(self, _id: str, *, session: Session) -> str: ...
+    async def update_status(
+        self, _id: str, status: "LifeStatusEnum", *, session: Session
+    ) -> None: ...
 
     # async def update_full_links(
     #     self,
@@ -66,13 +65,3 @@ class InputRepositoryProtocol[Session: SessionProtocol](
     #     *,
     #     session: Session | None = None,
     # ) -> InputFullLinks: ...
-    # async def get_layout_id(
-    #     self, _id: str, *, session: Session | None = None
-    # ) -> str: ...
-    # async def update_status(
-    #     self,
-    #     _id: str,
-    #     status: LifeStatusEnum,
-    #     *,
-    #     session: Session | None = None,
-    # ) -> str: ...
