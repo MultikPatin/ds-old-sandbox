@@ -30,3 +30,7 @@ class InputResponse(
         title="Tables",
         description="Block of type 'tables' of the layout",
     )
+
+
+class InputStatusResponse(BsonIDSchema, LifeStatusSchema):
+    pass

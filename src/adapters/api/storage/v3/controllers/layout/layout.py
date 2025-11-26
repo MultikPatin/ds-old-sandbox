@@ -16,10 +16,7 @@ from src.application.dtos.filters import (
 )
 from src.application.protocols import LayoutServiceProtocol
 
-from .card import router as cards_router
-
 router = APIRouter(route_class=DishkaRoute)
-router.include_router(cards_router, prefix="/cards")
 
 
 @router.get(
@@ -28,7 +25,9 @@ router.include_router(cards_router, prefix="/cards")
     response_model=LayoutResponse,
 )
 async def get_with_layers(
-    _id: Annotated[str, IDPath(description_prefix="Layout ID <br><br>")],
+    _id: Annotated[
+        str, IDPath(description_prefix="Layout identifier <br><br>")
+    ],
     filters: Annotated[LayoutFiltersRequest, Query()],
     service: FromDishka[LayoutServiceProtocol],
     session: FromDishka[SessionProtocol],
@@ -47,7 +46,7 @@ async def get_with_layers(
     response_model=LayoutResponse,
 )
 async def get_by_input(
-    _id: Annotated[str, IDPath(description_prefix="Input ID <br><br>")],
+    _id: Annotated[str, IDPath(description_prefix="Input identifier <br><br>")],
     filters: Annotated[LayoutFiltersRequest, Query()],
     service: FromDishka[LayoutServiceProtocol],
     session: FromDishka[SessionProtocol],

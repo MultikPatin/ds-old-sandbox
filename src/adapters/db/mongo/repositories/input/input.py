@@ -1,6 +1,5 @@
 # from datetime import UTC, datetime
 #
-# from common.core.enums import LifeStatusEnum
 from typing import TYPE_CHECKING
 
 from common.core.exceptions import NoContentError
@@ -27,6 +26,7 @@ from src.application.dtos.db.input import (
 # from .block import rebuild_singles, rebuild_tables
 
 if TYPE_CHECKING:
+    from common.core.enums import LifeStatusEnum
     from pymongo.asynchronous.client_session import AsyncClientSession
 
 
@@ -63,6 +63,27 @@ class InputRepository(
         if not document:
             raise NoContentError
         return document.layout
+
+    async def update_status(
+        self,
+        _id: str,
+        status: "LifeStatusEnum",
+        *,
+        session: "AsyncClientSession",
+    ) -> None:
+        if not hasattr(self._collection, "status"):
+            msg = "Collection has not status field"
+            raise AttributeError(msg)
+
+        result = await self._collection.find_one(
+            {KeysEnum.id: convert_to_id(_id)},
+            session=session,
+        ).update(
+            {KeysEnum.set: {self._collection.status: status}},
+            session=session,
+        )
+        if result.modified_count == 0:
+            raise NoContentError
 
     # async def update_full_links(
     #     self,
@@ -104,28 +125,3 @@ class InputRepository(
     #
     #     await document.save_changes(session=session)
     #     return convert_to_dto(document, InputFullLinks)
-    #
-    # async def update_status(
-    #     self,
-    #     _id: str,
-    #     status: LifeStatusEnum,
-    #     *,
-    #     session: AsyncClientSession | None = None,
-    # ) -> str:
-    #     document = await self._get(_id, session=session)
-    #     document.status = status
-    #     document.updated = datetime.now(UTC)
-    #     await document.save_changes(session=session)
-    #     return _id
-    #
-    # async def _get(
-    #     self, _id: str, *, session: AsyncClientSession | None = None
-    # ) -> InputDocument:
-    #     document = await self._collection.find_one(
-    #         {KeysEnum.id: convert_to_id(_id)},
-    #         session=session,
-    #     )
-    #     if document is None:
-    #         raise NoContentError
-    #     return document
-    #

@@ -1,8 +1,9 @@
-# from common.core.enums import LifeStatusEnum
 import asyncio
 from typing import TYPE_CHECKING
 
 from common.core.decorators import transaction
+from common.core.enums import LifeStatusEnum
+from common.core.exceptions import BusinessLogicError, BusinessLogicErrorContent
 
 from src.application.dtos import InputCreateValuesDTO, InputWithValuesDTO
 from src.application.dtos.db import InputCreateDTO
@@ -47,11 +48,35 @@ class InputService:
     ) -> "InputWithBlocks":
         return await self._repo.get_full_links(_id, session=session)
 
+    async def get_with_values(
+        self, _id: str, *, session: "SessionProtocol"
+    ) -> InputWithValuesDTO:
+        instance = await self._repo.get_full_links(_id, session=session)
+        return await self._tool.set_table_values(instance, session=session)
+
     async def add_as_template(
         self, layout_key: str, *, session: "SessionProtocol"
     ) -> InputWithValuesDTO:
         template = await self._tool.template(layout_key, session=session)
         return await self._add(template, session=session)
+
+    async def update_status(
+        self, _id: str, status: LifeStatusEnum, *, session: "SessionProtocol"
+    ) -> LifeStatusEnum:
+        exclude = (
+            LifeStatusEnum.deleted,  # Использовать delete method
+            LifeStatusEnum.published,  # Использовать update method
+        )
+        if status in LifeStatusEnum.values(exclude):
+            await self._repo.update_status(_id, status, session=session)
+        else:
+            raise BusinessLogicError(
+                BusinessLogicErrorContent(
+                    message="Attempt to change to an invalid status",
+                    context={"invalid_statuses": [exclude]},
+                )
+            )
+        return status
 
     @transaction
     async def _add(
@@ -89,12 +114,6 @@ class InputService:
             singles=singles,
             tables=tables,
         )
-
-    async def get_with_values(
-        self, _id: str, *, session: "SessionProtocol"
-    ) -> InputWithValuesDTO:
-        instance = await self._repo.get_full_links(_id, session=session)
-        return await self._tool.set_table_values(instance, session=session)
 
     # @transaction
     # async def add(
@@ -157,25 +176,3 @@ class InputService:
     #     return await self._repo.update_full_links(
     #         _id, condition, session=session
     #     )
-    #
-    # async def update_status(
-    #     self,
-    #     _id: str,
-    #     status: LifeStatusEnum,
-    #     *,
-    #     session: SessionProtocol | None = None,
-    # ) -> LifeStatusEnum:
-    #     instance_status = status
-    #     if status == LifeStatusEnum.deleted:
-    #         await self.delete(_id, session=session)
-    #         instance_status = LifeStatusEnum.deleted
-    #     elif status == LifeStatusEnum.published:
-    #         # TODO Конкретизировать исключение
-    #         #   запрет публикации через этот метод
-    #         #   добавить данное исключение в responses
-    #         msg = "Status cannot be changed to published in this endpoint"
-    #         raise ValueError(msg)
-    #     else:
-    #         await self._repo.update_status(_id, status, session=session)
-    #     return instance_status
-    #

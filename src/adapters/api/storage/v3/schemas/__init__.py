@@ -7,7 +7,7 @@ from .filters import (
     LayoutShortLimitOffsetFiltersRequest,
     LayoutShortPagesFiltersRequest,
 )
-from .input import InputCardResponse, InputResponse
+from .input import InputCardResponse, InputResponse, InputStatusResponse
 from .layout import LayoutResponse, LayoutShortResponse
 
 __all__ = [
@@ -16,6 +16,7 @@ __all__ = [
     "InputCardPagesFiltersRequest",
     "InputCardResponse",
     "InputResponse",
+    "InputStatusResponse",
     "LayoutFiltersRequest",
     "LayoutResponse",
     "LayoutShortCursorFiltersRequest",
