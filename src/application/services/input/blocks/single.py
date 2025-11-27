@@ -62,7 +62,8 @@ class InputSingleService:
     #     session: SessionProtocol | None = None,
     # ) -> list[InputSingleDB]:
     #     # TODO: Реализовать bulk update если возможно
-    #     return [await self.update(c.id, c, session=session) for c in conditions]
+    #     return [await self.update(c.id, c, session=session)
+    #     for c in conditions]
     #
     # async def bulk_update_with_return_id(
     #     self,

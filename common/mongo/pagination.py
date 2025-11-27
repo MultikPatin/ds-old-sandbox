@@ -32,7 +32,8 @@
 # type Sort = None | str | list[tuple[str, SortDirection]]
 #
 #
-# async def paginator_limit_offset[DocType: Document, PydanticModel: "BaseModel"](  # noqa: PLR0913
+# async def paginator_limit_offset[DocType: Document,
+# PydanticModel: "BaseModel"](
 #     query: Query[DocType],
 #     params: "PaginationLimitOffsetParamsProtocol",
 #     items_return_type: type[PydanticModel],
@@ -82,14 +83,15 @@
 #         raise NoContentError
 #
 #     return LimitOffsetPageDTO(
-#         items=convert_to_dtos(documents, items_return_type, replace_links=True),
+#         items=convert_to_dtos(documents, items_return_type,
+#         replace_links=True),
 #         total=total,
 #         limit=params.limit,
 #         offset=params.offset,
 #     )
 #
 #
-# async def paginator_pages[DocType: Document, PydanticModel: "BaseModel"](  # noqa: PLR0913
+# async def paginator_pages[DocType: Document, PydanticModel: "BaseModel"](
 #     query: Query[DocType],
 #     params: "PaginationPagesParamsProtocol",
 #     items_return_type: type[PydanticModel],
@@ -155,7 +157,8 @@
 #     )
 #
 #     return PagesPageDTO(
-#         items=convert_to_dtos(documents, items_return_type, replace_links=True),
+#         items=convert_to_dtos(documents, items_return_type,
+#         replace_links=True),
 #         total=total_pages,
 #         current_page=params.number,
 #         previous_page=previous_page,
@@ -163,7 +166,7 @@
 #     )
 #
 #
-# async def paginator_cursor[DocType: Document, PydanticModel: "BaseModel"](  # noqa: PLR0913
+# async def paginator_cursor[DocType: Document, PydanticModel: "BaseModel"](
 #     query: Query[DocType],
 #     params: "PaginationCursorParamsProtocol",
 #     items_return_type: type[PydanticModel],
@@ -251,7 +254,8 @@
 #     previous_page = f"{CURSOR_PREVIOUS_PREFIX}{documents[0].id}"
 #
 #     return CursorPageDTO(
-#         items=convert_to_dtos(documents, items_return_type, replace_links=True),
+#         items=convert_to_dtos(documents, items_return_type,
+#         replace_links=True),
 #         total=total,
 #         current_page=params.cursor,
 #         previous_page=previous_page,

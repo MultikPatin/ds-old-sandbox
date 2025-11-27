@@ -99,4 +99,3 @@ deployments:
         envsFromSecret:
           secret:
             - MONGODB_PASSWORD: MONGODB_PASSWORD
-

@@ -103,7 +103,8 @@ class InputTableService:
     #     session: SessionProtocol | None = None,
     # ) -> list[InputTableDB]:
     #     # TODO: Реализовать bulk update если возможно
-    #     return [await self.update(c.id, c, session=session) for c in conditions]
+    #     return [await self.update(c.id, c, session=session)
+    #     for c in conditions]
     #
     # async def bulk_update_with_return_id(
     #     self,
@@ -121,7 +122,8 @@ class InputTableService:
     #     *,
     #     session: SessionProtocol | None = None,
     # ) -> InputTableDB:
-    #     chuck_ids = await self._repo.get_table_chunks_ids(_id, session=session)
+    #     chuck_ids = await self._repo.get_table_chunks_ids(_id,
+    #     session=session)
     #     if chuck_ids:
     #         chucks = await self._chunk_service.rebuild_chunks(
     #             chuck_ids=chuck_ids,
