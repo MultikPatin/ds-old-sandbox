@@ -4,12 +4,25 @@ repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v6.0.0
     hooks:
-      - id: check-yaml
-        args:
-          - --unsafe
+      - id: check-added-large-files
+        args: [ '--maxkb=1024' ]
+      - id: check-ast
       - id: check-case-conflict
+      - id: check-json
+      - id: check-symlinks
+      - id: check-toml
+#      - id: check-yaml
+#        args:
+#          - --unsafe
+      - id: check-xml
+      - id: debug-statements
+      - id: detect-private-key
+      - id: end-of-file-fixer
       - id: mixed-line-ending
         args: [ --fix=lf ]
+      - id: name-tests-test
+      - id: trailing-whitespace
+
 
   # Checking dependencies
   - repo: https://github.com/astral-sh/uv-pre-commit
@@ -23,7 +36,7 @@ repos:
     # ruff version.
     rev: v0.14.6
     hooks:
-      - id: ruff
+      - id: ruff-check
         args: [ --fix ]
         types_or: [ python, pyi ]
       - id: ruff-format
