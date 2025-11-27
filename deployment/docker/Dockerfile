@@ -1,7 +1,12 @@
-# ==== base python & uv ====
+# ==== base uv ====
+ARG UV_VERSION=latest
+
+FROM ghcr.io/astral-sh/uv:${UV_VERSION} AS uv
+
+# ==== base python ====
 FROM harbor.abgroup.tech/docker.io_hub/python:3.12-slim AS base
 
-COPY --from=ghcr.io/astral-sh/uv:0.9.3 /uv /bin/uv
+COPY --from=uv /uv /bin/uv
 
 # ==== Builder stage ====
 FROM base AS builder
