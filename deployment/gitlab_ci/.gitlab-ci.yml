@@ -3,14 +3,14 @@ include:
     ref: main
     file:
      - 'stage/release-backend.yml'
-     - 'uv/uv-dir-verify.yml'
+     - 'uv/uv-project-verify.yml'
      - 'uv/ruff-check.yml'
      - 'uv/ruff-format.yml'
      - 'uv/mypy.yml'
 
 stages:
-  - prelint
-  - lint
+  - prepares
+  - static-analisys
   - build
   - create-tag
 
