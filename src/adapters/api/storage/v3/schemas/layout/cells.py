@@ -18,7 +18,6 @@ class LayoutStyleResponse(BsonIDSchema):
 
 
 class LayoutValidationResponse(BsonIDSchema):
-    type: LayoutDataTypeEnum
     gt: int | None = Field(default=None)
     ge: int | None = Field(default=None)
     lt: int | None = Field(default=None)
@@ -33,3 +32,4 @@ class LayoutSchemaResponse(
     BsonIDSchema, KeySchema, LabelSchema, RequiredSchema
 ):
     default: str | None = Field(default=None)
+    type: LayoutDataTypeEnum

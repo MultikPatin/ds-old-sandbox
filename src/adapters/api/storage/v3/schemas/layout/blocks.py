@@ -11,21 +11,24 @@ from .cells import (
     LayoutValidationResponse,
 )
 
+type Schemas = list[LayoutSchemaResponse]
+type Validations = list[LayoutValidationResponse | None] | None
+type Styles = list[LayoutStyleResponse | None] | None
+
 
 class LayoutSingleResponse(BsonIDSchema, KeySchema):
-    schemas: list[LayoutSchemaResponse] | None = Field(
-        default=None,
+    schemas: Schemas = Field(
         alias="schemas",
         title="Schemas",
         description="Schema layer",
     )
-    validations: list[LayoutValidationResponse] | None = Field(
+    validations: Validations = Field(
         default=None,
         alias="validations",
         title="Validations",
         description="Validation layer",
     )
-    styles: list[LayoutStyleResponse] | None = Field(
+    styles: Styles = Field(
         default=None,
         alias="styles",
         title="Styles",
@@ -34,23 +37,23 @@ class LayoutSingleResponse(BsonIDSchema, KeySchema):
 
 
 class LayoutTableResponse(BsonIDSchema, KeySchema, OptionsSchema):
-    static: bool = Field(default=False)
-    nesting: list[tuple[int, int]] | None = Field(default=None)
-    schemas: list[list[LayoutSchemaResponse]] | None = Field(
-        default=None,
+    schemas: list[Schemas] = Field(
         alias="schemas",
         title="Schemas",
         description="Schema layer",
     )
-    validations: list[list[LayoutValidationResponse]] | None = Field(
+    validations: Validations = Field(
         default=None,
         alias="validations",
         title="Validations",
         description="Validation layer",
     )
-    styles: list[list[LayoutStyleResponse]] | None = Field(
+    styles: Styles = Field(
         default=None,
         alias="styles",
         title="Styles",
         description="Style layer",
     )
+
+    static: bool = Field(default=False)
+    nesting: list[tuple[int, int]] | None = Field(default=None)

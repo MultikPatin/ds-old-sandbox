@@ -19,7 +19,7 @@ from .base import Base, BaseDTO
 from .projections import ProjectionID
 
 if TYPE_CHECKING:
-    from beanie import Document
+    from beanie import Document, PydanticObjectId
     from pydantic import BaseModel
     from pymongo.asynchronous.client_session import AsyncClientSession
 
@@ -97,20 +97,22 @@ class GetByIDsMixin[ReturnSchema: BaseModel](BaseDTO[ReturnSchema]):
             # TODO: Реализовать специфическую ошибку
             raise ValueError(msg)
 
+        converted_ids = [convert_to_id(_id) for _id in ids]
         semaphore = asyncio.Semaphore(max_concurrent)
 
-        async def process(_ids: Sequence[str]) -> list[ReturnSchema]:
+        async def process(
+            _ids: Sequence["PydanticObjectId"],
+        ) -> list[ReturnSchema]:
             async with semaphore:
                 docs = await self._collection.find_many(
-                    In(KeysEnum.id, [convert_to_id(_id) for _id in _ids]),
-                    session=session,
+                    In(KeysEnum.id, _ids), session=session
                 ).to_list()
                 return convert_to_dtos(docs, self._dto, is_replace_links=True)
 
         async with asyncio.TaskGroup() as tg:
             tasks = [
                 tg.create_task(process(b))
-                for b in generate_batches(ids, batch_size)
+                for b in generate_batches(converted_ids, batch_size)
             ]
 
         documents = []

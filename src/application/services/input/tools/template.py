@@ -12,6 +12,10 @@ if TYPE_CHECKING:
         LayoutTableWithLayersDTO,
         LayoutWithBlockLayersDTO,
     )
+    from src.application.dtos.db import LayoutDefaultDB
+
+type DefaultsItems = list[LayoutDefaultDB | None]
+type DefaultsRows = list[str | None]
 
 
 def generate_template(
@@ -32,21 +36,10 @@ def _singles(item: "LayoutSingleWithLayersDTO") -> InputSingleCreateValuesDTO:
         raise ValueError(msg)
 
     keys = [s.key for s in item.schemas]
-    kl = len(keys)
 
-    values: list[str | None] = []
-    if item.defaults is None:
-        values.extend([None for _ in range(kl)])
-    else:
-        values.extend([d.value for d in item.defaults])
+    # TODO Проработать вариант типизации defaults
 
-        vl = len(values)
-
-        if vl > kl:
-            msg = "incorrect number of defaults"
-            raise ValueError(msg)
-        if vl < kl:
-            values.extend([None for _ in range(kl - vl)])
+    values = set_defaults_row(item.defaults, len(keys))
 
     return InputSingleCreateValuesDTO(
         key=item.key,
@@ -61,24 +54,38 @@ def _tables(
         msg = "For generate template, schemas must be set in layout."
         raise ValueError(msg)
 
-    number_of_columns = len(item.schemas[-1])
+    columns = len(item.schemas[-1])
+
+    # TODO Проработать вариант типизации defaults
 
     if item.defaults is None:
-        row = [None for _ in range(number_of_columns)]
+        row = [None for _ in range(columns)]
         return InputTableCreateValuesDTO(key=item.key, values=[row])
 
-    rows = []
-    for defaults in item.defaults:
-        values = [d.value for d in defaults]
+    rows = [set_defaults_row(d, columns) for d in item.defaults]
+
+    return InputTableCreateValuesDTO(key=item.key, values=rows)
+
+
+def set_defaults_row(
+    items: DefaultsItems | None, row_length: int
+) -> DefaultsRows:
+    values: list[str | None] = []
+    if items is None:
+        values.extend([None for _ in range(row_length)])
+    else:
+        for item in items:
+            if item is None:
+                values.append(item)
+            else:
+                values.append(item.value)
 
         vl = len(values)
 
-        if vl > number_of_columns:
+        if vl > row_length:
             msg = "incorrect number of defaults"
             raise ValueError(msg)
-        if vl < number_of_columns:
-            values.extend([None for _ in range(number_of_columns - vl)])
+        if vl < row_length:
+            values.extend([None for _ in range(row_length - vl)])
 
-        rows.append(values)
-
-    return InputTableCreateValuesDTO(key=item.key, values=rows)
+    return values

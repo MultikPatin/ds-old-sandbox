@@ -10,19 +10,24 @@ from .db import (
     LayoutValidationDB,
 )
 
+type Schemas = list[LayoutSchemaDB]
+type Defaults = list[LayoutDefaultDB | None] | None
+type Validations = list[LayoutValidationDB | None] | None
+type Styles = list[LayoutStyleDB | None] | None
+
 
 class LayoutSingleWithLayersDTO(LayoutSingleDB):
-    schemas: list[LayoutSchemaDB] | None = Field(default=None)  # type: ignore
-    validations: list[LayoutValidationDB] | None = Field(default=None)  # type: ignore
-    styles: list[LayoutStyleDB] | None = Field(default=None)  # type: ignore
-    defaults: list[LayoutDefaultDB] | None = Field(default=None)  # type: ignore
+    schemas: Schemas  # type: ignore
+    defaults: Defaults = Field(default=None)  # type: ignore
+    validations: Validations = Field(default=None)  # type: ignore
+    styles: Styles = Field(default=None)  # type: ignore
 
 
 class LayoutTableWithLayersDTO(LayoutTableDB):
-    schemas: list[list[LayoutSchemaDB]] | None = Field(default=None)  # type: ignore
-    validations: list[list[LayoutValidationDB]] | None = Field(default=None)  # type: ignore
-    styles: list[list[LayoutStyleDB]] | None = Field(default=None)  # type: ignore
-    defaults: list[list[LayoutDefaultDB]] | None = Field(default=None)  # type: ignore
+    schemas: list[Schemas]  # type: ignore
+    defaults: list[Defaults] | None = Field(default=None)  # type: ignore
+    validations: Validations = Field(default=None)  # type: ignore
+    styles: Styles = Field(default=None)  # type: ignore
 
 
 class LayoutWithBlockLayersDTO(LayoutDB):

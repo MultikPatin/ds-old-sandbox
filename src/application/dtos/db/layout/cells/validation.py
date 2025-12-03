@@ -1,11 +1,8 @@
 from common.core.dtos import HashDTO, HashOrNoneDTO, IdDTO, OptionsDTO
 from pydantic import Field
 
-from src.application.enums import LayoutDataTypeEnum
-
 
 class _LayoutValidationBase(OptionsDTO):
-    type: LayoutDataTypeEnum
     gt: int | None = Field(default=None)
     ge: int | None = Field(default=None)
     lt: int | None = Field(default=None)
@@ -14,6 +11,9 @@ class _LayoutValidationBase(OptionsDTO):
     decimal_places: int | None = Field(default=None)
     min_length: int | None = Field(default=None)
     max_length: int | None = Field(default=None)
+
+    def is_empty(self) -> bool:
+        return not any(self.model_dump().values())
 
 
 # Update

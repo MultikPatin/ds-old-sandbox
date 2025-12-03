@@ -45,6 +45,10 @@ class LayoutToolsService:
         session: "SessionProtocol",
     ) -> LayoutWithBlockLayersDTO:
         ids = get_ids_by_layers(instance, exclude=filters.excluded_layers)
+        if not ids:
+            return LayoutWithBlockLayersDTO.model_validate(
+                instance.model_dump()
+            )
 
         keys: list[LayoutLayersEnum] = []
         coro: list[Coroutine[None, None, list[Any]]] = []
@@ -72,7 +76,9 @@ class LayoutToolsService:
         for k, r in zip(keys, results, strict=False):
             changes[k] = {m.id: m.model_dump() for m in r}
 
-        return LayoutWithBlockLayersDTO(**replace_layers(instance, changes))
+        return LayoutWithBlockLayersDTO.model_validate(
+            replace_layers(instance, changes)
+        )
 
     async def get_id_by_input(
         self, _id: str, *, session: "SessionProtocol"

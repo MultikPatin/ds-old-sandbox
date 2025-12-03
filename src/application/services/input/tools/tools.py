@@ -48,11 +48,21 @@ class InputToolsService:
         session: "SessionProtocol",
     ) -> InputWithValuesDTO:
         ids = get_chunk_ids(instance)
-        results = await self._chunk_repo.get_by_ids(ids, session=session)
+        if not ids:
+            return InputWithValuesDTO.model_validate(instance.model_dump())
+
+        results = await self._chunk_repo.get_by_ids(
+            ids,
+            session=session,
+            batch_size=25,
+            max_concurrent=10,
+        )
         changes = {r.id: r.model_dump() for r in results}
         # TODO Реализовать работу с отдачей чанка по номеру
         #   добавить фильтрацию к запросу
         #   добавить параметры в фильтр (chunk_number, total_chunks)
         #   первично или при пустых значениях отдавать первый чанк
         #   преобразование вести в методе _set_values
-        return InputWithValuesDTO(**replace_layers(instance, changes))
+        return InputWithValuesDTO.model_validate(
+            replace_layers(instance, changes)
+        )

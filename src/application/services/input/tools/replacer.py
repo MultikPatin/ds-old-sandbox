@@ -59,7 +59,7 @@ def _replace_chunks_in_block(chunks: _Chunks, change: _Changes) -> None:
 
     for i in range(len(chunks)):
         k = chunks[i]
-        if k in change and isinstance(k, str):
+        if k in change:
             chunks[i] = change[k]
         else:
             msg = (
