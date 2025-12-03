@@ -15,7 +15,7 @@ from src.application.enums import LayoutBlocksEnum, LayoutLayersEnum
 if TYPE_CHECKING:
     from src.application.dtos.db import LayoutWithBlocks
 
-type _IDsByLayers = dict[LayoutLayersEnum, set[str]]
+type _IDsDict = dict[LayoutLayersEnum, set[str]]
 type _Original = MutableSequence[str] | MutableSequence[MutableSequence[str]]
 type _Originals = Iterable[MutableMapping[LayoutLayersEnum, _Original]]
 type _Exclude = Sequence[LayoutLayersEnum] | None
@@ -25,22 +25,28 @@ type _Change = Mapping[str, Any]
 
 def get_ids_by_layers(
     layout: "LayoutWithBlocks", *, exclude: _Exclude = None
-) -> _IDsByLayers:
-    ids: _IDsByLayers = {x: set() for x in LayoutLayersEnum.layers(exclude)}
+) -> _IDsDict:
+    ids: _IDsDict = {x: set() for x in LayoutLayersEnum.layers(exclude)}
 
     if layout.singles:
         for s in layout.singles:
             for k, v in ids.items():
                 attr = getattr(s, k)
-                if isinstance(attr, Iterable):
+                if attr is not None:
                     v.update(attr)
 
     if layout.tables:
         for t in layout.tables:
             for k, v in ids.items():
                 attr = getattr(t, k)
-                if isinstance(attr, Iterable):
-                    v.update(chain(*attr))
+                if attr is not None:
+                    if isinstance(attr[0], str) or attr[0] is None:
+                        v.update(attr)
+                    else:
+                        v.update(chain(*attr))
+
+    for v in ids.values():
+        v.discard(None)  # type: ignore
 
     return ids
 
@@ -79,16 +85,17 @@ def _replace_layers_in_blocks(originals: _Originals, changes: _Changes) -> None:
                 del original[LayoutLayersEnum(k)]
 
         for k, v in changes.items():
+            if not original[k]:
+                continue
             _replace_layers_in_block(original[k], v)
 
 
 def _replace_layers_in_block(original: _Original, change: _Change) -> None:
-    if not original:
-        return
-
     if not isinstance(original[0], MutableSequence):
         for i in range(len(original)):
             k = original[i]
+            if k is None:
+                continue
             if k in change and isinstance(k, str):
                 original[i] = change[k]
             else:
@@ -102,6 +109,8 @@ def _replace_layers_in_block(original: _Original, change: _Change) -> None:
             if isinstance(sublist, MutableSequence):
                 for i in range(len(sublist)):
                     k = sublist[i]
+                    if k is None:
+                        continue
                     if k in change:
                         sublist[i] = change[k]
                     else:

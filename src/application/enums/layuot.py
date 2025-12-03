@@ -48,4 +48,3 @@ class LayoutDataTypeEnum(StrEnum):
     time = auto()
     datetime = auto()
     integer = auto()
-    stub = auto()

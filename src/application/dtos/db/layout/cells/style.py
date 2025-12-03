@@ -11,6 +11,11 @@ class _LayoutStyleBase(OptionsDTO):
     postfix: str | None = Field(default=None)
     prefix: str | None = Field(default=None)
 
+    def is_empty(self) -> bool:
+        if self.type == LayoutStyleTypeEnum.default:
+            return not any(self.model_dump(exclude={"type"}).values())
+        return False
+
 
 # Update
 

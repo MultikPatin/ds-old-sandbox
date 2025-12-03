@@ -5,7 +5,7 @@ repos:
     rev: v6.0.0
     hooks:
       - id: check-added-large-files
-        args: [ '--maxkb=1024' ]
+        args: [ '--maxkb=512' ]
       - id: check-ast
       - id: check-case-conflict
       - id: check-json
@@ -23,7 +23,6 @@ repos:
         args: [ --fix=lf ]
       - id: name-tests-test
       - id: trailing-whitespace
-
 
   # Checking dependencies
   - repo: https://github.com/astral-sh/uv-pre-commit

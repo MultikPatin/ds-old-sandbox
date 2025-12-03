@@ -1,6 +1,6 @@
 [project]
 name = "ds-storage"
-version = "0.1.0"
+version = "0.2.0"
 description = "Service for creating and storing documents based on layouts"
 requires-python = ">=3.12"
 dependencies = [
@@ -20,7 +20,7 @@ dependencies = [
 dev = [
     "pre-commit==4.5.*",
     # Static type checking
-    "mypy==1.18.*",
+    "mypy==1.19.*",
     # Checks & formatting
     "ruff==0.14.*",
 ]
