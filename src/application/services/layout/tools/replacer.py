@@ -54,7 +54,11 @@ def get_ids_by_layers(
 def replace_layers(layout: "LayoutWithBlocks", changes: _Changes) -> AnyDict:
     obj = layout.model_dump()
 
-    missing = set(LayoutBlocksEnum) - obj.keys()
+    # Исключить блоки, которые не нуждаются в замене
+    exclude = (LayoutBlocksEnum.messages,)
+    blocks = set(LayoutBlocksEnum.blocks(exclude=exclude))
+
+    missing = blocks - obj.keys()
     if missing:
         msg = (
             f"The schema does not contain the blocks {missing} "
@@ -64,7 +68,7 @@ def replace_layers(layout: "LayoutWithBlocks", changes: _Changes) -> AnyDict:
 
     # TODO: Проверить и реализовать удаление блоков если они не нужны
 
-    for k in LayoutBlocksEnum:
+    for k in blocks:
         _replace_layers_in_blocks(obj[k], changes)
 
     return obj
@@ -106,6 +110,7 @@ def _replace_layers_in_block(original: _Original, change: _Change) -> None:
                 raise KeyError(msg)
     else:
         for sublist in original:
+            # _replace_layers_in_block(sublist, change)
             if isinstance(sublist, MutableSequence):
                 for i in range(len(sublist)):
                     k = sublist[i]

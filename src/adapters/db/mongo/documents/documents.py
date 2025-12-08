@@ -12,6 +12,7 @@ from src.application.dtos.db.layout import (
     LayoutBase,
     LayoutCardBase,
     LayoutDefaultBase,
+    LayoutMessageBase,
     LayoutSchemaBase,
     LayoutSingleBase,
     LayoutStyleBase,
@@ -58,9 +59,11 @@ class InputTableChunkDocument(InputTableChunkBase, Document):
 
 
 class LayoutDocument(LayoutBase, Document):
+    card: Link["LayoutCardDocument"] | None = Field(default=None)
+
     singles: list[Link["LayoutSingleDocument"]] | None = Field(default=None)
     tables: list[Link["LayoutTableDocument"]] | None = Field(default=None)
-    card: Link["LayoutCardDocument"] | None = Field(default=None)
+    messages: list[Link["LayoutMessageDocument"]] | None = Field(default=None)
 
     class Settings:
         name = "layouts"
@@ -79,27 +82,30 @@ class LayoutDocument(LayoutBase, Document):
         ]
 
 
-# LAYOUT CARD PROPERTIES
+# LAYOUT BLOCK PROPERTIES
 
 
 class LayoutCardDocument(LayoutCardBase, Document):
     class Settings:
-        name = "layout_cards"
+        name = "layout_block_cards"
         max_nesting_depth = 0
-
-
-# LAYOUT BLOCK PROPERTIES
 
 
 class LayoutSingleDocument(LayoutSingleBase, Document):
     class Settings:
-        name = "layout_singles"
+        name = "layout_block_singles"
         max_nesting_depth = 0
 
 
 class LayoutTableDocument(LayoutTableBase, Document):
     class Settings:
-        name = "layout_tables"
+        name = "layout_block_tables"
+        max_nesting_depth = 0
+
+
+class LayoutMessageDocument(LayoutMessageBase, Document):
+    class Settings:
+        name = "layout_block_messages"
         max_nesting_depth = 0
 
 

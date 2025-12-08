@@ -6,6 +6,7 @@ from typing import Self
 class LayoutBlocksEnum(StrEnum):
     singles = auto()
     tables = auto()
+    messages = auto()
 
     @classmethod
     def blocks(cls, exclude: Sequence[Self] | None = None) -> list[Self]:
@@ -48,3 +49,8 @@ class LayoutDataTypeEnum(StrEnum):
     time = auto()
     datetime = auto()
     integer = auto()
+
+
+class LayoutMessageTypeEnum(StrEnum):
+    info = auto()
+    error = auto()

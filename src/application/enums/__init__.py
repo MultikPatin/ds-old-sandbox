@@ -3,6 +3,7 @@ from .layuot import (
     LayoutBlocksEnum,
     LayoutDataTypeEnum,
     LayoutLayersEnum,
+    LayoutMessageTypeEnum,
     LayoutStyleTypeEnum,
 )
 
@@ -12,5 +13,6 @@ __all__ = [
     "LayoutBlocksEnum",
     "LayoutDataTypeEnum",
     "LayoutLayersEnum",
+    "LayoutMessageTypeEnum",
     "LayoutStyleTypeEnum",
 ]

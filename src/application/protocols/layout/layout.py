@@ -31,12 +31,6 @@ class LayoutFiltersProtocol(Protocol):
     def excluded_layers(self) -> tuple["LayoutLayersEnum", ...]: ...
 
 
-class _GetFullLinks[Session: SessionProtocol](Protocol):
-    async def get_full_links(
-        self, _id: str, *, session: Session
-    ) -> "LayoutFullLinks": ...
-
-
 class LayoutShortFiltersProtocol(Protocol):
     # TODO заменить на протоколы
     status: LifeStatusEnum | None
@@ -90,7 +84,6 @@ class _LayoutShortProtocol[Session: SessionProtocol](
 class LayoutServiceProtocol(
     GetterProtocol[LayoutDB, SessionProtocol],
     DeleterSoftProtocol[SessionProtocol],
-    _GetFullLinks[SessionProtocol],
     _GetIdsBy[SessionProtocol],
     _LayoutShortProtocol[SessionProtocol],
     Protocol,
@@ -116,16 +109,29 @@ class LayoutServiceProtocol(
         *,
         session: SessionProtocol,
     ) -> "LayoutWithBlockLayersDTO": ...
+    async def get_full_links(
+        self, _id: str, *, session: SessionProtocol
+    ) -> "LayoutFullLinks": ...
 
 
 class LayoutRepositoryProtocol[Session: SessionProtocol](
     GetterProtocol[LayoutDB, Session],
     DeleterSoftProtocol[Session],
-    _GetFullLinks[Session],
     _GetIdsBy[Session],
     _LayoutShortProtocol[Session],
     Protocol,
 ):
     async def get_by_key(
-        self, key: str, *, session: Session
+        self,
+        key: str,
+        *,
+        session: Session,
+        nesting_depths_per_field: dict[str, int] | None = None,
     ) -> "LayoutWithBlocks": ...
+    async def get_full_links(
+        self,
+        _id: str,
+        *,
+        session: Session,
+        nesting_depths_per_field: dict[str, int] | None = None,
+    ) -> "LayoutFullLinks": ...

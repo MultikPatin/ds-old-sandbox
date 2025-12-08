@@ -8,6 +8,7 @@ from .input import (
 from .layout import (
     LayoutCardRepository,
     LayoutDefaultRepository,
+    LayoutMessageRepository,
     LayoutRepository,
     LayoutSchemaRepository,
     LayoutSingleRepository,
@@ -24,6 +25,7 @@ __all__ = [
     "InputTableRepository",
     "LayoutCardRepository",
     "LayoutDefaultRepository",
+    "LayoutMessageRepository",
     "LayoutRepository",
     "LayoutSchemaRepository",
     "LayoutSingleRepository",

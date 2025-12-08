@@ -16,6 +16,12 @@ from common.core.dtos import (
 from pydantic import Field
 
 from .blocks import (
+    LayoutCardCreateDTO,
+    LayoutCardDB,
+    LayoutCardUpdateDTO,
+    LayoutMessageCreateDTO,
+    LayoutMessageDB,
+    LayoutMessageUpdateDTO,
     LayoutSingleCreateDTO,
     LayoutSingleDB,
     LayoutSingleUpdateDTO,
@@ -23,28 +29,25 @@ from .blocks import (
     LayoutTableDB,
     LayoutTableUpdateDTO,
 )
-from .card import LayoutCardCreateDTO, LayoutCardDB, LayoutCardUpdateDTO
 
 
-class _LayoutShort(
-    LabelDTO,
-    UpdatedDTO,
-    DescriptionDTO,
-):
+class _LayoutShort(LabelDTO, UpdatedDTO, DescriptionDTO):
     pass
 
 
 class _LayoutBase(_LayoutShort, OptionsDTO, LifeStatusDTO):
-    sections: list[AnyDict]
+    skeleton: list[AnyDict]
 
 
 # Update
 
 
 class LayoutUpdateDTO(_LayoutBase):
+    card: LayoutCardUpdateDTO | None = Field(default=None)
+
     singles: list[LayoutSingleUpdateDTO] | None = Field(default=None)
     tables: list[LayoutTableUpdateDTO] | None = Field(default=None)
-    card: LayoutCardUpdateDTO | None = Field(default=None)
+    messages: list[LayoutMessageUpdateDTO] | None = Field(default=None)
 
 
 # Base
@@ -59,7 +62,7 @@ class LayoutBase(
     CreatedDTO,
     UseUntilDTO,
 ):
-    sections: list[AnyDict]
+    pass
 
 
 class LayoutShortDTO(IdDTO, KeyDTO, _LayoutShort, CreatedDTO):
@@ -73,6 +76,7 @@ class LayoutDB(IdDTO, LayoutBase):
 class LayoutWithBlocks(LayoutDB):
     singles: list[LayoutSingleDB] | None = Field(default=None)
     tables: list[LayoutTableDB] | None = Field(default=None)
+    messages: list[LayoutMessageDB] | None = Field(default=None)
 
 
 class LayoutFullLinks(LayoutWithBlocks):
@@ -83,6 +87,8 @@ class LayoutFullLinks(LayoutWithBlocks):
 
 
 class LayoutCreateDTO(LayoutBase):
+    card: LayoutCardCreateDTO | None = Field(default=None)
+
     singles: list[LayoutSingleCreateDTO] | None = Field(default=None)
     tables: list[LayoutTableCreateDTO] | None = Field(default=None)
-    card: LayoutCardCreateDTO | None = Field(default=None)
+    messages: list[LayoutMessageCreateDTO] | None = Field(default=None)

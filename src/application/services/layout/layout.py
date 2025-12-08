@@ -1,7 +1,5 @@
 from typing import TYPE_CHECKING
 
-from src.application.dtos import LayoutWithBlockLayersDTO
-
 if TYPE_CHECKING:
     from common.core.dtos.pagination import (
         CursorPageDTO,
@@ -10,6 +8,7 @@ if TYPE_CHECKING:
     )
     from common.core.protocols import SessionProtocol
 
+    from src.application.dtos import LayoutWithBlockLayersDTO
     from src.application.dtos.db import (
         LayoutDB,
         LayoutFullLinks,
@@ -76,7 +75,7 @@ class LayoutService:
         filters: "LayoutFiltersProtocol",
         *,
         session: "SessionProtocol",
-    ) -> LayoutWithBlockLayersDTO:
+    ) -> "LayoutWithBlockLayersDTO":
         instance = await self._repo.get_by_key(key, session=session)
         return await self._tools.replace_layers(
             instance, filters, session=session
@@ -88,7 +87,7 @@ class LayoutService:
         filters: "LayoutFiltersProtocol",
         *,
         session: "SessionProtocol",
-    ) -> LayoutWithBlockLayersDTO:
+    ) -> "LayoutWithBlockLayersDTO":
         instance = await self._repo.get_full_links(_id, session=session)
         return await self._tools.replace_layers(
             instance, filters, session=session
@@ -100,8 +99,9 @@ class LayoutService:
         filters: "LayoutFiltersProtocol",
         *,
         session: "SessionProtocol",
-    ) -> LayoutWithBlockLayersDTO:
+    ) -> "LayoutWithBlockLayersDTO":
         layout_id = await self._tools.get_id_by_input(_id, session=session)
+
         return await self.get_with_layers(layout_id, filters, session=session)
 
     async def get_ids_by(

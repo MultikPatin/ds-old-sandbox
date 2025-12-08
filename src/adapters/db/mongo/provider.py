@@ -14,6 +14,7 @@ from src.application.dtos.db import (
     LayoutCardDB,
     LayoutDB,
     LayoutDefaultDB,
+    LayoutMessageDB,
     LayoutSchemaDB,
     LayoutSingleDB,
     LayoutStyleDB,
@@ -28,6 +29,7 @@ from src.application.protocols import (
     InputTableRepositoryProtocol,
     LayoutCardRepositoryProtocol,
     LayoutDefaultRepositoryProtocol,
+    LayoutMessageRepositoryProtocol,
     LayoutRepositoryProtocol,
     LayoutSchemaRepositoryProtocol,
     LayoutSingleRepositoryProtocol,
@@ -44,6 +46,7 @@ from .documents import (
     LayoutCardDocument,
     LayoutDefaultDocument,
     LayoutDocument,
+    LayoutMessageDocument,
     LayoutSchemaDocument,
     LayoutSingleDocument,
     LayoutStyleDocument,
@@ -59,6 +62,7 @@ from .repositories import (
     InputTableRepository,
     LayoutCardRepository,
     LayoutDefaultRepository,
+    LayoutMessageRepository,
     LayoutRepository,
     LayoutSchemaRepository,
     LayoutSingleRepository,
@@ -112,12 +116,12 @@ class MongoProvider(Provider):
     async def layout(self) -> LayoutRepositoryProtocol[AsyncClientSession]:
         return LayoutRepository(LayoutDocument, LayoutDB)
 
+    # LAYOUT BLOCKS REPOSITORY
+
     layout_card_alias = alias(
         source=LayoutCardRepositoryProtocol[AsyncClientSession],
         provides=LayoutCardRepositoryProtocol[SessionProtocol],
     )
-
-    # LAYOUT CARD REPOSITORY
 
     @provide(scope=Scope.APP)
     async def layout_card(
@@ -129,8 +133,6 @@ class MongoProvider(Provider):
         source=LayoutSingleRepositoryProtocol[AsyncClientSession],
         provides=LayoutSingleRepositoryProtocol[SessionProtocol],
     )
-
-    # LAYOUT BLOCKS
 
     @provide(scope=Scope.APP)
     async def layout_single(
@@ -149,12 +151,23 @@ class MongoProvider(Provider):
     ) -> LayoutTableRepositoryProtocol[AsyncClientSession]:
         return LayoutTableRepository(LayoutTableDocument, LayoutTableDB)
 
+    layout_message_alias = alias(
+        source=LayoutMessageRepositoryProtocol[AsyncClientSession],
+        provides=LayoutMessageRepositoryProtocol[SessionProtocol],
+    )
+
+    @provide(scope=Scope.APP)
+    async def layout_message(
+        self,
+    ) -> LayoutMessageRepositoryProtocol[AsyncClientSession]:
+        return LayoutMessageRepository(LayoutMessageDocument, LayoutMessageDB)
+
+    # LAYOUT CELLS
+
     layout_cell_alias = alias(
         source=LayoutSchemaRepositoryProtocol[AsyncClientSession],
         provides=LayoutSchemaRepositoryProtocol[SessionProtocol],
     )
-
-    # LAYOUT CELLS
 
     @provide(scope=Scope.APP)
     async def layout_schema(

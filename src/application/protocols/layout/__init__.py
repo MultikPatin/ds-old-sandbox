@@ -1,8 +1,9 @@
 from .blocks import (
+    LayoutCardRepositoryProtocol,
+    LayoutMessageRepositoryProtocol,
     LayoutSingleRepositoryProtocol,
     LayoutTableRepositoryProtocol,
 )
-from .card import LayoutCardRepositoryProtocol
 from .cells import (
     LayoutDefaultRepositoryProtocol,
     LayoutDefaultServiceProtocol,
@@ -29,6 +30,7 @@ __all__ = [
     "LayoutDefaultRepositoryProtocol",
     "LayoutDefaultServiceProtocol",
     "LayoutFiltersProtocol",
+    "LayoutMessageRepositoryProtocol",
     "LayoutRepositoryProtocol",
     "LayoutSchemaRepositoryProtocol",
     "LayoutSchemaServiceProtocol",

@@ -51,7 +51,7 @@ class LayoutRepository(GetMixin[LayoutDB], DeleteSoftMixin):
         session: "AsyncClientSession",
     ) -> "PagesPageDTO[LayoutShortDTO]":
         return await paginator_pages(
-            query=self._create_query(filters, session=session),
+            query=self._pagination_query(filters, session=session),
             params=filters,
             session=session,
             # sort=prepare_sort(filters.life_time_sort, self._collection),
@@ -66,7 +66,7 @@ class LayoutRepository(GetMixin[LayoutDB], DeleteSoftMixin):
         session: "AsyncClientSession",
     ) -> "LimitOffsetPageDTO[LayoutShortDTO]":
         return await paginator_limit_offset(
-            query=self._create_query(filters, session=session),
+            query=self._pagination_query(filters, session=session),
             params=filters,
             session=session,
             # sort=prepare_sort(filters.life_time_sort, self._collection),
@@ -81,7 +81,7 @@ class LayoutRepository(GetMixin[LayoutDB], DeleteSoftMixin):
         session: "AsyncClientSession",
     ) -> "CursorPageDTO[LayoutShortDTO]":
         return await paginator_cursor(
-            query=self._create_query(filters, session=session),
+            query=self._pagination_query(filters, session=session),
             params=filters,
             session=session,
             # sort=prepare_sort(filters.life_time_sort, self._collection),
@@ -89,18 +89,12 @@ class LayoutRepository(GetMixin[LayoutDB], DeleteSoftMixin):
             projection_model=LayoutShortProjection,
         )
 
-    def _create_query[DocType: Document, ProjectionModelType: BaseModel](
+    def _pagination_query[DocType: Document, ProjectionModelType: BaseModel](
         self,
         filters: "LayoutShortFiltersProtocol",
         *,
         session: "AsyncClientSession",
     ) -> FindManyQueryType[DocType, ProjectionModelType]:
-        conditions = self._create_conditions(filters)
-        return self._collection.find_many(*conditions, session=session)
-
-    def _create_conditions(
-        self, filters: "LayoutShortFiltersProtocol"
-    ) -> AnyList:
         conditions: AnyList = []
 
         if filters.status:
@@ -109,41 +103,56 @@ class LayoutRepository(GetMixin[LayoutDB], DeleteSoftMixin):
             conditions.append(
                 self._collection.status == LifeStatusEnum.published
             )
-        return conditions
+
+        return self._collection.find_many(*conditions, session=session)
 
     async def get_full_links(
-        self, _id: str, *, session: "AsyncClientSession"
+        self,
+        _id: str,
+        *,
+        session: "AsyncClientSession",
+        nesting_depths_per_field: dict[str, int] | None = None,
     ) -> LayoutFullLinks:
+        if nesting_depths_per_field is None:
+            nesting_depths_per_field = {
+                "card": 1,
+                "singles": 1,
+                "tables": 1,
+                "messages": 1,
+            }
         document = await self._collection.find_one(
             {KeysEnum.id: convert_to_id(_id)},
             session=session,
             fetch_links=True,
-            nesting_depths_per_field={
-                "card": 1,
-                "singles": 1,
-                "tables": 1,
-            },
+            nesting_depths_per_field=nesting_depths_per_field,
         )
         if not document:
             raise NoContentError
-        return convert_to_dto(document, LayoutFullLinks)
+        return convert_to_dto(document, LayoutFullLinks, is_replace_links=True)
 
     async def get_by_key(
-        self, key: str, *, session: "AsyncClientSession"
+        self,
+        key: str,
+        *,
+        session: "AsyncClientSession",
+        nesting_depths_per_field: dict[str, int] | None = None,
     ) -> "LayoutWithBlocks":
         conditions = [
             self._collection.key == key,
             self._collection.status == LifeStatusEnum.published,
         ]
+        if nesting_depths_per_field is None:
+            nesting_depths_per_field = {
+                "card": 0,
+                "singles": 1,
+                "tables": 1,
+                "messages": 1,
+            }
         document = await self._collection.find_one(
             *conditions,
             session=session,
             fetch_links=True,
-            nesting_depths_per_field={
-                "card": 0,
-                "singles": 1,
-                "tables": 1,
-            },
+            nesting_depths_per_field=nesting_depths_per_field,
         )
         if not document:
             raise NoContentError
