@@ -13,8 +13,17 @@ from common.fastapi.schemas import (
 )
 from pydantic import Field
 
-from .blocks import LayoutSingleResponse, LayoutTableResponse
-from .card import LayoutCardResponse
+from .blocks import (
+    LayoutCardResponse,
+    LayoutMessageResponse,
+    LayoutSingleResponse,
+    LayoutTableResponse,
+)
+
+type MessageBlocks = list[LayoutMessageResponse] | None
+type SingleBlocks = list[LayoutSingleResponse] | None
+type TableBlocks = list[LayoutTableResponse] | None
+type CardBlock = LayoutCardResponse | None
 
 
 class LayoutShortResponse(
@@ -35,26 +44,33 @@ class LayoutResponse(
     OptionsSchema,
     LifeStatusSchema,
 ):
-    card: LayoutCardResponse | None = Field(
+    skeleton: list[AnyDict] = Field(
+        alias="skeleton",
+        title="Skeleton",
+        description="Skeleton of the layout",
+    )
+
+    card: CardBlock = Field(
         default=None,
         alias="card",
         title="Card",
-        description="Card of the layout",
+        description="Blocks of type 'card' for the layout",
     )
-    sections: list[AnyDict] = Field(
-        alias="sections",
-        title="Sections",
-        description="Sections of the layout",
+    messages: MessageBlocks = Field(
+        default=None,
+        alias="messages",
+        title="Messages",
+        description="Blocks of type 'messages' for the layout",
     )
-    singles: list[LayoutSingleResponse] | None = Field(
+    singles: SingleBlocks = Field(
         default=None,
         alias="singles",
         title="Singles",
-        description="Block of type 'singles' for the layout",
+        description="Blocks of type 'singles' for the layout",
     )
-    tables: list[LayoutTableResponse] | None = Field(
+    tables: TableBlocks = Field(
         default=None,
         alias="tables",
         title="Tables",
-        description="Block of type 'tables' of the layout",
+        description="Blocks of type 'tables' of the layout",
     )

@@ -1,5 +1,9 @@
-from .blocks import LayoutSingleRepository, LayoutTableRepository
-from .card import LayoutCardRepository
+from .blocks import (
+    LayoutCardRepository,
+    LayoutMessageRepository,
+    LayoutSingleRepository,
+    LayoutTableRepository,
+)
 from .cells import (
     LayoutDefaultRepository,
     LayoutSchemaRepository,
@@ -11,6 +15,7 @@ from .layout import LayoutRepository
 __all__ = [
     "LayoutCardRepository",
     "LayoutDefaultRepository",
+    "LayoutMessageRepository",
     "LayoutRepository",
     "LayoutSchemaRepository",
     "LayoutSingleRepository",

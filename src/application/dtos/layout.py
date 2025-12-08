@@ -3,6 +3,7 @@ from pydantic import Field
 from .db import (
     LayoutDB,
     LayoutDefaultDB,
+    LayoutMessageDB,
     LayoutSchemaDB,
     LayoutSingleDB,
     LayoutStyleDB,
@@ -33,3 +34,4 @@ class LayoutTableWithLayersDTO(LayoutTableDB):
 class LayoutWithBlockLayersDTO(LayoutDB):
     singles: list[LayoutSingleWithLayersDTO] | None = Field(default=None)
     tables: list[LayoutTableWithLayersDTO] | None = Field(default=None)
+    messages: list[LayoutMessageDB] | None = Field(default=None)

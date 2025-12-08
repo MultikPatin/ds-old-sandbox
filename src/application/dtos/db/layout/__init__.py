@@ -1,4 +1,13 @@
 from .blocks import (
+    LayoutCardBase,
+    LayoutCardCreateDTO,
+    LayoutCardDB,
+    LayoutCardTitle,
+    LayoutCardUpdateDTO,
+    LayoutMessageBase,
+    LayoutMessageCreateDTO,
+    LayoutMessageDB,
+    LayoutMessageUpdateDTO,
     LayoutSingleBase,
     LayoutSingleCreateDTO,
     LayoutSingleDB,
@@ -7,13 +16,6 @@ from .blocks import (
     LayoutTableCreateDTO,
     LayoutTableDB,
     LayoutTableUpdateDTO,
-)
-from .card import (
-    LayoutCardBase,
-    LayoutCardCreateDTO,
-    LayoutCardDB,
-    LayoutCardTitle,
-    LayoutCardUpdateDTO,
 )
 from .cells import (
     LayoutDefaultBase,
@@ -57,6 +59,10 @@ __all__ = [
     "LayoutDefaultDB",
     "LayoutDefaultUpdateDTO",
     "LayoutFullLinks",
+    "LayoutMessageBase",
+    "LayoutMessageCreateDTO",
+    "LayoutMessageDB",
+    "LayoutMessageUpdateDTO",
     "LayoutSchemaBase",
     "LayoutSchemaCreateDTO",
     "LayoutSchemaDB",
