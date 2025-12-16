@@ -6,8 +6,6 @@ from common.fastapi.schemas import (
 )
 from pydantic import Field
 
-from src.application.enums import LayoutMessageTypeEnum
-
 from .cells import (
     LayoutSchemaResponse,
     LayoutStyleResponse,
@@ -20,17 +18,18 @@ type StyleLayer = list[LayoutStyleResponse | None] | None
 
 
 class LayoutMessageResponse(BsonIDSchema, KeySchema):
-    type: LayoutMessageTypeEnum = Field(
-        alias="type",
-        title="Type",
-        description="Type of message",
+    is_hidden: bool = Field(
+        default=True,
+        alias="is_hidden",
+        title="Is hidden",
+        description="Is it possible to hide a message",
     )
-    lines: list[str] = Field(
-        alias="lines",
-        title="Lines",
-        description="Lines of message",
+    text: str = Field(
         min_length=1,
-        max_length=32,
+        max_length=512,
+        alias="text",
+        title="Text",
+        description="Text",
     )
     color: str = Field(
         alias="color",
