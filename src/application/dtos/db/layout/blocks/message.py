@@ -1,12 +1,10 @@
 from common.core.dtos import IdDTO, KeyDTO
 from pydantic import BaseModel, Field, field_validator
 
-from src.application.enums import LayoutMessageTypeEnum
-
 
 class _LayoutMessageBase(BaseModel):
-    type: LayoutMessageTypeEnum
-    lines: list[str] = Field(min_length=1, max_length=32)
+    is_hidden: bool = Field(default=True)
+    text: str = Field(min_length=1, max_length=512)
     color: str = Field(default="#FFFFFF", min_length=7, max_length=7)
 
     @field_validator("color")

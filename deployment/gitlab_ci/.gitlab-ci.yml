@@ -18,7 +18,7 @@ variables:
   REGISTRY_IMAGE_DEV: ${REGISTRY}/ds-storage-dev/api
   REGISTRY_IMAGE_DEMO: ${REGISTRY}/ds-storage-demo/api
   REGISTRY_IMAGE_PROD: ${REGISTRY}/ds-storage/api
-  UV_VERSION: "0.9.3"
+  UV_VERSION: "0.9.12"
 
 build-dev:
   extends: .build
