@@ -7,7 +7,7 @@ from .replacer import get_chunk_ids, replace_layers
 from .template import generate_template
 
 if TYPE_CHECKING:
-    from common.core.protocols import SessionProtocol
+    from abgroup_core.protocols import SessionProtocol
 
     from src.application.dtos import InputCreateValuesDTO
     from src.application.dtos.db import InputWithBlocks
@@ -23,7 +23,7 @@ class InputToolsService:
         *,
         layout_service: "LayoutServiceProtocol",
         table_chunk_repo: "InputTableChunkRepositoryProtocol[SessionProtocol]",
-    ):
+    ) -> None:
         self._layout = layout_service
         self._chunk_repo = table_chunk_repo
 

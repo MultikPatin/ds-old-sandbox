@@ -3,8 +3,8 @@
 #
 # from collections.abc import Generator
 
-# from common.core.enums import CRUDCommandEnum
-# from common.core.custom_types import AnyMatrix
+# from abgroup_core.enums import CRUDCommandEnum
+# from abgroup_core.custom_types import AnyMatrix
 from common.mongo import (
     # AddMixin,
     BulkAddMixin,

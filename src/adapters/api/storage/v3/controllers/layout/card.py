@@ -1,8 +1,8 @@
 from typing import Annotated
 
-from common.core.enums import URLEnum
-from common.core.protocols import SessionProtocol
-from common.fastapi.schemas.pagination import (
+from abgroup_core.enums import URLEnum
+from abgroup_core.protocols import SessionProtocol
+from abgroup_fastapi.schemas.pagination import (
     CursorPageResponse,
     LimitOffsetPageResponse,
     PagesPageResponse,

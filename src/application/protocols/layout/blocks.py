@@ -1,6 +1,6 @@
 from typing import Protocol
 
-from common.core.protocols import (
+from abgroup_core.protocols import (
     AdderProtocol,
     GetterProtocol,
     SessionProtocol,

@@ -1,54 +1,42 @@
-line-length = 80 # Длина строки
-src = ["src"] # Каталоги, которые следует учитывать при разрешении импортов first|third-party
+line-length = 80
+src = ["src"]
 
 [lint]
 select = [
-    'A', # Проверяет не используются ли builtin python как переменные или параметры
-    'ANN', # Проверки аннотаций типа
-    'B', # Возможные ошибки и неполадки в дизайне вашей программы. Содержит предупреждения, которых нет в pyflakes и pycodestyle.
-    'C4', # лучше писать list/set/dict comprehensions.
-    'E', 'W', # проверяет код на соответствие некоторым стилевым соглашениям, приведенным в PEP 8.
-    'F', # Pyflakes
-    'I', # isort
-    'N', # Проверьте свой код на соответствие соглашениям об именовании PEP 8
-    'PERF', # Линтер для защиты от паттернов производительности
-    'PIE', # Расширение для flake8, реализующее различные доп правила линтинга
-    'PL', # проверяет наличие ошибок, применяет стандарт кодирования, ищет пахнущий код и может вносить предложения о том, как можно было бы переработать код.
-    'PT', # общие проблемы со стилем или несоответствия с тестами на основе pytest.
-    'RET', # проверка возвращаемые значения
-    'RUF', # Правила, специфичные для Ruff
-    'S', # тестирование безопасности с помощью bandit и flake8.
-    'SIM', # проверяет наличие кода, который можно упростить
-    'T20', # поиск print в коде
-    'TID', # делаем импорты более чистыми
-    'TRY', # Предотвращение антипаттернов обработки исключений
-    'UP', # обновления синтаксиса для более новых версий
+    'A',
+    'ANN',
+    'B',
+    'C4',
+    'E',
+    'W',
+    'F',
+    'I',
+    'LOG',
+    'PTH',
+    'N',
+    'PERF',
+    'PIE',
+    'PL',
+    'PT',
+    'RET',
+    'RUF',
+    'S',
+    'SIM',
+    'T20',
+    'TID',
+    'TRY',
+    'UP'
 ]
 ignore = [
-    "B008",
-    "F811", # Переопределение неиспользуемого {имени} из {строки}
-    "RUF001", # Проверяет наличие неоднозначных символов Юникода в строках. (Кириллица + латиница)
+    "RUF001",
     "RUF003",
-    "ANN401", # Dynamically typed expressions (typing.Any) are disallowed in `**kwargs
-    "ANN204", # return type = None
-    "ANN201", # special method return type = None
-    "ANN206", # return type for classmethod
-    "ANN202", # return type for private function
-    "S603", # Подвержен ложным срабатываниям, поскольку трудно определить, были ли переданные аргументы проверены
-    "ANN001", # Анотация типов передаваемых данных
-    "ANN002", # Missing type annotation for `*args`
-    "ANN003", # Missing type annotation for `**kwargs`
-    "N801", # Class name `classproperty` should use CapWords convention
-    "RUF002", # Docstring contains ambiguous (CYRILLIC SMALL LETTER IE). Did you mean (LATIN SMALL LETTER E)?
-    "RET504", # Unnecessary assignment to `var` before `return` statement
-    "RUF015", # Prefer `next(iter(columns.keys()))` over single element slice
-    "B904", # Within an `except` clause, raise exceptions with `raise ... from err` or `raise ... from None` to distinguish them from errors in exception handling
-    "PLR2004" # Magic value used in comparison
+    "RUF002",
+    "RUF015",
 ]
 
 [lint.isort]
-known-first-party = ["src"] # Список модулей которые следует считать first-party
-section-order = [# Порядок сортировки импортов
+known-first-party = ["src"]
+section-order = [
     "future",
     "standard-library",
     "third-party",
@@ -58,3 +46,26 @@ section-order = [# Порядок сортировки импортов
 
 [format]
 quote-style = "double"
+indent-style = "space"
+line-ending = "lf"
+
+[lint.per-file-ignores]
+"tests/**/*.py" = [
+    "ANN",
+    "S",
+    "F811"
+]
+"scripts/**/*.py" = [
+    "T20"
+]
+"**/migrations/*.py" = [
+    "F811",
+    "F401"
+]
+"**/generated/*.py" = [
+    "F811",
+    "E501"
+]
+
+[lint.pydocstyle]
+convention = "google"

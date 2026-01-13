@@ -1,7 +1,7 @@
 from typing import TYPE_CHECKING, Protocol
 
 if TYPE_CHECKING:
-    from common.core.protocols import SessionProtocol
+    from abgroup_core.protocols import SessionProtocol
 
     from src.application.dtos import InputCreateValuesDTO, InputWithValuesDTO
     from src.application.dtos.db import InputWithBlocks

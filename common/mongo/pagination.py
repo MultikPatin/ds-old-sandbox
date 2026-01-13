@@ -4,13 +4,13 @@
 #
 # from beanie.odm.queries.aggregation import AggregationQuery
 #
-# from common.core.constants import CURSOR_PREVIOUS_PREFIX, SORT_DESC_PREFIX
-# from common.core.dtos.pagination import (
+# from abgroup_core.constants import CURSOR_PREVIOUS_PREFIX, SORT_DESC_PREFIX
+# from abgroup_core.dtos.pagination import (
 #     CursorPageDTO,
 #     LimitOffsetPageDTO,
 #     PagesPageDTO,
 # )
-# from common.core.exceptions import NoContentError
+# from abgroup_core.exceptions import NoContentError
 #
 # from .enums import KeysEnum
 # from .utils import convert_to_dtos, convert_to_id
@@ -22,7 +22,7 @@
 #     from pydantic import BaseModel
 #     from pymongo.asynchronous.client_session import AsyncClientSession
 #
-#     from common.core.protocols import (
+#     from abgroup_core.protocols import (
 #         PaginationCursorParamsProtocol,
 #         PaginationLimitOffsetParamsProtocol,
 #         PaginationPagesParamsProtocol,

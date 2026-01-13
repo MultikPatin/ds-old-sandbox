@@ -2,13 +2,13 @@ import asyncio
 from collections.abc import Iterable
 from typing import TYPE_CHECKING
 
-from common.core.decorators import transaction
+from abgroup_core.decorators import transaction
 
 from src.application.dtos import InputTableWithValuesDTO
 from src.application.dtos.db import InputTableCreateDTO
 
 if TYPE_CHECKING:
-    from common.core.protocols import SessionProtocol
+    from abgroup_core.protocols import SessionProtocol
 
     from src.application.dtos import InputTableCreateValuesDTO
     from src.application.protocols import (
@@ -22,7 +22,7 @@ class InputTableService:
         self,
         repo: "InputTableRepositoryProtocol[SessionProtocol]",
         chunk_service: "InputTableChunkServiceProtocol",
-    ):
+    ) -> None:
         self._repo = repo
         self._chunk = chunk_service
 

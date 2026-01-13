@@ -1,12 +1,12 @@
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from common.core.dtos.pagination import (
+    from abgroup_core.dtos.pagination import (
         CursorPageDTO,
         LimitOffsetPageDTO,
         PagesPageDTO,
     )
-    from common.core.protocols import SessionProtocol
+    from abgroup_core.protocols import SessionProtocol
 
     from src.application.dtos import LayoutWithBlockLayersDTO
     from src.application.dtos.db import (
@@ -30,7 +30,7 @@ class LayoutService:
         repo: "LayoutRepositoryProtocol[SessionProtocol]",
         *,
         tools_service: "LayoutToolsServiceProtocol",
-    ):
+    ) -> None:
         self._repo = repo
         self._tools = tools_service
 

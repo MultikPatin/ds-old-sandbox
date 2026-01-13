@@ -1,9 +1,7 @@
 from typing import Any
 
-from beanie import Link
-from bson import DBRef
-from common.core.custom_types import AnyDict
-from common.core.dtos import (
+from abgroup_core.custom_types import AnyDict
+from abgroup_core.dtos import (
     CreatedDTO,
     DescriptionDTO,
     KeyDTO,
@@ -12,6 +10,8 @@ from common.core.dtos import (
     OptionsDTO,
     UpdatedDTO,
 )
+from beanie import Link
+from bson import DBRef
 from common.mongo import ProjectionID
 from pydantic import BaseModel, field_validator
 
@@ -39,7 +39,7 @@ class InputCardProjection(
 
     @field_validator("layout", mode="before")
     @classmethod
-    def convert_layout(cls, value: Any) -> str:
+    def convert_layout(cls, value: Any) -> str:  # noqa: ANN401
         if isinstance(value, DBRef):
             return str(value.id)
         if isinstance(value, Link):
@@ -52,7 +52,7 @@ class InputLayoutProjection(BaseModel):
 
     @field_validator("layout", mode="before")
     @classmethod
-    def convert_layout(cls, value: Any) -> str:
+    def convert_layout(cls, value: Any) -> str:  # noqa: ANN401
         if isinstance(value, DBRef):
             return str(value.id)
         if isinstance(value, Link):

@@ -1,7 +1,4 @@
-from pydantic import Field, MongoDsn, SecretStr
-from pydantic_settings import BaseSettings
-
-from common.core.constants import (
+from abgroup_core.constants import (
     DEFAULT_DATABASE,
     DEFAULT_HOST,
     DEFAULT_MONGODB_ENV_PREFIX,
@@ -9,7 +6,9 @@ from common.core.constants import (
     DEFAULT_PASSWORD,
     DEFAULT_USERNAME,
 )
-from common.core.settings import set_model_config
+from abgroup_core.settings import set_model_config
+from pydantic import Field, MongoDsn, SecretStr
+from pydantic_settings import BaseSettings
 
 
 class Settings(BaseSettings):

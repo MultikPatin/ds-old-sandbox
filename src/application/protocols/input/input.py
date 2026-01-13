@@ -1,6 +1,6 @@
 from typing import TYPE_CHECKING, Protocol
 
-from common.core.protocols import (
+from abgroup_core.protocols import (
     AdderProtocol,
     DeleterSoftProtocol,
     # UpdaterProtocol,
@@ -16,7 +16,7 @@ from src.application.dtos.db import (
 )
 
 if TYPE_CHECKING:
-    from common.core.enums import LifeStatusEnum
+    from abgroup_core.enums import LifeStatusEnum
 
     from src.application.dtos import InputWithValuesDTO
     from src.application.dtos.db.input import InputWithBlocks

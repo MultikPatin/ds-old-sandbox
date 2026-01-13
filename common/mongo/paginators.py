@@ -2,29 +2,28 @@ from collections.abc import Iterable
 from copy import copy
 from typing import TYPE_CHECKING
 
-from common.core.constants import CURSOR_PREVIOUS_PREFIX, SORT_DESC_PREFIX
-from common.core.dtos.pagination import (
+from abgroup_core.constants import CURSOR_PREVIOUS_PREFIX, SORT_DESC_PREFIX
+from abgroup_core.dtos.pagination import (
     CursorPageDTO,
     LimitOffsetPageDTO,
     PagesPageDTO,
 )
-from common.core.exceptions import NoContentError
+from abgroup_core.exceptions import NoContentError
 
 from .custom_types import Sort
 from .enums import KeysEnum
 from .utils import QueryContext, convert_to_dtos, convert_to_id
 
 if TYPE_CHECKING:
-    from beanie import Document
-    from beanie.odm.queries.find import FindMany
-    from pydantic import BaseModel
-    from pymongo.asynchronous.client_session import AsyncClientSession
-
-    from common.core.protocols import (
+    from abgroup_core.protocols import (
         PaginationCursorParamsProtocol,
         PaginationLimitOffsetParamsProtocol,
         PaginationPagesParamsProtocol,
     )
+    from beanie import Document
+    from beanie.odm.queries.find import FindMany
+    from pydantic import BaseModel
+    from pymongo.asynchronous.client_session import AsyncClientSession
 
 
 type _FindManyQueryType[DocType, ProjectionModelType] = (
@@ -52,10 +51,13 @@ async def paginator_pages[  # noqa: PLR0913
     params: "PaginationPagesParamsProtocol",
     session: "AsyncClientSession",
     items_return_type: _ReturnModelType[ReturnModel],
-    ctx: QueryContext = QueryContext(),
+    ctx: QueryContext | None = None,
     sort: Sort = None,
     projection_model: _ProjectionModelType[ProjectionModel] = None,
 ) -> _PagesReturnType[ReturnModel]:
+    if ctx is None:
+        ctx = QueryContext()
+
     if items_return_type is None:
         msg = "Either items_return_type must be provided"
         raise ValueError(msg)
@@ -122,10 +124,13 @@ async def paginator_limit_offset[  # noqa: PLR0913
     params: "PaginationLimitOffsetParamsProtocol",
     session: "AsyncClientSession",
     items_return_type: _ReturnModelType[ReturnModel],
-    ctx: QueryContext = QueryContext(),
+    ctx: QueryContext | None = None,
     sort: Sort = None,
     projection_model: _ProjectionModelType[ProjectionModel] = None,
 ) -> _LimitOffsetReturnType[ReturnModel]:
+    if ctx is None:
+        ctx = QueryContext()
+
     if items_return_type is None:
         msg = "Either items_return_type must be provided"
         raise ValueError(msg)
@@ -176,10 +181,13 @@ async def paginator_cursor[  # noqa: PLR0913
     params: "PaginationCursorParamsProtocol",
     session: "AsyncClientSession",
     items_return_type: _ReturnModelType[ReturnModel],
-    ctx: QueryContext = QueryContext(),
+    ctx: QueryContext | None = None,
     sort: Sort = None,
     projection_model: _ProjectionModelType[ProjectionModel] = None,
 ) -> _CursorReturnType[ReturnModel]:
+    if ctx is None:
+        ctx = QueryContext()
+
     if items_return_type is None:
         msg = "Either items_return_type must be provided"
         raise ValueError(msg)

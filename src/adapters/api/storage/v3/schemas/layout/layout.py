@@ -1,5 +1,5 @@
-from common.core.custom_types import AnyDict
-from common.fastapi.schemas import (
+from abgroup_core.custom_types import AnyDict
+from abgroup_fastapi.schemas import (
     BsonIDSchema,
     CreatedSchema,
     DescriptionSchema,

@@ -1,4 +1,4 @@
-from common.core.dtos import IdDTO
+from abgroup_core.dtos import IdDTO
 from pydantic import BaseModel, Field
 
 

@@ -1,9 +1,9 @@
 import asyncio
 from typing import TYPE_CHECKING
 
-from common.core.decorators import transaction
-from common.core.exceptions import NoContentError
-from common.core.hashing import get_md5hash
+from abgroup_core.decorators import transaction
+from abgroup_core.exceptions import NoContentError
+from abgroup_core.hashing import get_md5hash
 from common.mongo import (
     AddMixin,
     DecRefCountMixin,

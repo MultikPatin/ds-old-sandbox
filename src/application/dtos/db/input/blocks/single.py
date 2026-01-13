@@ -1,5 +1,5 @@
-from common.core.custom_types import AnyDict
-from common.core.dtos import IdDTO, KeyDTO
+from abgroup_core.custom_types import AnyDict
+from abgroup_core.dtos import IdDTO, KeyDTO
 from pydantic import BaseModel
 
 # Update

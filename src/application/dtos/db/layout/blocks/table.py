@@ -1,4 +1,4 @@
-from common.core.dtos import IdDTO, KeyDTO, OptionsDTO
+from abgroup_core.dtos import IdDTO, KeyDTO, OptionsDTO
 from pydantic import Field
 
 from src.application.custom_types import NestingType

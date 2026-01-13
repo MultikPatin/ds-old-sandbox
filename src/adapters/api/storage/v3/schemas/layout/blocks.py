@@ -1,4 +1,4 @@
-from common.fastapi.schemas import (
+from abgroup_fastapi.schemas import (
     BsonIDSchema,
     KeySchema,
     OptionsSchema,

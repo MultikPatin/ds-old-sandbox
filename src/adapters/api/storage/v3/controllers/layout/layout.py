@@ -1,8 +1,8 @@
 from typing import Annotated
 
-from common.core.enums import URLEnum
-from common.core.protocols import SessionProtocol
-from common.fastapi.annotations import IDPath
+from abgroup_core.enums import URLEnum
+from abgroup_core.protocols import SessionProtocol
+from abgroup_fastapi.annotations import IDPath
 from dishka import FromDishka
 from dishka.integrations.fastapi import DishkaRoute
 from fastapi import APIRouter, Query

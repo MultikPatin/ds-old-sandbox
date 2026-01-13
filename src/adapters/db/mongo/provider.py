@@ -1,7 +1,7 @@
 from collections.abc import AsyncGenerator
 
-from common.core.enums import ComponentsEnum
-from common.core.protocols import InitComponentProtocol, SessionProtocol
+from abgroup_core.enums import ComponentsEnum
+from abgroup_core.protocols import InitComponentProtocol, SessionProtocol
 from common.mongo import Client, Settings
 from dishka import Provider, Scope, alias, provide
 from pymongo.asynchronous.client_session import AsyncClientSession
@@ -81,9 +81,8 @@ class MongoProvider(Provider):
 
     @provide(scope=Scope.APP)
     async def settings(self) -> Settings:
-        instance = Settings()
         # TODO LOGGER Добавить логирование (debug)
-        return instance
+        return Settings()
 
     @provide(scope=Scope.APP)
     async def client(self, settings: Settings) -> AsyncGenerator[Client, None]:

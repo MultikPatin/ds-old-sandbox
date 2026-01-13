@@ -2,7 +2,7 @@
 #
 from typing import TYPE_CHECKING
 
-from common.core.exceptions import NoContentError
+from abgroup_core.exceptions import NoContentError
 from common.mongo import (
     AddMixin,
     DeleteSoftMixin,
@@ -26,7 +26,7 @@ from src.application.dtos.db.input import (
 # from .block import rebuild_singles, rebuild_tables
 
 if TYPE_CHECKING:
-    from common.core.enums import LifeStatusEnum
+    from abgroup_core.enums import LifeStatusEnum
     from pymongo.asynchronous.client_session import AsyncClientSession
 
 

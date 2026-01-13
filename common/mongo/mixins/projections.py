@@ -10,7 +10,7 @@ class ProjectionID(BaseModel):
 
     @field_validator("id", mode="before")
     @classmethod
-    def convert_id(cls, value: Any) -> str:
+    def convert_id(cls, value: Any) -> str:  # noqa: ANN401
         if isinstance(value, str):
             return value
         return str(value)

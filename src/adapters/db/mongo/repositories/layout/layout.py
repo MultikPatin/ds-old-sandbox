@@ -1,8 +1,8 @@
 from typing import TYPE_CHECKING
 
-from common.core.custom_types import AnyList
-from common.core.enums import LifeStatusEnum
-from common.core.exceptions import NoContentError
+from abgroup_core.custom_types import AnyList
+from abgroup_core.enums import LifeStatusEnum
+from abgroup_core.exceptions import NoContentError
 from common.mongo import (
     DeleteSoftMixin,
     GetMixin,
@@ -21,13 +21,13 @@ from src.application.dtos.db import LayoutDB, LayoutWithBlocks
 from src.application.dtos.db.layout import LayoutFullLinks, LayoutShortDTO
 
 if TYPE_CHECKING:
-    from beanie import Document
-    from beanie.odm.queries.find import FindMany
-    from common.core.dtos.pagination import (
+    from abgroup_core.dtos.pagination import (
         CursorPageDTO,
         LimitOffsetPageDTO,
         PagesPageDTO,
     )
+    from beanie import Document
+    from beanie.odm.queries.find import FindMany
     from pydantic import BaseModel
     from pymongo.asynchronous.client_session import AsyncClientSession
 

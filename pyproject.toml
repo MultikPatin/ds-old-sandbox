@@ -7,9 +7,11 @@ dependencies = [
     # Core
     "dishka==1.7.*",
     "pydantic-settings==2.12.*",
+    "abgroup-core==0.3.6",
+    "abgroup-fastapi==0.1.0",
     # API
-    "fastapi==0.122.*",
-    "uvicorn==0.38.*",
+    "fastapi==0.127.*",
+    "uvicorn==0.40.*",
     "orjson==3.11.*",
     # MongoDB
     "beanie==2.0.*",
@@ -18,10 +20,8 @@ dependencies = [
 
 [dependency-groups]
 dev = [
-    "pre-commit==4.5.*",
-    # Static type checking
     "mypy==1.19.*",
-    # Checks & formatting
+    "pre-commit==4.5.*",
     "ruff==0.14.*",
 ]
 

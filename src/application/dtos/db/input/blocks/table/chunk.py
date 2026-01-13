@@ -1,5 +1,5 @@
-from common.core.custom_types import AnyMatrix
-from common.core.dtos import IdDTO
+from abgroup_core.custom_types import AnyMatrix
+from abgroup_core.dtos import IdDTO
 from pydantic import BaseModel
 
 # Update

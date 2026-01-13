@@ -1,4 +1,4 @@
-from common.core.dtos import HashDTO, HashOrNoneDTO, IdDTO, OptionsDTO
+from abgroup_core.dtos import HashDTO, HashOrNoneDTO, IdDTO, OptionsDTO
 from pydantic import Field
 
 from src.application.enums import LayoutStyleTypeEnum

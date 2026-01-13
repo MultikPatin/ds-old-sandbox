@@ -1,9 +1,9 @@
 from typing import TYPE_CHECKING
 
-from common.core.hashing import get_md5hash
+from abgroup_core.hashing import get_md5hash
 
 if TYPE_CHECKING:
-    from common.core.protocols import SessionProtocol
+    from abgroup_core.protocols import SessionProtocol
 
     from src.application.dtos.db import (
         LayoutValidationCreateDTO,
@@ -17,7 +17,7 @@ class LayoutValidationService:
     def __init__(
         self,
         repo: "LayoutValidationRepositoryProtocol[SessionProtocol]",
-    ):
+    ) -> None:
         self._repo = repo
 
     async def get(

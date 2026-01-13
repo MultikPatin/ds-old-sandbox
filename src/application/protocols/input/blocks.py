@@ -1,7 +1,7 @@
 from typing import Protocol
 
-from common.core.custom_types import AnyMatrix
-from common.core.protocols import (
+from abgroup_core.custom_types import AnyMatrix
+from abgroup_core.protocols import (
     # AdderProtocol,
     BulkAddProtocol,
     # BulkAddWithReturnIdProtocol,

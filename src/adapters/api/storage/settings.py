@@ -1,5 +1,5 @@
-from common.core.settings import set_model_config
-from common.fastapi import MSettings
+from abgroup_core.settings import set_model_config
+from abgroup_fastapi import MSettings
 
 from src.application.constants import STORAGE_API_ENV_PREFIX
 
