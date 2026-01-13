@@ -1,7 +1,7 @@
 from typing import TYPE_CHECKING, Protocol
 
-from common.core.enums import LifeStatusEnum
-from common.core.protocols import (
+from abgroup_core.enums import LifeStatusEnum
+from abgroup_core.protocols import (
     DeleterSoftProtocol,
     GetterProtocol,
     PaginationCursorParamsProtocol,

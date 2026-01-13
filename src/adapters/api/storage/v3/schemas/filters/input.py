@@ -1,11 +1,11 @@
-from common.fastapi.schemas import (
+from abgroup_fastapi.schemas import (
     DateTimeEndSchema,
     DateTimeStartSchema,
     LifeActionSortOrNoneSchema,
     LifeActionsPeriodFieldSchema,
     LifeStatusOrNoneSchema,
 )
-from common.fastapi.schemas.pagination import (
+from abgroup_fastapi.schemas.pagination import (
     CursorParams,
     LimitOffsetParams,
     PagesParams,

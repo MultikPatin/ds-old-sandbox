@@ -1,5 +1,7 @@
-from common.core.dtos import IdDTO, KeyDTO
+from abgroup_core.dtos import IdDTO, KeyDTO
 from pydantic import BaseModel, Field, field_validator
+
+NUMBER_OF_CHARS_WITH_HASH_SYMBOL = 4
 
 
 class _LayoutMessageBase(BaseModel):
@@ -34,7 +36,7 @@ class _LayoutMessageBase(BaseModel):
             raise ValueError(msg)
 
         # Normalize to #RRGGBB format
-        if len(value) == 4:  # #RGB format
+        if len(value) == NUMBER_OF_CHARS_WITH_HASH_SYMBOL:
             return f"#{hex_part[0] * 2}{hex_part[1] * 2}{hex_part[2] * 2}"
 
         return value.upper()

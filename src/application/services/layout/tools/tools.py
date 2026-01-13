@@ -8,7 +8,7 @@ from src.application.enums import LayoutLayersEnum
 from .replacer import get_ids_by_layers, replace_layers
 
 if TYPE_CHECKING:
-    from common.core.protocols import SessionProtocol
+    from abgroup_core.protocols import SessionProtocol
 
     from src.application.dtos.db import LayoutWithBlocks
     from src.application.protocols import (
@@ -30,7 +30,7 @@ class LayoutToolsService:
         style_repo: "LayoutStyleRepositoryProtocol[SessionProtocol]",
         validation_repo: "LayoutValidationRepositoryProtocol[SessionProtocol]",
         default_repo: "LayoutDefaultRepositoryProtocol[SessionProtocol]",
-    ):
+    ) -> None:
         self._input = input_repo
         self._schema = schema_repo
         self._style = style_repo

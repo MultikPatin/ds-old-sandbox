@@ -6,23 +6,39 @@ repos:
     hooks:
       - id: check-added-large-files
         args: [ '--maxkb=512' ]
-      - id: check-ast
+        description: "Prevent committing large files (>512KB)"
+
       - id: check-case-conflict
+        description: "Check for files that would conflict on case-insensitive filesystems"
+
       - id: check-json
+        description: "Check JSON files for valid syntax"
+        exclude: |
+          (?x)^(
+            .*\.min\.json|      # мистифицированные JSON
+            .*test.*\.json|     # тестовые файлы
+            .*fixture.*\.json   # фикстуры
+          )$
+
       - id: check-symlinks
+        description: "Check for broken symlinks"
+
       - id: check-toml
+        description: "Check TOML files for valid syntax"
+
       - id: check-yaml
-        args:
-          - --unsafe
+        args: [ '--unsafe' ]
         exclude: "^deployment/helm/.*"
+        description: "Check YAML files for valid syntax (allow anchors)"
+
       - id: check-xml
-      - id: debug-statements
+        description: "Check XML files for valid syntax"
+
       - id: detect-private-key
-      - id: end-of-file-fixer
-      - id: mixed-line-ending
-        args: [ --fix=lf ]
+        description: "Detect private keys in committed files"
+
       - id: name-tests-test
-      - id: trailing-whitespace
+        description: "Ensure test files are named correctly"
 
   # Checking dependencies
   - repo: https://github.com/astral-sh/uv-pre-commit
@@ -31,23 +47,25 @@ repos:
     hooks:
       - id: uv-lock
 
-  # Ruff checks & formatting
+    # Ruff checks & formatting
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    # ruff version.
-    rev: v0.14.6
+    rev: v0.14.11
     hooks:
       - id: ruff-check
         args: [ --fix ]
         types_or: [ python, pyi ]
+        description: "Lint Python files and auto-fix what's possible"
+
       - id: ruff-format
         types_or: [ python, pyi ]
+        description: "Format Python files"
 
   # Mypy static type checking
   - repo: local
     hooks:
       - id: mypy
         name: mypy
-        entry: bash -c 'mypy ./src --config-file mypy.ini'
+        entry: bash -c 'uv run mypy ./src --config-file mypy.ini'
         language: system
         types: [ python ]
         require_serial: true

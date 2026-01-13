@@ -1,15 +1,18 @@
 import asyncio
 from typing import TYPE_CHECKING
 
-from common.core.decorators import transaction
-from common.core.enums import LifeStatusEnum
-from common.core.exceptions import BusinessLogicError, BusinessLogicErrorContent
+from abgroup_core.decorators import transaction
+from abgroup_core.enums import LifeStatusEnum
+from abgroup_core.exceptions import (
+    BusinessLogicError,
+    BusinessLogicErrorContent,
+)
 
 from src.application.dtos import InputCreateValuesDTO, InputWithValuesDTO
 from src.application.dtos.db import InputCreateDTO
 
 if TYPE_CHECKING:
-    from common.core.protocols import SessionProtocol
+    from abgroup_core.protocols import SessionProtocol
 
     from src.application.dtos.db import InputDB, InputWithBlocks
     from src.application.protocols import (
@@ -30,7 +33,7 @@ class InputService:
         single_service: "InputSingleServiceProtocol",
         table_service: "InputTableServiceProtocol",
         tools_service: "InputToolsServiceProtocol",
-    ):
+    ) -> None:
         self._repo = repo
         # self._card = card_service
         self._single = single_service

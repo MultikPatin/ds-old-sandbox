@@ -3,6 +3,34 @@ revision = 3
 requires-python = ">=3.12"
 
 [[package]]
+name = "abgroup-core"
+version = "0.3.6"
+source = { registry = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/simple" }
+dependencies = [
+    { name = "pydantic-settings" },
+]
+sdist = { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/abgroup-core/0.3.6/abgroup_core-0.3.6.tar.gz", hash = "sha256:fbe2505f85b8df99d04e4f5911d3f581a034a568b832b7bb7345d1c82da071c5" }
+wheels = [
+    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/abgroup-core/0.3.6/abgroup_core-0.3.6-py3-none-any.whl", hash = "sha256:f58bfaaf5a2cd050b2eeefe6ffb4187c0fcfb6563355d38b3941b19864bff07e" },
+]
+
+[[package]]
+name = "abgroup-fastapi"
+version = "0.1.0"
+source = { registry = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/simple" }
+dependencies = [
+    { name = "abgroup-core" },
+    { name = "fastapi" },
+    { name = "orjson" },
+    { name = "pydantic" },
+    { name = "pydantic-settings" },
+]
+sdist = { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/abgroup-fastapi/0.1.0/abgroup_fastapi-0.1.0.tar.gz", hash = "sha256:a9d911ca4834553a04f4d31156d35adcfc5eb1fa3a72109ebf5c848d50ae7573" }
+wheels = [
+    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/abgroup-fastapi/0.1.0/abgroup_fastapi-0.1.0-py3-none-any.whl", hash = "sha256:6be6a3543ac732bceae8b2f73e27ce34e6ce4b5b24f2894582f29c738c83b497" },
+]
+
+[[package]]
 name = "annotated-doc"
 version = "0.0.4"
 source = { registry = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/simple" }
@@ -180,6 +208,8 @@ name = "ds-storage"
 version = "0.2.0"
 source = { virtual = "." }
 dependencies = [
+    { name = "abgroup-core" },
+    { name = "abgroup-fastapi" },
     { name = "beanie" },
     { name = "dishka" },
     { name = "fastapi" },
@@ -198,13 +228,15 @@ dev = [
 
 [package.metadata]
 requires-dist = [
+    { name = "abgroup-core", specifier = "==0.3.6" },
+    { name = "abgroup-fastapi", specifier = "==0.1.0" },
     { name = "beanie", specifier = "==2.0.*" },
     { name = "dishka", specifier = "==1.7.*" },
-    { name = "fastapi", specifier = "==0.122.*" },
+    { name = "fastapi", specifier = "==0.127.*" },
     { name = "orjson", specifier = "==3.11.*" },
     { name = "pydantic-settings", specifier = "==2.12.*" },
     { name = "python-snappy", specifier = "==0.7.*" },
-    { name = "uvicorn", specifier = "==0.38.*" },
+    { name = "uvicorn", specifier = "==0.40.*" },
 ]
 
 [package.metadata.requires-dev]
@@ -216,7 +248,7 @@ dev = [
 
 [[package]]
 name = "fastapi"
-version = "0.122.0"
+version = "0.127.1"
 source = { registry = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/simple" }
 dependencies = [
     { name = "annotated-doc" },
@@ -224,18 +256,18 @@ dependencies = [
     { name = "starlette" },
     { name = "typing-extensions" },
 ]
-sdist = { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/fastapi/0.122.0/fastapi-0.122.0.tar.gz", hash = "sha256:cd9b5352031f93773228af8b4c443eedc2ac2aa74b27780387b853c3726fb94b" }
+sdist = { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/fastapi/0.127.1/fastapi-0.127.1.tar.gz", hash = "sha256:946a87ee5d931883b562b6bada787d6c8178becee2683cb3f9b980d593206359" }
 wheels = [
-    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/fastapi/0.122.0/fastapi-0.122.0-py3-none-any.whl", hash = "sha256:a456e8915dfc6c8914a50d9651133bd47ec96d331c5b44600baa635538a30d67" },
+    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/fastapi/0.127.1/fastapi-0.127.1-py3-none-any.whl", hash = "sha256:31d670a4f9373cc6d7994420f98e4dc46ea693145207abc39696746c83a44430" },
 ]
 
 [[package]]
 name = "filelock"
-version = "3.20.0"
+version = "3.20.3"
 source = { registry = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/simple" }
-sdist = { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/filelock/3.20.0/filelock-3.20.0.tar.gz", hash = "sha256:711e943b4ec6be42e1d4e6690b48dc175c822967466bb31c0c293f34334c13f4" }
+sdist = { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/filelock/3.20.3/filelock-3.20.3.tar.gz", hash = "sha256:18c57ee915c7ec61cff0ecf7f0f869936c7c30191bb0cf406f1341778d0834e1" }
 wheels = [
-    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/filelock/3.20.0/filelock-3.20.0-py3-none-any.whl", hash = "sha256:339b4732ffda5cd79b13f4e2711a31b0365ce445d95d243bb996273d072546a2" },
+    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/filelock/3.20.3/filelock-3.20.3-py3-none-any.whl", hash = "sha256:4b0dda527ee31078689fc205ec4f1c1bf7d56cf88b6dc9426c4f230e46c2dce1" },
 ]
 
 [[package]]
@@ -331,35 +363,35 @@ wheels = [
 
 [[package]]
 name = "mypy"
-version = "1.19.0"
+version = "1.19.1"
 source = { registry = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/simple" }
 dependencies = [
-    { name = "librt" },
+    { name = "librt", marker = "platform_python_implementation != 'PyPy'" },
     { name = "mypy-extensions" },
     { name = "pathspec" },
     { name = "typing-extensions" },
 ]
-sdist = { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/mypy/1.19.0/mypy-1.19.0.tar.gz", hash = "sha256:f6b874ca77f733222641e5c46e4711648c4037ea13646fd0cdc814c2eaec2528" }
+sdist = { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/mypy/1.19.1/mypy-1.19.1.tar.gz", hash = "sha256:19d88bb05303fe63f71dd2c6270daca27cb9401c4ca8255fe50d1d920e0eb9ba" }
 wheels = [
-    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/mypy/1.19.0/mypy-1.19.0-cp312-cp312-macosx_10_13_x86_64.whl", hash = "sha256:0fb3115cb8fa7c5f887c8a8d81ccdcb94cff334684980d847e5a62e926910e1d" },
-    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/mypy/1.19.0/mypy-1.19.0-cp312-cp312-macosx_11_0_arm64.whl", hash = "sha256:f3e19e3b897562276bb331074d64c076dbdd3e79213f36eed4e592272dabd760" },
-    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/mypy/1.19.0/mypy-1.19.0-cp312-cp312-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl", hash = "sha256:b9d491295825182fba01b6ffe2c6fe4e5a49dbf4e2bb4d1217b6ced3b4797bc6" },
-    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/mypy/1.19.0/mypy-1.19.0-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl", hash = "sha256:6016c52ab209919b46169651b362068f632efcd5eb8ef9d1735f6f86da7853b2" },
-    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/mypy/1.19.0/mypy-1.19.0-cp312-cp312-musllinux_1_2_x86_64.whl", hash = "sha256:f188dcf16483b3e59f9278c4ed939ec0254aa8a60e8fc100648d9ab5ee95a431" },
-    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/mypy/1.19.0/mypy-1.19.0-cp312-cp312-win_amd64.whl", hash = "sha256:0e3c3d1e1d62e678c339e7ade72746a9e0325de42cd2cccc51616c7b2ed1a018" },
-    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/mypy/1.19.0/mypy-1.19.0-cp313-cp313-macosx_10_13_x86_64.whl", hash = "sha256:7686ed65dbabd24d20066f3115018d2dce030d8fa9db01aa9f0a59b6813e9f9e" },
-    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/mypy/1.19.0/mypy-1.19.0-cp313-cp313-macosx_11_0_arm64.whl", hash = "sha256:fd4a985b2e32f23bead72e2fb4bbe5d6aceee176be471243bd831d5b2644672d" },
-    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/mypy/1.19.0/mypy-1.19.0-cp313-cp313-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl", hash = "sha256:fc51a5b864f73a3a182584b1ac75c404396a17eced54341629d8bdcb644a5bba" },
-    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/mypy/1.19.0/mypy-1.19.0-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl", hash = "sha256:37af5166f9475872034b56c5efdcf65ee25394e9e1d172907b84577120714364" },
-    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/mypy/1.19.0/mypy-1.19.0-cp313-cp313-musllinux_1_2_x86_64.whl", hash = "sha256:510c014b722308c9bd377993bcbf9a07d7e0692e5fa8fc70e639c1eb19fc6bee" },
-    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/mypy/1.19.0/mypy-1.19.0-cp313-cp313-win_amd64.whl", hash = "sha256:cabbee74f29aa9cd3b444ec2f1e4fa5a9d0d746ce7567a6a609e224429781f53" },
-    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/mypy/1.19.0/mypy-1.19.0-cp314-cp314-macosx_10_15_x86_64.whl", hash = "sha256:f2e36bed3c6d9b5f35d28b63ca4b727cb0228e480826ffc8953d1892ddc8999d" },
-    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/mypy/1.19.0/mypy-1.19.0-cp314-cp314-macosx_11_0_arm64.whl", hash = "sha256:a18d8abdda14035c5718acb748faec09571432811af129bf0d9e7b2d6699bf18" },
-    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/mypy/1.19.0/mypy-1.19.0-cp314-cp314-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl", hash = "sha256:f75e60aca3723a23511948539b0d7ed514dda194bc3755eae0bfc7a6b4887aa7" },
-    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/mypy/1.19.0/mypy-1.19.0-cp314-cp314-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl", hash = "sha256:8f44f2ae3c58421ee05fe609160343c25f70e3967f6e32792b5a78006a9d850f" },
-    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/mypy/1.19.0/mypy-1.19.0-cp314-cp314-musllinux_1_2_x86_64.whl", hash = "sha256:63ea6a00e4bd6822adbfc75b02ab3653a17c02c4347f5bb0cf1d5b9df3a05835" },
-    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/mypy/1.19.0/mypy-1.19.0-cp314-cp314-win_amd64.whl", hash = "sha256:3ad925b14a0bb99821ff6f734553294aa6a3440a8cb082fe1f5b84dfb662afb1" },
-    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/mypy/1.19.0/mypy-1.19.0-py3-none-any.whl", hash = "sha256:0c01c99d626380752e527d5ce8e69ffbba2046eb8a060db0329690849cf9b6f9" },
+    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/mypy/1.19.1/mypy-1.19.1-cp312-cp312-macosx_10_13_x86_64.whl", hash = "sha256:a8174a03289288c1f6c46d55cef02379b478bfbc8e358e02047487cad44c6ca1" },
+    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/mypy/1.19.1/mypy-1.19.1-cp312-cp312-macosx_11_0_arm64.whl", hash = "sha256:ffcebe56eb09ff0c0885e750036a095e23793ba6c2e894e7e63f6d89ad51f22e" },
+    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/mypy/1.19.1/mypy-1.19.1-cp312-cp312-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl", hash = "sha256:b64d987153888790bcdb03a6473d321820597ab8dd9243b27a92153c4fa50fd2" },
+    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/mypy/1.19.1/mypy-1.19.1-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl", hash = "sha256:c35d298c2c4bba75feb2195655dfea8124d855dfd7343bf8b8c055421eaf0cf8" },
+    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/mypy/1.19.1/mypy-1.19.1-cp312-cp312-musllinux_1_2_x86_64.whl", hash = "sha256:34c81968774648ab5ac09c29a375fdede03ba253f8f8287847bd480782f73a6a" },
+    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/mypy/1.19.1/mypy-1.19.1-cp312-cp312-win_amd64.whl", hash = "sha256:b10e7c2cd7870ba4ad9b2d8a6102eb5ffc1f16ca35e3de6bfa390c1113029d13" },
+    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/mypy/1.19.1/mypy-1.19.1-cp313-cp313-macosx_10_13_x86_64.whl", hash = "sha256:e3157c7594ff2ef1634ee058aafc56a82db665c9438fd41b390f3bde1ab12250" },
+    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/mypy/1.19.1/mypy-1.19.1-cp313-cp313-macosx_11_0_arm64.whl", hash = "sha256:bdb12f69bcc02700c2b47e070238f42cb87f18c0bc1fc4cdb4fb2bc5fd7a3b8b" },
+    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/mypy/1.19.1/mypy-1.19.1-cp313-cp313-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl", hash = "sha256:f859fb09d9583a985be9a493d5cfc5515b56b08f7447759a0c5deaf68d80506e" },
+    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/mypy/1.19.1/mypy-1.19.1-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl", hash = "sha256:c9a6538e0415310aad77cb94004ca6482330fece18036b5f360b62c45814c4ef" },
+    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/mypy/1.19.1/mypy-1.19.1-cp313-cp313-musllinux_1_2_x86_64.whl", hash = "sha256:da4869fc5e7f62a88f3fe0b5c919d1d9f7ea3cef92d3689de2823fd27e40aa75" },
+    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/mypy/1.19.1/mypy-1.19.1-cp313-cp313-win_amd64.whl", hash = "sha256:016f2246209095e8eda7538944daa1d60e1e8134d98983b9fc1e92c1fc0cb8dd" },
+    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/mypy/1.19.1/mypy-1.19.1-cp314-cp314-macosx_10_15_x86_64.whl", hash = "sha256:06e6170bd5836770e8104c8fdd58e5e725cfeb309f0a6c681a811f557e97eac1" },
+    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/mypy/1.19.1/mypy-1.19.1-cp314-cp314-macosx_11_0_arm64.whl", hash = "sha256:804bd67b8054a85447c8954215a906d6eff9cabeabe493fb6334b24f4bfff718" },
+    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/mypy/1.19.1/mypy-1.19.1-cp314-cp314-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl", hash = "sha256:21761006a7f497cb0d4de3d8ef4ca70532256688b0523eee02baf9eec895e27b" },
+    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/mypy/1.19.1/mypy-1.19.1-cp314-cp314-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl", hash = "sha256:28902ee51f12e0f19e1e16fbe2f8f06b6637f482c459dd393efddd0ec7f82045" },
+    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/mypy/1.19.1/mypy-1.19.1-cp314-cp314-musllinux_1_2_x86_64.whl", hash = "sha256:481daf36a4c443332e2ae9c137dfee878fcea781a2e3f895d54bd3002a900957" },
+    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/mypy/1.19.1/mypy-1.19.1-cp314-cp314-win_amd64.whl", hash = "sha256:8bb5c6f6d043655e055be9b542aa5f3bdd30e4f3589163e85f93f3640060509f" },
+    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/mypy/1.19.1/mypy-1.19.1-py3-none-any.whl", hash = "sha256:f1235f5ea01b7db5468d53ece6aaddf1ad0b88d9e7462b86ef96fe04995d7247" },
 ]
 
 [[package]]
@@ -373,64 +405,64 @@ wheels = [
 
 [[package]]
 name = "nodeenv"
-version = "1.9.1"
+version = "1.10.0"
 source = { registry = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/simple" }
-sdist = { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/nodeenv/1.9.1/nodeenv-1.9.1.tar.gz", hash = "sha256:6ec12890a2dab7946721edbfbcd91f3319c6ccc9aec47be7c7e6b7011ee6645f" }
+sdist = { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/nodeenv/1.10.0/nodeenv-1.10.0.tar.gz", hash = "sha256:996c191ad80897d076bdfba80a41994c2b47c68e224c542b48feba42ba00f8bb" }
 wheels = [
-    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/nodeenv/1.9.1/nodeenv-1.9.1-py2.py3-none-any.whl", hash = "sha256:ba11c9782d29c27c70ffbdda2d7415098754709be8a7056d79a737cd901155c9" },
+    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/nodeenv/1.10.0/nodeenv-1.10.0-py2.py3-none-any.whl", hash = "sha256:5bb13e3eed2923615535339b3c620e76779af4cb4c6a90deccc9e36b274d3827" },
 ]
 
 [[package]]
 name = "orjson"
-version = "3.11.4"
+version = "3.11.5"
 source = { registry = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/simple" }
-sdist = { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/orjson/3.11.4/orjson-3.11.4.tar.gz", hash = "sha256:39485f4ab4c9b30a3943cfe99e1a213c4776fb69e8abd68f66b83d5a0b0fdc6d" }
+sdist = { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/orjson/3.11.5/orjson-3.11.5.tar.gz", hash = "sha256:82393ab47b4fe44ffd0a7659fa9cfaacc717eb617c93cde83795f14af5c2e9d5" }
 wheels = [
-    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/orjson/3.11.4/orjson-3.11.4-cp312-cp312-macosx_10_15_x86_64.macosx_11_0_arm64.macosx_10_15_universal2.whl", hash = "sha256:d4371de39319d05d3f482f372720b841c841b52f5385bd99c61ed69d55d9ab50" },
-    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/orjson/3.11.4/orjson-3.11.4-cp312-cp312-macosx_15_0_arm64.whl", hash = "sha256:e41fd3b3cac850eaae78232f37325ed7d7436e11c471246b87b2cd294ec94853" },
-    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/orjson/3.11.4/orjson-3.11.4-cp312-cp312-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:600e0e9ca042878c7fdf189cf1b028fe2c1418cc9195f6cb9824eb6ed99cb938" },
-    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/orjson/3.11.4/orjson-3.11.4-cp312-cp312-manylinux_2_17_armv7l.manylinux2014_armv7l.whl", hash = "sha256:7bbf9b333f1568ef5da42bc96e18bf30fd7f8d54e9ae066d711056add508e415" },
-    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/orjson/3.11.4/orjson-3.11.4-cp312-cp312-manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:4806363144bb6e7297b8e95870e78d30a649fdc4e23fc84daa80c8ebd366ce44" },
-    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/orjson/3.11.4/orjson-3.11.4-cp312-cp312-manylinux_2_17_ppc64le.manylinux2014_ppc64le.whl", hash = "sha256:ad355e8308493f527d41154e9053b86a5be892b3b359a5c6d5d95cda23601cb2" },
-    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/orjson/3.11.4/orjson-3.11.4-cp312-cp312-manylinux_2_17_s390x.manylinux2014_s390x.whl", hash = "sha256:c8a7517482667fb9f0ff1b2f16fe5829296ed7a655d04d68cd9711a4d8a4e708" },
-    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/orjson/3.11.4/orjson-3.11.4-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:97eb5942c7395a171cbfecc4ef6701fc3c403e762194683772df4c54cfbb2210" },
-    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/orjson/3.11.4/orjson-3.11.4-cp312-cp312-musllinux_1_2_aarch64.whl", hash = "sha256:149d95d5e018bdd822e3f38c103b1a7c91f88d38a88aada5c4e9b3a73a244241" },
-    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/orjson/3.11.4/orjson-3.11.4-cp312-cp312-musllinux_1_2_armv7l.whl", hash = "sha256:624f3951181eb46fc47dea3d221554e98784c823e7069edb5dbd0dc826ac909b" },
-    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/orjson/3.11.4/orjson-3.11.4-cp312-cp312-musllinux_1_2_i686.whl", hash = "sha256:03bfa548cf35e3f8b3a96c4e8e41f753c686ff3d8e182ce275b1751deddab58c" },
-    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/orjson/3.11.4/orjson-3.11.4-cp312-cp312-musllinux_1_2_x86_64.whl", hash = "sha256:525021896afef44a68148f6ed8a8bf8375553d6066c7f48537657f64823565b9" },
-    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/orjson/3.11.4/orjson-3.11.4-cp312-cp312-win32.whl", hash = "sha256:b58430396687ce0f7d9eeb3dd47761ca7d8fda8e9eb92b3077a7a353a75efefa" },
-    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/orjson/3.11.4/orjson-3.11.4-cp312-cp312-win_amd64.whl", hash = "sha256:c6dbf422894e1e3c80a177133c0dda260f81428f9de16d61041949f6a2e5c140" },
-    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/orjson/3.11.4/orjson-3.11.4-cp312-cp312-win_arm64.whl", hash = "sha256:d38d2bc06d6415852224fcc9c0bfa834c25431e466dc319f0edd56cca81aa96e" },
-    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/orjson/3.11.4/orjson-3.11.4-cp313-cp313-macosx_10_15_x86_64.macosx_11_0_arm64.macosx_10_15_universal2.whl", hash = "sha256:2d6737d0e616a6e053c8b4acc9eccea6b6cce078533666f32d140e4f85002534" },
-    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/orjson/3.11.4/orjson-3.11.4-cp313-cp313-macosx_15_0_arm64.whl", hash = "sha256:afb14052690aa328cc118a8e09f07c651d301a72e44920b887c519b313d892ff" },
-    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/orjson/3.11.4/orjson-3.11.4-cp313-cp313-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:38aa9e65c591febb1b0aed8da4d469eba239d434c218562df179885c94e1a3ad" },
-    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/orjson/3.11.4/orjson-3.11.4-cp313-cp313-manylinux_2_17_armv7l.manylinux2014_armv7l.whl", hash = "sha256:f2cf4dfaf9163b0728d061bebc1e08631875c51cd30bf47cb9e3293bfbd7dcd5" },
-    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/orjson/3.11.4/orjson-3.11.4-cp313-cp313-manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:89216ff3dfdde0e4070932e126320a1752c9d9a758d6a32ec54b3b9334991a6a" },
-    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/orjson/3.11.4/orjson-3.11.4-cp313-cp313-manylinux_2_17_ppc64le.manylinux2014_ppc64le.whl", hash = "sha256:9daa26ca8e97fae0ce8aa5d80606ef8f7914e9b129b6b5df9104266f764ce436" },
-    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/orjson/3.11.4/orjson-3.11.4-cp313-cp313-manylinux_2_17_s390x.manylinux2014_s390x.whl", hash = "sha256:5c8b2769dc31883c44a9cd126560327767f848eb95f99c36c9932f51090bfce9" },
-    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/orjson/3.11.4/orjson-3.11.4-cp313-cp313-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:1469d254b9884f984026bd9b0fa5bbab477a4bfe558bba6848086f6d43eb5e73" },
-    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/orjson/3.11.4/orjson-3.11.4-cp313-cp313-musllinux_1_2_aarch64.whl", hash = "sha256:68e44722541983614e37117209a194e8c3ad07838ccb3127d96863c95ec7f1e0" },
-    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/orjson/3.11.4/orjson-3.11.4-cp313-cp313-musllinux_1_2_armv7l.whl", hash = "sha256:8e7805fda9672c12be2f22ae124dcd7b03928d6c197544fe12174b86553f3196" },
-    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/orjson/3.11.4/orjson-3.11.4-cp313-cp313-musllinux_1_2_i686.whl", hash = "sha256:04b69c14615fb4434ab867bf6f38b2d649f6f300af30a6705397e895f7aec67a" },
-    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/orjson/3.11.4/orjson-3.11.4-cp313-cp313-musllinux_1_2_x86_64.whl", hash = "sha256:639c3735b8ae7f970066930e58cf0ed39a852d417c24acd4a25fc0b3da3c39a6" },
-    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/orjson/3.11.4/orjson-3.11.4-cp313-cp313-win32.whl", hash = "sha256:6c13879c0d2964335491463302a6ca5ad98105fc5db3565499dcb80b1b4bd839" },
-    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/orjson/3.11.4/orjson-3.11.4-cp313-cp313-win_amd64.whl", hash = "sha256:09bf242a4af98732db9f9a1ec57ca2604848e16f132e3f72edfd3c5c96de009a" },
-    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/orjson/3.11.4/orjson-3.11.4-cp313-cp313-win_arm64.whl", hash = "sha256:a85f0adf63319d6c1ba06fb0dbf997fced64a01179cf17939a6caca662bf92de" },
-    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/orjson/3.11.4/orjson-3.11.4-cp314-cp314-macosx_10_15_x86_64.macosx_11_0_arm64.macosx_10_15_universal2.whl", hash = "sha256:42d43a1f552be1a112af0b21c10a5f553983c2a0938d2bbb8ecd8bc9fb572803" },
-    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/orjson/3.11.4/orjson-3.11.4-cp314-cp314-macosx_15_0_arm64.whl", hash = "sha256:26a20f3fbc6c7ff2cb8e89c4c5897762c9d88cf37330c6a117312365d6781d54" },
-    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/orjson/3.11.4/orjson-3.11.4-cp314-cp314-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:6e3f20be9048941c7ffa8fc523ccbd17f82e24df1549d1d1fe9317712d19938e" },
-    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/orjson/3.11.4/orjson-3.11.4-cp314-cp314-manylinux_2_17_armv7l.manylinux2014_armv7l.whl", hash = "sha256:aac364c758dc87a52e68e349924d7e4ded348dedff553889e4d9f22f74785316" },
-    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/orjson/3.11.4/orjson-3.11.4-cp314-cp314-manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:d5c54a6d76e3d741dcc3f2707f8eeb9ba2a791d3adbf18f900219b62942803b1" },
-    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/orjson/3.11.4/orjson-3.11.4-cp314-cp314-manylinux_2_17_ppc64le.manylinux2014_ppc64le.whl", hash = "sha256:f28485bdca8617b79d44627f5fb04336897041dfd9fa66d383a49d09d86798bc" },
-    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/orjson/3.11.4/orjson-3.11.4-cp314-cp314-manylinux_2_17_s390x.manylinux2014_s390x.whl", hash = "sha256:bfc2a484cad3585e4ba61985a6062a4c2ed5c7925db6d39f1fa267c9d166487f" },
-    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/orjson/3.11.4/orjson-3.11.4-cp314-cp314-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:e34dbd508cb91c54f9c9788923daca129fe5b55c5b4eebe713bf5ed3791280cf" },
-    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/orjson/3.11.4/orjson-3.11.4-cp314-cp314-musllinux_1_2_aarch64.whl", hash = "sha256:b13c478fa413d4b4ee606ec8e11c3b2e52683a640b006bb586b3041c2ca5f606" },
-    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/orjson/3.11.4/orjson-3.11.4-cp314-cp314-musllinux_1_2_armv7l.whl", hash = "sha256:724ca721ecc8a831b319dcd72cfa370cc380db0bf94537f08f7edd0a7d4e1780" },
-    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/orjson/3.11.4/orjson-3.11.4-cp314-cp314-musllinux_1_2_i686.whl", hash = "sha256:977c393f2e44845ce1b540e19a786e9643221b3323dae190668a98672d43fb23" },
-    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/orjson/3.11.4/orjson-3.11.4-cp314-cp314-musllinux_1_2_x86_64.whl", hash = "sha256:1e539e382cf46edec157ad66b0b0872a90d829a6b71f17cb633d6c160a223155" },
-    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/orjson/3.11.4/orjson-3.11.4-cp314-cp314-win32.whl", hash = "sha256:d63076d625babab9db5e7836118bdfa086e60f37d8a174194ae720161eb12394" },
-    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/orjson/3.11.4/orjson-3.11.4-cp314-cp314-win_amd64.whl", hash = "sha256:0a54d6635fa3aaa438ae32e8570b9f0de36f3f6562c308d2a2a452e8b0592db1" },
-    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/orjson/3.11.4/orjson-3.11.4-cp314-cp314-win_arm64.whl", hash = "sha256:78b999999039db3cf58f6d230f524f04f75f129ba3d1ca2ed121f8657e575d3d" },
+    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/orjson/3.11.5/orjson-3.11.5-cp312-cp312-macosx_10_15_x86_64.macosx_11_0_arm64.macosx_10_15_universal2.whl", hash = "sha256:334e5b4bff9ad101237c2d799d9fd45737752929753bf4faf4b207335a416b7d" },
+    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/orjson/3.11.5/orjson-3.11.5-cp312-cp312-macosx_15_0_arm64.whl", hash = "sha256:ff770589960a86eae279f5d8aa536196ebda8273a2a07db2a54e82b93bc86626" },
+    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/orjson/3.11.5/orjson-3.11.5-cp312-cp312-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:ed24250e55efbcb0b35bed7caaec8cedf858ab2f9f2201f17b8938c618c8ca6f" },
+    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/orjson/3.11.5/orjson-3.11.5-cp312-cp312-manylinux_2_17_armv7l.manylinux2014_armv7l.whl", hash = "sha256:a66d7769e98a08a12a139049aac2f0ca3adae989817f8c43337455fbc7669b85" },
+    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/orjson/3.11.5/orjson-3.11.5-cp312-cp312-manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:86cfc555bfd5794d24c6a1903e558b50644e5e68e6471d66502ce5cb5fdef3f9" },
+    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/orjson/3.11.5/orjson-3.11.5-cp312-cp312-manylinux_2_17_ppc64le.manylinux2014_ppc64le.whl", hash = "sha256:a230065027bc2a025e944f9d4714976a81e7ecfa940923283bca7bbc1f10f626" },
+    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/orjson/3.11.5/orjson-3.11.5-cp312-cp312-manylinux_2_17_s390x.manylinux2014_s390x.whl", hash = "sha256:b29d36b60e606df01959c4b982729c8845c69d1963f88686608be9ced96dbfaa" },
+    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/orjson/3.11.5/orjson-3.11.5-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:c74099c6b230d4261fdc3169d50efc09abf38ace1a42ea2f9994b1d79153d477" },
+    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/orjson/3.11.5/orjson-3.11.5-cp312-cp312-musllinux_1_2_aarch64.whl", hash = "sha256:e697d06ad57dd0c7a737771d470eedc18e68dfdefcdd3b7de7f33dfda5b6212e" },
+    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/orjson/3.11.5/orjson-3.11.5-cp312-cp312-musllinux_1_2_armv7l.whl", hash = "sha256:e08ca8a6c851e95aaecc32bc44a5aa75d0ad26af8cdac7c77e4ed93acf3d5b69" },
+    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/orjson/3.11.5/orjson-3.11.5-cp312-cp312-musllinux_1_2_i686.whl", hash = "sha256:e8b5f96c05fce7d0218df3fdfeb962d6b8cfff7e3e20264306b46dd8b217c0f3" },
+    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/orjson/3.11.5/orjson-3.11.5-cp312-cp312-musllinux_1_2_x86_64.whl", hash = "sha256:ddbfdb5099b3e6ba6d6ea818f61997bb66de14b411357d24c4612cf1ebad08ca" },
+    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/orjson/3.11.5/orjson-3.11.5-cp312-cp312-win32.whl", hash = "sha256:9172578c4eb09dbfcf1657d43198de59b6cef4054de385365060ed50c458ac98" },
+    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/orjson/3.11.5/orjson-3.11.5-cp312-cp312-win_amd64.whl", hash = "sha256:2b91126e7b470ff2e75746f6f6ee32b9ab67b7a93c8ba1d15d3a0caaf16ec875" },
+    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/orjson/3.11.5/orjson-3.11.5-cp312-cp312-win_arm64.whl", hash = "sha256:acbc5fac7e06777555b0722b8ad5f574739e99ffe99467ed63da98f97f9ca0fe" },
+    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/orjson/3.11.5/orjson-3.11.5-cp313-cp313-macosx_10_15_x86_64.macosx_11_0_arm64.macosx_10_15_universal2.whl", hash = "sha256:3b01799262081a4c47c035dd77c1301d40f568f77cc7ec1bb7db5d63b0a01629" },
+    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/orjson/3.11.5/orjson-3.11.5-cp313-cp313-macosx_15_0_arm64.whl", hash = "sha256:61de247948108484779f57a9f406e4c84d636fa5a59e411e6352484985e8a7c3" },
+    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/orjson/3.11.5/orjson-3.11.5-cp313-cp313-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:894aea2e63d4f24a7f04a1908307c738d0dce992e9249e744b8f4e8dd9197f39" },
+    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/orjson/3.11.5/orjson-3.11.5-cp313-cp313-manylinux_2_17_armv7l.manylinux2014_armv7l.whl", hash = "sha256:ddc21521598dbe369d83d4d40338e23d4101dad21dae0e79fa20465dbace019f" },
+    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/orjson/3.11.5/orjson-3.11.5-cp313-cp313-manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:7cce16ae2f5fb2c53c3eafdd1706cb7b6530a67cc1c17abe8ec747f5cd7c0c51" },
+    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/orjson/3.11.5/orjson-3.11.5-cp313-cp313-manylinux_2_17_ppc64le.manylinux2014_ppc64le.whl", hash = "sha256:e46c762d9f0e1cfb4ccc8515de7f349abbc95b59cb5a2bd68df5973fdef913f8" },
+    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/orjson/3.11.5/orjson-3.11.5-cp313-cp313-manylinux_2_17_s390x.manylinux2014_s390x.whl", hash = "sha256:d7345c759276b798ccd6d77a87136029e71e66a8bbf2d2755cbdde1d82e78706" },
+    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/orjson/3.11.5/orjson-3.11.5-cp313-cp313-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:75bc2e59e6a2ac1dd28901d07115abdebc4563b5b07dd612bf64260a201b1c7f" },
+    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/orjson/3.11.5/orjson-3.11.5-cp313-cp313-musllinux_1_2_aarch64.whl", hash = "sha256:54aae9b654554c3b4edd61896b978568c6daa16af96fa4681c9b5babd469f863" },
+    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/orjson/3.11.5/orjson-3.11.5-cp313-cp313-musllinux_1_2_armv7l.whl", hash = "sha256:4bdd8d164a871c4ec773f9de0f6fe8769c2d6727879c37a9666ba4183b7f8228" },
+    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/orjson/3.11.5/orjson-3.11.5-cp313-cp313-musllinux_1_2_i686.whl", hash = "sha256:a261fef929bcf98a60713bf5e95ad067cea16ae345d9a35034e73c3990e927d2" },
+    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/orjson/3.11.5/orjson-3.11.5-cp313-cp313-musllinux_1_2_x86_64.whl", hash = "sha256:c028a394c766693c5c9909dec76b24f37e6a1b91999e8d0c0d5feecbe93c3e05" },
+    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/orjson/3.11.5/orjson-3.11.5-cp313-cp313-win32.whl", hash = "sha256:2cc79aaad1dfabe1bd2d50ee09814a1253164b3da4c00a78c458d82d04b3bdef" },
+    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/orjson/3.11.5/orjson-3.11.5-cp313-cp313-win_amd64.whl", hash = "sha256:ff7877d376add4e16b274e35a3f58b7f37b362abf4aa31863dadacdd20e3a583" },
+    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/orjson/3.11.5/orjson-3.11.5-cp313-cp313-win_arm64.whl", hash = "sha256:59ac72ea775c88b163ba8d21b0177628bd015c5dd060647bbab6e22da3aad287" },
+    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/orjson/3.11.5/orjson-3.11.5-cp314-cp314-macosx_10_15_x86_64.macosx_11_0_arm64.macosx_10_15_universal2.whl", hash = "sha256:e446a8ea0a4c366ceafc7d97067bfd55292969143b57e3c846d87fc701e797a0" },
+    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/orjson/3.11.5/orjson-3.11.5-cp314-cp314-macosx_15_0_arm64.whl", hash = "sha256:53deb5addae9c22bbe3739298f5f2196afa881ea75944e7720681c7080909a81" },
+    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/orjson/3.11.5/orjson-3.11.5-cp314-cp314-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:82cd00d49d6063d2b8791da5d4f9d20539c5951f965e45ccf4e96d33505ce68f" },
+    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/orjson/3.11.5/orjson-3.11.5-cp314-cp314-manylinux_2_17_armv7l.manylinux2014_armv7l.whl", hash = "sha256:3fd15f9fc8c203aeceff4fda211157fad114dde66e92e24097b3647a08f4ee9e" },
+    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/orjson/3.11.5/orjson-3.11.5-cp314-cp314-manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:9df95000fbe6777bf9820ae82ab7578e8662051bb5f83d71a28992f539d2cda7" },
+    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/orjson/3.11.5/orjson-3.11.5-cp314-cp314-manylinux_2_17_ppc64le.manylinux2014_ppc64le.whl", hash = "sha256:92a8d676748fca47ade5bc3da7430ed7767afe51b2f8100e3cd65e151c0eaceb" },
+    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/orjson/3.11.5/orjson-3.11.5-cp314-cp314-manylinux_2_17_s390x.manylinux2014_s390x.whl", hash = "sha256:aa0f513be38b40234c77975e68805506cad5d57b3dfd8fe3baa7f4f4051e15b4" },
+    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/orjson/3.11.5/orjson-3.11.5-cp314-cp314-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:fa1863e75b92891f553b7922ce4ee10ed06db061e104f2b7815de80cdcb135ad" },
+    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/orjson/3.11.5/orjson-3.11.5-cp314-cp314-musllinux_1_2_aarch64.whl", hash = "sha256:d4be86b58e9ea262617b8ca6251a2f0d63cc132a6da4b5fcc8e0a4128782c829" },
+    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/orjson/3.11.5/orjson-3.11.5-cp314-cp314-musllinux_1_2_armv7l.whl", hash = "sha256:b923c1c13fa02084eb38c9c065afd860a5cff58026813319a06949c3af5732ac" },
+    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/orjson/3.11.5/orjson-3.11.5-cp314-cp314-musllinux_1_2_i686.whl", hash = "sha256:1b6bd351202b2cd987f35a13b5e16471cf4d952b42a73c391cc537974c43ef6d" },
+    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/orjson/3.11.5/orjson-3.11.5-cp314-cp314-musllinux_1_2_x86_64.whl", hash = "sha256:bb150d529637d541e6af06bbe3d02f5498d628b7f98267ff87647584293ab439" },
+    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/orjson/3.11.5/orjson-3.11.5-cp314-cp314-win32.whl", hash = "sha256:9cc1e55c884921434a84a0c3dd2699eb9f92e7b441d7f53f3941079ec6ce7499" },
+    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/orjson/3.11.5/orjson-3.11.5-cp314-cp314-win_amd64.whl", hash = "sha256:a4f3cb2d874e03bc7767c8f88adaa1a9a05cecea3712649c3b58589ec7317310" },
+    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/orjson/3.11.5/orjson-3.11.5-cp314-cp314-win_arm64.whl", hash = "sha256:38b22f476c351f9a1c43e5b07d8b5a02eb24a6ab8e75f700f7d479d4568346a5" },
 ]
 
 [[package]]
@@ -444,16 +476,16 @@ wheels = [
 
 [[package]]
 name = "platformdirs"
-version = "4.5.0"
+version = "4.5.1"
 source = { registry = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/simple" }
-sdist = { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/platformdirs/4.5.0/platformdirs-4.5.0.tar.gz", hash = "sha256:70ddccdd7c99fc5942e9fc25636a8b34d04c24b335100223152c2803e4063312" }
+sdist = { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/platformdirs/4.5.1/platformdirs-4.5.1.tar.gz", hash = "sha256:61d5cdcc6065745cdd94f0f878977f8de9437be93de97c1c12f853c9c0cdcbda" }
 wheels = [
-    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/platformdirs/4.5.0/platformdirs-4.5.0-py3-none-any.whl", hash = "sha256:e578a81bb873cbb89a41fcc904c7ef523cc18284b7e3b3ccf06aca1403b7ebd3" },
+    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/platformdirs/4.5.1/platformdirs-4.5.1-py3-none-any.whl", hash = "sha256:d03afa3963c806a9bed9d5125c8f4cb2fdaf74a55ab60e5d59b3fde758104d31" },
 ]
 
 [[package]]
 name = "pre-commit"
-version = "4.5.0"
+version = "4.5.1"
 source = { registry = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/simple" }
 dependencies = [
     { name = "cfgv" },
@@ -462,9 +494,9 @@ dependencies = [
     { name = "pyyaml" },
     { name = "virtualenv" },
 ]
-sdist = { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/pre-commit/4.5.0/pre_commit-4.5.0.tar.gz", hash = "sha256:dc5a065e932b19fc1d4c653c6939068fe54325af8e741e74e88db4d28a4dd66b" }
+sdist = { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/pre-commit/4.5.1/pre_commit-4.5.1.tar.gz", hash = "sha256:eb545fcff725875197837263e977ea257a402056661f09dae08e4b149b030a61" }
 wheels = [
-    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/pre-commit/4.5.0/pre_commit-4.5.0-py2.py3-none-any.whl", hash = "sha256:25e2ce09595174d9c97860a95609f9f852c0614ba602de3561e267547f2335e1" },
+    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/pre-commit/4.5.1/pre_commit-4.5.1-py2.py3-none-any.whl", hash = "sha256:3b3afd891e97337708c1674210f8eba659b52a38ea5f822ff142d10786221f77" },
 ]
 
 [[package]]
@@ -687,28 +719,28 @@ wheels = [
 
 [[package]]
 name = "ruff"
-version = "0.14.6"
+version = "0.14.11"
 source = { registry = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/simple" }
-sdist = { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/ruff/0.14.6/ruff-0.14.6.tar.gz", hash = "sha256:6f0c742ca6a7783a736b867a263b9a7a80a45ce9bee391eeda296895f1b4e1cc" }
+sdist = { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/ruff/0.14.11/ruff-0.14.11.tar.gz", hash = "sha256:f6dc463bfa5c07a59b1ff2c3b9767373e541346ea105503b4c0369c520a66958" }
 wheels = [
-    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/ruff/0.14.6/ruff-0.14.6-py3-none-linux_armv6l.whl", hash = "sha256:d724ac2f1c240dbd01a2ae98db5d1d9a5e1d9e96eba999d1c48e30062df578a3" },
-    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/ruff/0.14.6/ruff-0.14.6-py3-none-macosx_10_12_x86_64.whl", hash = "sha256:9f7539ea257aa4d07b7ce87aed580e485c40143f2473ff2f2b75aee003186004" },
-    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/ruff/0.14.6/ruff-0.14.6-py3-none-macosx_11_0_arm64.whl", hash = "sha256:7f6007e55b90a2a7e93083ba48a9f23c3158c433591c33ee2e99a49b889c6332" },
-    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/ruff/0.14.6/ruff-0.14.6-py3-none-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:0a8e7b9d73d8728b68f632aa8e824ef041d068d231d8dbc7808532d3629a6bef" },
-    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/ruff/0.14.6/ruff-0.14.6-py3-none-manylinux_2_17_armv7l.manylinux2014_armv7l.whl", hash = "sha256:d50d45d4553a3ebcbd33e7c5e0fe6ca4aafd9a9122492de357205c2c48f00775" },
-    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/ruff/0.14.6/ruff-0.14.6-py3-none-manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:118548dd121f8a21bfa8ab2c5b80e5b4aed67ead4b7567790962554f38e598ce" },
-    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/ruff/0.14.6/ruff-0.14.6-py3-none-manylinux_2_17_ppc64.manylinux2014_ppc64.whl", hash = "sha256:57256efafbfefcb8748df9d1d766062f62b20150691021f8ab79e2d919f7c11f" },
-    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/ruff/0.14.6/ruff-0.14.6-py3-none-manylinux_2_17_ppc64le.manylinux2014_ppc64le.whl", hash = "sha256:ff18134841e5c68f8e5df1999a64429a02d5549036b394fafbe410f886e1989d" },
-    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/ruff/0.14.6/ruff-0.14.6-py3-none-manylinux_2_17_s390x.manylinux2014_s390x.whl", hash = "sha256:29c4b7ec1e66a105d5c27bd57fa93203637d66a26d10ca9809dc7fc18ec58440" },
-    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/ruff/0.14.6/ruff-0.14.6-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:167843a6f78680746d7e226f255d920aeed5e4ad9c03258094a2d49d3028b105" },
-    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/ruff/0.14.6/ruff-0.14.6-py3-none-manylinux_2_31_riscv64.whl", hash = "sha256:16a33af621c9c523b1ae006b1b99b159bf5ac7e4b1f20b85b2572455018e0821" },
-    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/ruff/0.14.6/ruff-0.14.6-py3-none-musllinux_1_2_aarch64.whl", hash = "sha256:1432ab6e1ae2dc565a7eea707d3b03a0c234ef401482a6f1621bc1f427c2ff55" },
-    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/ruff/0.14.6/ruff-0.14.6-py3-none-musllinux_1_2_armv7l.whl", hash = "sha256:4c55cfbbe7abb61eb914bfd20683d14cdfb38a6d56c6c66efa55ec6570ee4e71" },
-    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/ruff/0.14.6/ruff-0.14.6-py3-none-musllinux_1_2_i686.whl", hash = "sha256:efea3c0f21901a685fff4befda6d61a1bf4cb43de16da87e8226a281d614350b" },
-    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/ruff/0.14.6/ruff-0.14.6-py3-none-musllinux_1_2_x86_64.whl", hash = "sha256:344d97172576d75dc6afc0e9243376dbe1668559c72de1864439c4fc95f78185" },
-    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/ruff/0.14.6/ruff-0.14.6-py3-none-win32.whl", hash = "sha256:00169c0c8b85396516fdd9ce3446c7ca20c2a8f90a77aa945ba6b8f2bfe99e85" },
-    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/ruff/0.14.6/ruff-0.14.6-py3-none-win_amd64.whl", hash = "sha256:390e6480c5e3659f8a4c8d6a0373027820419ac14fa0d2713bd8e6c3e125b8b9" },
-    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/ruff/0.14.6/ruff-0.14.6-py3-none-win_arm64.whl", hash = "sha256:d43c81fbeae52cfa8728d8766bbf46ee4298c888072105815b392da70ca836b2" },
+    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/ruff/0.14.11/ruff-0.14.11-py3-none-linux_armv6l.whl", hash = "sha256:f6ff2d95cbd335841a7217bdfd9c1d2e44eac2c584197ab1385579d55ff8830e" },
+    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/ruff/0.14.11/ruff-0.14.11-py3-none-macosx_10_12_x86_64.whl", hash = "sha256:6f6eb5c1c8033680f4172ea9c8d3706c156223010b8b97b05e82c59bdc774ee6" },
+    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/ruff/0.14.11/ruff-0.14.11-py3-none-macosx_11_0_arm64.whl", hash = "sha256:f2fc34cc896f90080fca01259f96c566f74069a04b25b6205d55379d12a6855e" },
+    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/ruff/0.14.11/ruff-0.14.11-py3-none-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:53386375001773ae812b43205d6064dae49ff0968774e6befe16a994fc233caa" },
+    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/ruff/0.14.11/ruff-0.14.11-py3-none-manylinux_2_17_armv7l.manylinux2014_armv7l.whl", hash = "sha256:a697737dce1ca97a0a55b5ff0434ee7205943d4874d638fe3ae66166ff46edbe" },
+    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/ruff/0.14.11/ruff-0.14.11-py3-none-manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:6845ca1da8ab81ab1dce755a32ad13f1db72e7fba27c486d5d90d65e04d17b8f" },
+    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/ruff/0.14.11/ruff-0.14.11-py3-none-manylinux_2_17_ppc64.manylinux2014_ppc64.whl", hash = "sha256:e36ce2fd31b54065ec6f76cb08d60159e1b32bdf08507862e32f47e6dde8bcbf" },
+    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/ruff/0.14.11/ruff-0.14.11-py3-none-manylinux_2_17_ppc64le.manylinux2014_ppc64le.whl", hash = "sha256:590bcc0e2097ecf74e62a5c10a6b71f008ad82eb97b0a0079e85defe19fe74d9" },
+    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/ruff/0.14.11/ruff-0.14.11-py3-none-manylinux_2_17_s390x.manylinux2014_s390x.whl", hash = "sha256:53fe71125fc158210d57fe4da26e622c9c294022988d08d9347ec1cf782adafe" },
+    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/ruff/0.14.11/ruff-0.14.11-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:a35c9da08562f1598ded8470fcfef2afb5cf881996e6c0a502ceb61f4bc9c8a3" },
+    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/ruff/0.14.11/ruff-0.14.11-py3-none-manylinux_2_31_riscv64.whl", hash = "sha256:0f3727189a52179393ecf92ec7057c2210203e6af2676f08d92140d3e1ee72c1" },
+    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/ruff/0.14.11/ruff-0.14.11-py3-none-musllinux_1_2_aarch64.whl", hash = "sha256:eb09f849bd37147a789b85995ff734a6c4a095bed5fd1608c4f56afc3634cde2" },
+    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/ruff/0.14.11/ruff-0.14.11-py3-none-musllinux_1_2_armv7l.whl", hash = "sha256:c61782543c1231bf71041461c1f28c64b961d457d0f238ac388e2ab173d7ecb7" },
+    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/ruff/0.14.11/ruff-0.14.11-py3-none-musllinux_1_2_i686.whl", hash = "sha256:82ff352ea68fb6766140381748e1f67f83c39860b6446966cff48a315c3e2491" },
+    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/ruff/0.14.11/ruff-0.14.11-py3-none-musllinux_1_2_x86_64.whl", hash = "sha256:728e56879df4ca5b62a9dde2dd0eb0edda2a55160c0ea28c4025f18c03f86984" },
+    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/ruff/0.14.11/ruff-0.14.11-py3-none-win32.whl", hash = "sha256:337c5dd11f16ee52ae217757d9b82a26400be7efac883e9e852646f1557ed841" },
+    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/ruff/0.14.11/ruff-0.14.11-py3-none-win_amd64.whl", hash = "sha256:f981cea63d08456b2c070e64b79cb62f951aa1305282974d4d5216e6e0178ae6" },
+    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/ruff/0.14.11/ruff-0.14.11-py3-none-win_arm64.whl", hash = "sha256:649fb6c9edd7f751db276ef42df1f3df41c38d67d199570ae2a7bd6cbc3590f0" },
 ]
 
 [[package]]
@@ -756,27 +788,27 @@ wheels = [
 
 [[package]]
 name = "uvicorn"
-version = "0.38.0"
+version = "0.40.0"
 source = { registry = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/simple" }
 dependencies = [
     { name = "click" },
     { name = "h11" },
 ]
-sdist = { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/uvicorn/0.38.0/uvicorn-0.38.0.tar.gz", hash = "sha256:fd97093bdd120a2609fc0d3afe931d4d4ad688b6e75f0f929fde1bc36fe0e91d" }
+sdist = { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/uvicorn/0.40.0/uvicorn-0.40.0.tar.gz", hash = "sha256:839676675e87e73694518b5574fd0f24c9d97b46bea16df7b8c05ea1a51071ea" }
 wheels = [
-    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/uvicorn/0.38.0/uvicorn-0.38.0-py3-none-any.whl", hash = "sha256:48c0afd214ceb59340075b4a052ea1ee91c16fbc2a9b1469cca0e54566977b02" },
+    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/uvicorn/0.40.0/uvicorn-0.40.0-py3-none-any.whl", hash = "sha256:c6c8f55bc8bf13eb6fa9ff87ad62308bbbc33d0b67f84293151efe87e0d5f2ee" },
 ]
 
 [[package]]
 name = "virtualenv"
-version = "20.35.4"
+version = "20.36.1"
 source = { registry = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/simple" }
 dependencies = [
     { name = "distlib" },
     { name = "filelock" },
     { name = "platformdirs" },
 ]
-sdist = { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/virtualenv/20.35.4/virtualenv-20.35.4.tar.gz", hash = "sha256:643d3914d73d3eeb0c552cbb12d7e82adf0e504dbf86a3182f8771a153a1971c" }
+sdist = { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/virtualenv/20.36.1/virtualenv-20.36.1.tar.gz", hash = "sha256:8befb5c81842c641f8ee658481e42641c68b5eab3521d8e092d18320902466ba" }
 wheels = [
-    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/virtualenv/20.35.4/virtualenv-20.35.4-py3-none-any.whl", hash = "sha256:c21c9cede36c9753eeade68ba7d523529f228a403463376cf821eaae2b650f1b" },
+    { url = "https://nexus.abgroup.tech/repository/abgroup-pypi-group/packages/virtualenv/20.36.1/virtualenv-20.36.1-py3-none-any.whl", hash = "sha256:575a8d6b124ef88f6f51d56d656132389f961062a9177016a50e4f507bbcc19f" },
 ]

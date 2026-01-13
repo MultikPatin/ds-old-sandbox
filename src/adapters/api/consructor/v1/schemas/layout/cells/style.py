@@ -1,4 +1,4 @@
-from common.fastapi.schemas import BsonIDSchema, OptionsSchema
+from abgroup_fastapi.schemas import BsonIDSchema, OptionsSchema
 from pydantic import Field
 
 from src.application.enums import LayoutStyleTypeEnum

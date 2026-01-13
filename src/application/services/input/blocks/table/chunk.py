@@ -1,9 +1,9 @@
 from collections.abc import Generator
 from typing import TYPE_CHECKING
 
-# from common.core.enums import CRUDCommandEnum
-from common.core.custom_types import AnyMatrix
-from common.core.decorators import transaction
+# from abgroup_core.enums import CRUDCommandEnum
+from abgroup_core.custom_types import AnyMatrix
+from abgroup_core.decorators import transaction
 
 from src.application.constants import (
     MAX_NUMBER_OF_CHUNKS,
@@ -12,7 +12,7 @@ from src.application.constants import (
 from src.application.dtos.db import InputTableChunkCreateDTO
 
 if TYPE_CHECKING:
-    from common.core.protocols import SessionProtocol
+    from abgroup_core.protocols import SessionProtocol
 
     from src.application.dtos.db.input import InputTableChunkDB
     from src.application.protocols import InputTableChunkRepositoryProtocol
@@ -21,7 +21,7 @@ if TYPE_CHECKING:
 class InputTableChunkService:
     def __init__(
         self, repo: "InputTableChunkRepositoryProtocol[SessionProtocol]"
-    ):
+    ) -> None:
         self._repo = repo
 
     @transaction

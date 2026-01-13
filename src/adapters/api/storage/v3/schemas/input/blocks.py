@@ -1,5 +1,5 @@
-from common.core.custom_types import AnyDict, AnyMatrix
-from common.fastapi.schemas import (
+from abgroup_core.custom_types import AnyDict, AnyMatrix
+from abgroup_fastapi.schemas import (
     BsonIDSchema,
     KeySchema,
 )

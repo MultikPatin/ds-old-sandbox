@@ -1,11 +1,11 @@
-from common.core.dtos import (
+from abgroup_core.dtos import (
     DateTimeEndDTO,
     DateTimeStartDTO,
     LifeActionsPeriodFieldDTO,
     LifeActionTimeSortOrNoneDTO,
     LifeStatusOrNoneDTO,
 )
-from common.core.dtos.pagination import (
+from abgroup_core.dtos.pagination import (
     CursorParamsDTO,
     LimitOffsetParamsDTO,
     PagesParamsDTO,

@@ -1,5 +1,5 @@
-from common.core.custom_types import AnyDict, AnyMatrix
-from common.core.dtos import KeyDTO
+from abgroup_core.custom_types import AnyDict, AnyMatrix
+from abgroup_core.dtos import KeyDTO
 from pydantic import BaseModel, Field
 
 from .db import (

@@ -1,5 +1,5 @@
-from common.core.protocols import MAppProtocol
-from common.fastapi import MApp
+from abgroup_core.protocols import MAppProtocol
+from abgroup_fastapi import MApp
 from dishka import AsyncContainer, Provider, Scope, from_context, provide
 from dishka.integrations.fastapi import setup_dishka
 
@@ -13,9 +13,8 @@ class ApiProvider(Provider):
 
     @provide(scope=Scope.APP)
     def settings(self) -> Settings:
-        instance = Settings()
         # TODO LOGGER Добавить логирование (debug)
-        return instance
+        return Settings()
 
     @provide(scope=Scope.APP)
     def app(
@@ -28,9 +27,8 @@ class ApiProvider(Provider):
 
     @provide(scope=Scope.APP)
     def settings_v1(self) -> v1.Settings:
-        instance = v1.Settings()
         # TODO LOGGER Добавить логирование (debug)
-        return instance
+        return v1.Settings()
 
     @provide(scope=Scope.APP)
     def api_v1(self, app_settings: Settings, settings: v1.Settings) -> v1.App:

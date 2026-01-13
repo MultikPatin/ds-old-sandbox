@@ -1,7 +1,7 @@
 from typing import Annotated
 
-from common.core.enums import ComponentsEnum
-from common.core.protocols import (
+from abgroup_core.enums import ComponentsEnum
+from abgroup_core.protocols import (
     InitComponentProtocol,
     InitComponentsProtocol,
     SessionProtocol,

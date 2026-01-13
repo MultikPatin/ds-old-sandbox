@@ -1,7 +1,7 @@
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from common.core.protocols import SessionProtocol
+    from abgroup_core.protocols import SessionProtocol
 
     from src.application.dtos.db import (
         LayoutDefaultCreateDTO,
@@ -15,7 +15,7 @@ class LayoutDefaultService:
     def __init__(
         self,
         repo: "LayoutDefaultRepositoryProtocol[SessionProtocol]",
-    ):
+    ) -> None:
         self._repo = repo
 
     async def get(

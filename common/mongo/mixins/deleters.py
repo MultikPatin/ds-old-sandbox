@@ -1,11 +1,11 @@
 from typing import TYPE_CHECKING
 
-from common.core.enums import LifeStatusEnum
-from common.core.exceptions import (
+from abgroup_core.enums import LifeStatusEnum
+from abgroup_core.exceptions import (
     LockedOperationError,
     LockedOperationErrorContent,
 )
-from common.core.utils import time_now
+from abgroup_core.utils import time_now
 
 from .getters import _GetMixin
 

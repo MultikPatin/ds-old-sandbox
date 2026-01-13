@@ -1,9 +1,9 @@
 from typing import Annotated
 
-from common.core.enums import URLEnum
-from common.core.exceptions import LockedOperationErrorContent
-from common.core.protocols import SessionProtocol
-from common.fastapi.annotations import IDPath
+from abgroup_core.enums import URLEnum
+from abgroup_core.exceptions import LockedOperationErrorContent
+from abgroup_core.protocols import SessionProtocol
+from abgroup_fastapi.annotations import IDPath
 from dishka import FromDishka
 from dishka.integrations.fastapi import DishkaRoute
 from fastapi import APIRouter, Body, status
@@ -55,6 +55,7 @@ async def get(
     URLEnum.id,
     summary="Update a validation layer item",
     response_model=LayoutValidationResponse,
+    deprecated=True,
 )
 async def update(
     _id: Annotated[str, IDPath()],
@@ -79,6 +80,7 @@ async def update(
     responses={
         status.HTTP_423_LOCKED: {"model": LockedOperationErrorContent},
     },
+    deprecated=True,
 )
 async def delete(
     _id: Annotated[str, IDPath()],

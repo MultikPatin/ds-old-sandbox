@@ -1,9 +1,9 @@
-from common.core.dtos.pagination import (
+from abgroup_core.dtos.pagination import (
     CursorParamsDTO,
     LimitOffsetParamsDTO,
     PagesParamsDTO,
 )
-from common.core.enums import LifeStatusEnum
+from abgroup_core.enums import LifeStatusEnum
 from pydantic import BaseModel, Field
 
 from src.application.enums import LayoutLayersEnum

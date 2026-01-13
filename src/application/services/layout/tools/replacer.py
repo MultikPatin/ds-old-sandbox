@@ -8,7 +8,7 @@ from collections.abc import (
 from itertools import chain
 from typing import TYPE_CHECKING, Any
 
-from common.core.custom_types import AnyDict
+from abgroup_core.custom_types import AnyDict
 
 from src.application.enums import LayoutBlocksEnum, LayoutLayersEnum
 

@@ -1,4 +1,4 @@
-from common.core.dtos import IdDTO, OptionsDTO, TitleDTO
+from abgroup_core.dtos import IdDTO, OptionsDTO, TitleDTO
 
 
 class LayoutCardTitle(TitleDTO):

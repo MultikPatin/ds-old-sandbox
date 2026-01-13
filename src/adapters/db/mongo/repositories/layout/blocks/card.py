@@ -1,6 +1,6 @@
 from typing import TYPE_CHECKING
 
-from common.core.exceptions import NoContentError
+from abgroup_core.exceptions import NoContentError
 from common.mongo import (
     AddMixin,
     GetMixin,

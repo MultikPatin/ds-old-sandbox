@@ -1,12 +1,12 @@
 from collections.abc import Iterable
 from typing import TYPE_CHECKING
 
-from common.core.decorators import transaction
+from abgroup_core.decorators import transaction
 
 from src.application.dtos.db import InputSingleCreateDTO
 
 if TYPE_CHECKING:
-    from common.core.protocols import SessionProtocol
+    from abgroup_core.protocols import SessionProtocol
 
     from src.application.dtos import InputSingleCreateValuesDTO
     from src.application.dtos.db import InputSingleDB
@@ -14,7 +14,9 @@ if TYPE_CHECKING:
 
 
 class InputSingleService:
-    def __init__(self, repo: "InputSingleRepositoryProtocol[SessionProtocol]"):
+    def __init__(
+        self, repo: "InputSingleRepositoryProtocol[SessionProtocol]"
+    ) -> None:
         self._repo = repo
 
     @transaction

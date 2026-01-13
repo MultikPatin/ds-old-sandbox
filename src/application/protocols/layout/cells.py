@@ -1,6 +1,6 @@
 from typing import TYPE_CHECKING, Protocol
 
-from common.core.protocols import (
+from abgroup_core.protocols import (
     AdderProtocol,
     DecRefCountProtocol,
     DeleterProtocol,

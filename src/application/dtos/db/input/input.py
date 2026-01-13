@@ -1,5 +1,5 @@
-from common.core.custom_types import AnyDict
-from common.core.dtos import (
+from abgroup_core.custom_types import AnyDict
+from abgroup_core.dtos import (
     CreatedDTO,
     IdDTO,
     LifeStatusDTO,

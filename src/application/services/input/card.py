@@ -1,14 +1,14 @@
 from typing import TYPE_CHECKING
 
-from common.core.custom_types import AnyDict
+from abgroup_core.custom_types import AnyDict
 
 if TYPE_CHECKING:
-    from common.core.dtos.pagination import (
+    from abgroup_core.dtos.pagination import (
         CursorPageDTO,
         LimitOffsetPageDTO,
         PagesPageDTO,
     )
-    from common.core.protocols import SessionProtocol
+    from abgroup_core.protocols import SessionProtocol
 
     from src.application.dtos.db import InputCardDTO
     from src.application.protocols import (
@@ -27,7 +27,7 @@ class InputCardSrvice:
         repo: "InputCardRepositoryProtocol[SessionProtocol]",
         *,
         layout_service: "LayoutServiceProtocol",
-    ):
+    ) -> None:
         self._repo = repo
         self._layout = layout_service
 

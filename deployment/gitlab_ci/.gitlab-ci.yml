@@ -2,15 +2,15 @@ include:
   - project: 'main/template/common_gitlab_ci'
     ref: main
     file:
-     - 'stage/release-backend.yml'
-     - 'uv/uv-project-verify.yml'
-     - 'uv/ruff-check.yml'
-     - 'uv/ruff-format.yml'
-     - 'uv/mypy.yml'
+      - 'stage/release-backend.yml'
+      - 'uv/project-verify.yml'
+      - 'uv/ruff-check.yml'
+      - 'uv/ruff-format.yml'
+      - 'uv/mypy.yml'
 
 stages:
   - prepares
-  - static-analisys
+  - static-analysis
   - build
   - create-tag
 

@@ -1,10 +1,9 @@
 from typing import TYPE_CHECKING
 
-from common.core.exceptions import NoContentError
+from abgroup_core.exceptions import NoContentError
+
 from common.mongo.enums import KeysEnum
-from common.mongo.utils import (
-    convert_to_id,
-)
+from common.mongo.utils import convert_to_id
 
 from .base import Base
 

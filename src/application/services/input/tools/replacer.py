@@ -7,7 +7,7 @@ from collections.abc import (
 )
 from typing import TYPE_CHECKING, Any
 
-from common.core.custom_types import AnyDict, AnyList
+from abgroup_core.custom_types import AnyDict, AnyList
 
 from src.application.enums import InputBlocksEnum, InputLayersEnum
 

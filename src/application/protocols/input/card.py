@@ -1,12 +1,12 @@
 from datetime import datetime
 from typing import Protocol
 
-from common.core.enums import (
+from abgroup_core.enums import (
     CreateUpdateEnum,
     LifeActionTimeSortEnum,
     LifeStatusEnum,
 )
-from common.core.protocols import (
+from abgroup_core.protocols import (
     PaginationCursorParamsProtocol,
     PaginationCursorProtocol,
     PaginationLiminOffsetProtocol,

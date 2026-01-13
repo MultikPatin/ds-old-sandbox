@@ -1,5 +1,5 @@
-from common.core.settings import set_model_config
-from common.fastapi import VSettings
+from abgroup_core.settings import set_model_config
+from abgroup_fastapi import VSettings
 
 from src.application.constants import (
     CONSTRUCTOR_API_ENV_PREFIX,

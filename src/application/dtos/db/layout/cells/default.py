@@ -1,4 +1,4 @@
-from common.core.dtos import (
+from abgroup_core.dtos import (
     HashDTO,
     HashOrNoneDTO,
     IdDTO,

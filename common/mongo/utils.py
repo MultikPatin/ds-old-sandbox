@@ -7,23 +7,22 @@ from collections.abc import (
 )
 from typing import TYPE_CHECKING, Any
 
-from beanie import BackLink, Link, PydanticObjectId
-from beanie.odm.enums import SortDirection
-from bson.errors import InvalidId
-from pydantic import BaseModel, Field
-
-from common.core.constants import (
+from abgroup_core.constants import (
     CURSOR_SEPARATOR,
     ID_BSON_DESCRIPTION,
     ID_BSON_EXAMPLE,
     ID_BSON_TITLE,
     SORT_DESC_PREFIX,
 )
-from common.core.custom_types import AnyDict
-from common.core.exceptions import (
+from abgroup_core.custom_types import AnyDict
+from abgroup_core.exceptions import (
     BusinessLogicError,
     BusinessLogicErrorContent,
 )
+from beanie import BackLink, Link, PydanticObjectId
+from beanie.odm.enums import SortDirection
+from bson.errors import InvalidId
+from pydantic import BaseModel, Field
 
 from .custom_types import Sort
 
@@ -92,7 +91,7 @@ def convert_to_id(_id: str) -> PydanticObjectId:
                     },
                 },
             )
-        )
+        ) from None
 
 
 def convert_to_dto[DocType: "Document", PydanticModel: "BaseModel"](
@@ -141,15 +140,18 @@ def generate_batches[Item: Any](
 ) -> Generator[Sequence[Item], None, None]:
     length = len(data)
 
+    middle_length = 100
+    max_length = 1000
+
     if size is None:
-        if length <= 100:
+        if length <= middle_length:
             s = 10
-        elif length <= 1000:
+        elif length <= max_length:
             s = 50
         else:
-            s = 100
+            s = middle_length
     else:
-        s = min(size, 1000)
+        s = min(size, max_length)
 
     if isinstance(data, Set):
         data = list(data)

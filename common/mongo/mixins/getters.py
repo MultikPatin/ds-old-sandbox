@@ -2,11 +2,9 @@ import asyncio
 from collections.abc import Sequence, Set
 from typing import TYPE_CHECKING
 
+from abgroup_core.exceptions import NoContentError
 from beanie.operators import In
 
-from common.core.exceptions import (
-    NoContentError,
-)
 from common.mongo.enums import KeysEnum
 from common.mongo.utils import (
     convert_to_dto,

@@ -1,4 +1,4 @@
-from common.fastapi import VApp
+from abgroup_fastapi import VApp
 from fastapi import status
 
 from .controllers import (
