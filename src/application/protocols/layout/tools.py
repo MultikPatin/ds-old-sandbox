@@ -5,14 +5,14 @@ if TYPE_CHECKING:
 
     from src.application.dtos import LayoutWithBlockLayersDTO
     from src.application.dtos.db import LayoutWithBlocks
-    from src.application.protocols import LayoutFiltersProtocol
+    from src.application.protocols import LayersFiltersProtocol
 
 
 class LayoutToolsServiceProtocol(Protocol):
     async def replace_layers(
         self,
         instance: "LayoutWithBlocks",
-        filters: "LayoutFiltersProtocol",
+        filters: "LayersFiltersProtocol",
         *,
         session: "SessionProtocol",
     ) -> "LayoutWithBlockLayersDTO": ...

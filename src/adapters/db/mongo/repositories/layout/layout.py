@@ -32,8 +32,8 @@ if TYPE_CHECKING:
     from pymongo.asynchronous.client_session import AsyncClientSession
 
     from src.application.protocols import (
+        LayoutPaginationFiltersProtocol,
         LayoutShortCursorFiltersProtocol,
-        LayoutShortFiltersProtocol,
         LayoutShortLimitOffsetFiltersProtocol,
         LayoutShortPagesFiltersProtocol,
     )
@@ -91,7 +91,7 @@ class LayoutRepository(GetMixin[LayoutDB], DeleteSoftMixin):
 
     def _pagination_query[DocType: Document, ProjectionModelType: BaseModel](
         self,
-        filters: "LayoutShortFiltersProtocol",
+        filters: "LayoutPaginationFiltersProtocol",
         *,
         session: "AsyncClientSession",
     ) -> FindManyQueryType[DocType, ProjectionModelType]:

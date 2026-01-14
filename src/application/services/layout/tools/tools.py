@@ -13,8 +13,8 @@ if TYPE_CHECKING:
     from src.application.dtos.db import LayoutWithBlocks
     from src.application.protocols import (
         InputRepositoryProtocol,
+        LayersFiltersProtocol,
         LayoutDefaultRepositoryProtocol,
-        LayoutFiltersProtocol,
         LayoutSchemaRepositoryProtocol,
         LayoutStyleRepositoryProtocol,
         LayoutValidationRepositoryProtocol,
@@ -40,7 +40,7 @@ class LayoutToolsService:
     async def replace_layers(
         self,
         instance: "LayoutWithBlocks",
-        filters: "LayoutFiltersProtocol",
+        filters: "LayersFiltersProtocol",
         *,
         session: "SessionProtocol",
     ) -> LayoutWithBlockLayersDTO:

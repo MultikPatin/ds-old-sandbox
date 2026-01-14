@@ -8,6 +8,7 @@ from .input import (
 )
 from .layout import (
     LayoutDefaultService,
+    LayoutMessageService,
     LayoutSchemaService,
     LayoutService,
     LayoutStyleService,
@@ -22,6 +23,7 @@ __all__ = [
     "InputTableService",
     "InputToolsService",
     "LayoutDefaultService",
+    "LayoutMessageService",
     "LayoutSchemaService",
     "LayoutService",
     "LayoutStyleService",

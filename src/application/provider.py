@@ -22,6 +22,8 @@ from src.application.protocols import (
     InputToolsServiceProtocol,
     LayoutDefaultRepositoryProtocol,
     LayoutDefaultServiceProtocol,
+    LayoutMessageRepositoryProtocol,
+    LayoutMessageServiceProtocol,
     LayoutRepositoryProtocol,
     LayoutSchemaRepositoryProtocol,
     LayoutSchemaServiceProtocol,
@@ -40,6 +42,7 @@ from src.application.services import (
     InputTableService,
     InputToolsService,
     LayoutDefaultService,
+    LayoutMessageService,
     LayoutSchemaService,
     LayoutService,
     LayoutStyleService,
@@ -50,25 +53,92 @@ from src.application.services.layout import LayoutToolsService
 database = ComponentsEnum.mongo
 
 
-class ApplicationProvider(Provider):
+class _InputProvider(Provider):
     @provide(scope=Scope.APP)
-    async def init(
+    def __input(
         self,
-        mongo: Annotated[InitComponentProtocol, FromComponent(database)],
-    ) -> InitComponentsProtocol:
-        return InitComponentsProtocol
-
-    @provide(scope=Scope.REQUEST)
-    def session(
-        self,
-        session: Annotated[SessionProtocol, FromComponent(database)],
-    ) -> SessionProtocol:
-        return session
-
-    # LAYOUT
+        repo: Annotated[
+            InputRepositoryProtocol[SessionProtocol],
+            FromComponent(database),
+        ],
+        # card_service: InputCardServiceProtocol,
+        single_service: InputSingleServiceProtocol,
+        table_service: InputTableServiceProtocol,
+        tools_service: InputToolsServiceProtocol,
+    ) -> InputServiceProtocol:
+        return InputService(
+            repo,
+            # card_service=card_service,
+            single_service=single_service,
+            table_service=table_service,
+            tools_service=tools_service,
+        )
 
     @provide(scope=Scope.APP)
-    def layout(
+    def __tools(
+        self,
+        layout_service: LayoutServiceProtocol,
+        table_chunk_repo: Annotated[
+            InputTableChunkRepositoryProtocol[SessionProtocol],
+            FromComponent(database),
+        ],
+    ) -> InputToolsServiceProtocol:
+        return InputToolsService(
+            layout_service=layout_service,
+            table_chunk_repo=table_chunk_repo,
+        )
+
+    # BLOCKS
+
+    @provide(scope=Scope.APP)
+    def __card(
+        self,
+        repo: Annotated[
+            InputCardRepositoryProtocol[SessionProtocol],
+            FromComponent(database),
+        ],
+        layout_service: LayoutServiceProtocol,
+    ) -> InputCardServiceProtocol:
+        return InputCardSrvice(
+            repo,
+            layout_service=layout_service,
+        )
+
+    @provide(scope=Scope.APP)
+    def __single(
+        self,
+        repo: Annotated[
+            InputSingleRepositoryProtocol[SessionProtocol],
+            FromComponent(database),
+        ],
+    ) -> InputSingleServiceProtocol:
+        return InputSingleService(repo)
+
+    @provide(scope=Scope.APP)
+    def __table(
+        self,
+        repo: Annotated[
+            InputTableRepositoryProtocol[SessionProtocol],
+            FromComponent(database),
+        ],
+        chunk_service: InputTableChunkServiceProtocol,
+    ) -> InputTableServiceProtocol:
+        return InputTableService(repo, chunk_service)
+
+    @provide(scope=Scope.APP)
+    def __table_chunk(
+        self,
+        repo: Annotated[
+            InputTableChunkRepositoryProtocol[SessionProtocol],
+            FromComponent(database),
+        ],
+    ) -> InputTableChunkServiceProtocol:
+        return InputTableChunkService(repo)
+
+
+class _LayoutProvider(Provider):
+    @provide(scope=Scope.APP)
+    def __layout(
         self,
         repo: Annotated[
             LayoutRepositoryProtocol[SessionProtocol],
@@ -82,7 +152,7 @@ class ApplicationProvider(Provider):
         )
 
     @provide(scope=Scope.APP)
-    def layout_tools(
+    def __tools(
         self,
         input_repo: Annotated[
             InputRepositoryProtocol[SessionProtocol],
@@ -113,10 +183,22 @@ class ApplicationProvider(Provider):
             default_repo=default_repo,
         )
 
-    # LAYOUT CELLS
+    # BLOCKS
 
     @provide(scope=Scope.APP)
-    def layout_schema(
+    def __message(
+        self,
+        repo: Annotated[
+            LayoutMessageRepositoryProtocol[SessionProtocol],
+            FromComponent(database),
+        ],
+    ) -> LayoutMessageServiceProtocol:
+        return LayoutMessageService(repo)
+
+    # LAYERS
+
+    @provide(scope=Scope.APP)
+    def __schema(
         self,
         repo: Annotated[
             LayoutSchemaRepositoryProtocol[SessionProtocol],
@@ -126,7 +208,7 @@ class ApplicationProvider(Provider):
         return LayoutSchemaService(repo)
 
     @provide(scope=Scope.APP)
-    def layout_style(
+    def __style(
         self,
         repo: Annotated[
             LayoutStyleRepositoryProtocol[SessionProtocol],
@@ -136,7 +218,7 @@ class ApplicationProvider(Provider):
         return LayoutStyleService(repo)
 
     @provide(scope=Scope.APP)
-    def layout_validation(
+    def __validation(
         self,
         repo: Annotated[
             LayoutValidationRepositoryProtocol[SessionProtocol],
@@ -146,7 +228,7 @@ class ApplicationProvider(Provider):
         return LayoutValidationService(repo)
 
     @provide(scope=Scope.APP)
-    def layout_default(
+    def __default(
         self,
         repo: Annotated[
             LayoutDefaultRepositoryProtocol[SessionProtocol],
@@ -155,83 +237,24 @@ class ApplicationProvider(Provider):
     ) -> LayoutDefaultServiceProtocol:
         return LayoutDefaultService(repo)
 
-    # INPUT SERVICE
 
+class _ApplicationProvider(Provider):
     @provide(scope=Scope.APP)
-    def input(
+    async def __init(
         self,
-        repo: Annotated[
-            InputRepositoryProtocol[SessionProtocol],
-            FromComponent(database),
-        ],
-        # card_service: InputCardServiceProtocol,
-        single_service: InputSingleServiceProtocol,
-        table_service: InputTableServiceProtocol,
-        tools_service: "InputToolsServiceProtocol",
-    ) -> InputServiceProtocol:
-        return InputService(
-            repo,
-            # card_service=card_service,
-            single_service=single_service,
-            table_service=table_service,
-            tools_service=tools_service,
-        )
+        mongo: Annotated[InitComponentProtocol, FromComponent(database)],
+    ) -> InitComponentsProtocol:
+        return InitComponentsProtocol
 
-    @provide(scope=Scope.APP)
-    def input_tools(
+    @provide(scope=Scope.REQUEST)
+    def __session(
         self,
-        layout_service: LayoutServiceProtocol,
-        table_chunk_repo: Annotated[
-            InputTableChunkRepositoryProtocol[SessionProtocol],
-            FromComponent(database),
-        ],
-    ) -> InputToolsServiceProtocol:
-        return InputToolsService(
-            layout_service=layout_service,
-            table_chunk_repo=table_chunk_repo,
-        )
+        session: Annotated[SessionProtocol, FromComponent(database)],
+    ) -> SessionProtocol:
+        return session
 
-    @provide(scope=Scope.APP)
-    def input_card(
-        self,
-        repo: Annotated[
-            InputCardRepositoryProtocol[SessionProtocol],
-            FromComponent(database),
-        ],
-        layout_service: LayoutServiceProtocol,
-    ) -> InputCardServiceProtocol:
-        return InputCardSrvice(
-            repo,
-            layout_service=layout_service,
-        )
 
-    @provide(scope=Scope.APP)
-    def input_single(
-        self,
-        repo: Annotated[
-            InputSingleRepositoryProtocol[SessionProtocol],
-            FromComponent(database),
-        ],
-    ) -> InputSingleServiceProtocol:
-        return InputSingleService(repo)
-
-    @provide(scope=Scope.APP)
-    def input_table(
-        self,
-        repo: Annotated[
-            InputTableRepositoryProtocol[SessionProtocol],
-            FromComponent(database),
-        ],
-        chunk_service: InputTableChunkServiceProtocol,
-    ) -> InputTableServiceProtocol:
-        return InputTableService(repo, chunk_service)
-
-    @provide(scope=Scope.APP)
-    def input_table_chunk(
-        self,
-        repo: Annotated[
-            InputTableChunkRepositoryProtocol[SessionProtocol],
-            FromComponent(database),
-        ],
-    ) -> InputTableChunkServiceProtocol:
-        return InputTableChunkService(repo)
+class ApplicationProvider(
+    _InputProvider, _LayoutProvider, _ApplicationProvider
+):
+    pass
