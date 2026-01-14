@@ -15,7 +15,7 @@ if TYPE_CHECKING:
         LayoutShortDTO,
     )
     from src.application.protocols import (
-        LayoutFiltersProtocol,
+        LayersFiltersProtocol,
         LayoutRepositoryProtocol,
         LayoutShortCursorFiltersProtocol,
         LayoutShortLimitOffsetFiltersProtocol,
@@ -72,7 +72,7 @@ class LayoutService:
     async def get_with_layers_by_key(
         self,
         key: str,
-        filters: "LayoutFiltersProtocol",
+        filters: "LayersFiltersProtocol",
         *,
         session: "SessionProtocol",
     ) -> "LayoutWithBlockLayersDTO":
@@ -84,7 +84,7 @@ class LayoutService:
     async def get_with_layers(
         self,
         _id: str,
-        filters: "LayoutFiltersProtocol",
+        filters: "LayersFiltersProtocol",
         *,
         session: "SessionProtocol",
     ) -> "LayoutWithBlockLayersDTO":
@@ -96,7 +96,7 @@ class LayoutService:
     async def get_by_input(
         self,
         _id: str,
-        filters: "LayoutFiltersProtocol",
+        filters: "LayersFiltersProtocol",
         *,
         session: "SessionProtocol",
     ) -> "LayoutWithBlockLayersDTO":

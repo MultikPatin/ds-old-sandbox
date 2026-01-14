@@ -38,6 +38,9 @@ async def add(
     URLEnum.id,
     summary="Return an existing schema layer item",
     response_model=LayoutSchemaResponse,
+    responses={
+        status.HTTP_204_NO_CONTENT: {"model": None},
+    },
 )
 async def get(
     _id: Annotated[str, IDPath()],

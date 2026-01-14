@@ -70,22 +70,16 @@ def _tables(
 def set_defaults_row(
     items: DefaultsItems | None, row_length: int
 ) -> DefaultsRows:
-    values: list[str | None] = []
     if items is None:
-        values.extend([None for _ in range(row_length)])
-    else:
-        for item in items:
-            if item is None:
-                values.append(item)
-            else:
-                values.append(item.value)
+        return [None for _ in range(row_length)]
 
-        vl = len(values)
+    values = [item if item is None else item.value for item in items]
+    vl = len(values)
 
-        if vl > row_length:
-            msg = "incorrect number of defaults"
-            raise ValueError(msg)
-        if vl < row_length:
-            values.extend([None for _ in range(row_length - vl)])
+    if vl > row_length:
+        msg = "incorrect number of defaults"
+        raise ValueError(msg)
+    if vl < row_length:
+        values.extend([None for _ in range(row_length - vl)])
 
     return values

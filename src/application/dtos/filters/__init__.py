@@ -6,8 +6,10 @@ from .input import (
 )
 from .layout import (
     LayoutFilters,
+    LayoutMessageCursorFilters,
+    LayoutMessageLimitOffsetFilters,
+    LayoutMessagePagesFilters,
     LayoutShortCursorFilters,
-    LayoutShortFilters,
     LayoutShortLimitOffsetFilters,
     LayoutShortPagesFilters,
 )
@@ -18,8 +20,10 @@ __all__ = [
     "InputCardLimitOffsetFilters",
     "InputCardPagesFilters",
     "LayoutFilters",
+    "LayoutMessageCursorFilters",
+    "LayoutMessageLimitOffsetFilters",
+    "LayoutMessagePagesFilters",
     "LayoutShortCursorFilters",
-    "LayoutShortFilters",
     "LayoutShortLimitOffsetFilters",
     "LayoutShortPagesFilters",
 ]

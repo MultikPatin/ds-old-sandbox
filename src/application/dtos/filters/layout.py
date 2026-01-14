@@ -35,17 +35,57 @@ class LayoutFilters(BaseModel):
     #     return tuple(exclude)
 
 
-class LayoutShortFilters(BaseModel):
+# ==========
+
+
+class _LayoutShortFilters(BaseModel):
     status: LifeStatusEnum | None = Field(default=LifeStatusEnum.published)
 
 
-class LayoutShortPagesFilters(LayoutShortFilters, PagesParamsDTO):
+class LayoutShortPagesFilters(
+    _LayoutShortFilters,
+    PagesParamsDTO,
+):
     pass
 
 
-class LayoutShortLimitOffsetFilters(LayoutShortFilters, LimitOffsetParamsDTO):
+class LayoutShortLimitOffsetFilters(
+    _LayoutShortFilters,
+    LimitOffsetParamsDTO,
+):
     pass
 
 
-class LayoutShortCursorFilters(LayoutShortFilters, CursorParamsDTO):
+class LayoutShortCursorFilters(
+    _LayoutShortFilters,
+    CursorParamsDTO,
+):
+    pass
+
+
+# ==========
+
+
+class _LayoutMessageFilters(BaseModel):
+    pass
+
+
+class LayoutMessagePagesFilters(
+    _LayoutMessageFilters,
+    PagesParamsDTO,
+):
+    pass
+
+
+class LayoutMessageLimitOffsetFilters(
+    _LayoutMessageFilters,
+    LimitOffsetParamsDTO,
+):
+    pass
+
+
+class LayoutMessageCursorFilters(
+    _LayoutMessageFilters,
+    CursorParamsDTO,
+):
     pass

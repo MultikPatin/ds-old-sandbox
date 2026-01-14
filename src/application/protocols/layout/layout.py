@@ -18,50 +18,37 @@ from src.application.dtos.db import LayoutDB, LayoutShortDTO
 if TYPE_CHECKING:
     from src.application.dtos import LayoutWithBlockLayersDTO
     from src.application.dtos.db.layout import LayoutFullLinks, LayoutWithBlocks
-    from src.application.enums import LayoutLayersEnum
+
+    from .base import LayersFiltersProtocol
 
 
-class LayoutFiltersProtocol(Protocol):
-    include_schema_layer: bool
-    include_validation_layer: bool
-    include_style_layer: bool
-    include_default_layer: bool
-
-    @property
-    def excluded_layers(self) -> tuple["LayoutLayersEnum", ...]: ...
-
-
-class LayoutShortFiltersProtocol(Protocol):
+class LayoutPaginationFiltersProtocol(Protocol):
     # TODO заменить на протоколы
     status: LifeStatusEnum | None
 
 
 class LayoutShortPagesFiltersProtocol(
-    LayoutShortFiltersProtocol,
+    LayoutPaginationFiltersProtocol,
     PaginationPagesParamsProtocol,
     Protocol,
 ): ...
 
 
 class LayoutShortLimitOffsetFiltersProtocol(
-    LayoutShortFiltersProtocol,
+    LayoutPaginationFiltersProtocol,
     PaginationLimitOffsetParamsProtocol,
     Protocol,
 ): ...
 
 
 class LayoutShortCursorFiltersProtocol(
-    LayoutShortFiltersProtocol,
+    LayoutPaginationFiltersProtocol,
     PaginationCursorParamsProtocol,
     Protocol,
 ): ...
 
 
-class _GetIdsBy[Session: SessionProtocol](Protocol):
-    async def get_ids_by(self, key: str, *, session: Session) -> list[str]: ...
-
-
-class _LayoutShortProtocol[Session: SessionProtocol](
+class _LayoutPaginationProtocol[Session: SessionProtocol](
     PaginationPageProtocol[
         LayoutShortPagesFiltersProtocol,
         LayoutShortDTO,
@@ -81,31 +68,35 @@ class _LayoutShortProtocol[Session: SessionProtocol](
 ): ...
 
 
+class _GetIdsBy[Session: SessionProtocol](Protocol):
+    async def get_ids_by(self, key: str, *, session: Session) -> list[str]: ...
+
+
 class LayoutServiceProtocol(
     GetterProtocol[LayoutDB, SessionProtocol],
     DeleterSoftProtocol[SessionProtocol],
     _GetIdsBy[SessionProtocol],
-    _LayoutShortProtocol[SessionProtocol],
+    _LayoutPaginationProtocol[SessionProtocol],
     Protocol,
 ):
     async def get_with_layers_by_key(
         self,
         key: str,
-        filters: "LayoutFiltersProtocol",
+        filters: "LayersFiltersProtocol",
         *,
         session: "SessionProtocol",
     ) -> "LayoutWithBlockLayersDTO": ...
     async def get_with_layers(
         self,
         _id: str,
-        filters: "LayoutFiltersProtocol",
+        filters: "LayersFiltersProtocol",
         *,
         session: SessionProtocol,
     ) -> "LayoutWithBlockLayersDTO": ...
     async def get_by_input(
         self,
         _id: str,
-        filters: "LayoutFiltersProtocol",
+        filters: "LayersFiltersProtocol",
         *,
         session: SessionProtocol,
     ) -> "LayoutWithBlockLayersDTO": ...
@@ -118,7 +109,7 @@ class LayoutRepositoryProtocol[Session: SessionProtocol](
     GetterProtocol[LayoutDB, Session],
     DeleterSoftProtocol[Session],
     _GetIdsBy[Session],
-    _LayoutShortProtocol[Session],
+    _LayoutPaginationProtocol[Session],
     Protocol,
 ):
     async def get_by_key(
