@@ -8,9 +8,7 @@ if TYPE_CHECKING:
     )
     from abgroup_core.protocols import SessionProtocol
 
-    from src.application.dtos.db.layout import (
-        LayoutMessageDB,
-    )
+    from src.application.dtos.db.layout import LayoutMessageDB
     from src.application.protocols import (
         LayoutMessageCursorFiltersProtocol,
         LayoutMessageLimitOffsetFiltersProtocol,

@@ -32,6 +32,8 @@ from src.application.protocols import (
     LayoutSingleServiceProtocol,
     LayoutStyleRepositoryProtocol,
     LayoutStyleServiceProtocol,
+    LayoutTableRepositoryProtocol,
+    LayoutTableServiceProtocol,
     LayoutToolsServiceProtocol,
     LayoutValidationRepositoryProtocol,
     LayoutValidationServiceProtocol,
@@ -47,12 +49,11 @@ from src.application.services import (
     LayoutMessageService,
     LayoutSchemaService,
     LayoutService,
-    LayoutStyleService,
-    LayoutValidationService,
-)
-from src.application.services.layout import (
     LayoutSingleService,
+    LayoutStyleService,
+    LayoutTableService,
     LayoutToolsService,
+    LayoutValidationService,
 )
 
 database = ComponentsEnum.mongo
@@ -200,15 +201,15 @@ class _LayoutProvider(Provider):
     ) -> LayoutSingleServiceProtocol:
         return LayoutSingleService(repo)
 
-    # @provide(scope=Scope.APP)
-    # def __table(
-    #     self,
-    #     repo: Annotated[
-    #         LayoutTableRepositoryProtocol[SessionProtocol],
-    #         FromComponent(database),
-    #     ],
-    # ) -> LayoutTableServiceProtocol:
-    #     return LayoutTableService(repo)
+    @provide(scope=Scope.APP)
+    def __table(
+        self,
+        repo: Annotated[
+            LayoutTableRepositoryProtocol[SessionProtocol],
+            FromComponent(database),
+        ],
+    ) -> LayoutTableServiceProtocol:
+        return LayoutTableService(repo)
 
     @provide(scope=Scope.APP)
     def __message(
