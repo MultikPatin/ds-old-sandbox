@@ -8,7 +8,7 @@ from .controllers import (
     schema_router,
     single_router,
     style_router,
-    # table_router,
+    table_router,
     validation_router,
 )
 from .settings import Settings
@@ -20,7 +20,7 @@ blocks_router = APIRouter(route_class=DishkaRoute)
 # blocks_router.include_router(router=card_router, prefix="/cards")
 blocks_router.include_router(router=massage_router, prefix="/messages")
 blocks_router.include_router(router=single_router, prefix="/singles")
-# blocks_router.include_router(router=table_router, prefix="/tables")
+blocks_router.include_router(router=table_router, prefix="/tables")
 
 # LAYERS
 

@@ -15,7 +15,14 @@ from .single import (
     LayoutSingleRepositoryProtocol,
     LayoutSingleServiceProtocol,
 )
-from .table import LayoutTableRepositoryProtocol
+from .table import (
+    LayoutTableCursorFiltersProtocol,
+    LayoutTableLimitOffsetFiltersProtocol,
+    LayoutTablePagesFiltersProtocol,
+    LayoutTablePaginationFiltersProtocol,
+    LayoutTableRepositoryProtocol,
+    LayoutTableServiceProtocol,
+)
 
 __all__ = [
     "LayoutCardRepositoryProtocol",
@@ -31,5 +38,11 @@ __all__ = [
     "LayoutSinglePaginationFiltersProtocol",
     "LayoutSingleRepositoryProtocol",
     "LayoutSingleServiceProtocol",
+    "LayoutTableCursorFiltersProtocol",
+    "LayoutTableLimitOffsetFiltersProtocol",
+    "LayoutTablePagesFiltersProtocol",
+    "LayoutTablePaginationFiltersProtocol",
     "LayoutTableRepositoryProtocol",
+    "LayoutTableRepositoryProtocol",
+    "LayoutTableServiceProtocol",
 ]
