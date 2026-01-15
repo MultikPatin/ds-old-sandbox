@@ -1,4 +1,8 @@
-from .blocks import LayoutMessageResponse
+from .blocks import (
+    LayoutMessageResponse,
+    LayoutSingleShortResponse,
+    LayoutTableShortResponse,
+)
 from .cells import (
     LayoutSchemaCreateRequest,
     LayoutSchemaResponse,
@@ -16,9 +20,11 @@ __all__ = [
     "LayoutSchemaCreateRequest",
     "LayoutSchemaResponse",
     "LayoutSchemaUpdateRequest",
+    "LayoutSingleShortResponse",
     "LayoutStyleCreateRequest",
     "LayoutStyleResponse",
     "LayoutStyleUpdateRequest",
+    "LayoutTableShortResponse",
     "LayoutValidationCreateRequest",
     "LayoutValidationResponse",
     "LayoutValidationUpdateRequest",
