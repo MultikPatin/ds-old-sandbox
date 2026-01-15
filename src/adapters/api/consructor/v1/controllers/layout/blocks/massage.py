@@ -12,9 +12,9 @@ from dishka.integrations.fastapi import DishkaRoute
 from fastapi import APIRouter, Query, status
 
 from src.adapters.api.consructor.v1.schemas import (
-    LayoutMassageCursorFiltersRequest,
-    LayoutMassageLimitOffsetFiltersRequest,
-    LayoutMassagePagesFiltersRequest,
+    LayoutMessageCursorFiltersRequest,
+    LayoutMessageLimitOffsetFiltersRequest,
+    LayoutMessagePagesFiltersRequest,
     LayoutMessageResponse,
 )
 from src.application.dtos.filters import (
@@ -37,7 +37,7 @@ router = APIRouter(route_class=DishkaRoute)
     },
 )
 async def get_all_pages(
-    filters: Annotated[LayoutMassagePagesFiltersRequest, Query()],
+    filters: Annotated[LayoutMessagePagesFiltersRequest, Query()],
     service: FromDishka[LayoutMessageServiceProtocol],
     session: FromDishka[SessionProtocol],
 ) -> PagesPageResponse[LayoutMessageResponse]:
@@ -58,7 +58,7 @@ async def get_all_pages(
     },
 )
 async def get_all_limit_offset(
-    filters: Annotated[LayoutMassageLimitOffsetFiltersRequest, Query()],
+    filters: Annotated[LayoutMessageLimitOffsetFiltersRequest, Query()],
     service: FromDishka[LayoutMessageServiceProtocol],
     session: FromDishka[SessionProtocol],
 ) -> LimitOffsetPageResponse[LayoutMessageResponse]:
@@ -81,7 +81,7 @@ async def get_all_limit_offset(
     },
 )
 async def get_all_cursor(
-    filters: Annotated[LayoutMassageCursorFiltersRequest, Query()],
+    filters: Annotated[LayoutMessageCursorFiltersRequest, Query()],
     service: FromDishka[LayoutMessageServiceProtocol],
     session: FromDishka[SessionProtocol],
 ) -> CursorPageResponse[LayoutMessageResponse]:

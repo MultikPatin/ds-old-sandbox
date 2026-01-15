@@ -89,3 +89,59 @@ class LayoutMessageCursorFilters(
     CursorParamsDTO,
 ):
     pass
+
+
+# ==========
+
+
+class _LayoutSingleFilters(BaseModel):
+    pass
+
+
+class LayoutSinglePagesFilters(
+    _LayoutSingleFilters,
+    PagesParamsDTO,
+):
+    pass
+
+
+class LayoutSingleLimitOffsetFilters(
+    _LayoutSingleFilters,
+    LimitOffsetParamsDTO,
+):
+    pass
+
+
+class LayoutSingleCursorFilters(
+    _LayoutSingleFilters,
+    CursorParamsDTO,
+):
+    pass
+
+
+# ==========
+
+
+class _LayoutTableFilters(BaseModel):
+    pass
+
+
+class LayoutTablePagesFilters(
+    _LayoutTableFilters,
+    PagesParamsDTO,
+):
+    pass
+
+
+class LayoutTableLimitOffsetFilters(
+    _LayoutTableFilters,
+    LimitOffsetParamsDTO,
+):
+    pass
+
+
+class LayoutTableCursorFilters(
+    _LayoutTableFilters,
+    CursorParamsDTO,
+):
+    pass

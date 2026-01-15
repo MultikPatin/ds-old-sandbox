@@ -12,26 +12,26 @@ from src.application.dtos.db import LayoutMessageCreateDTO, LayoutMessageDB
 from ._base import _PaginationProtocol, _RepositoryProtocol, _ServiceProtocol
 
 
-class LayoutMassagePaginationFiltersProtocol(Protocol):
+class LayoutMessagePaginationFiltersProtocol(Protocol):
     pass
 
 
-class LayoutMassagePagesFiltersProtocol(
-    LayoutMassagePaginationFiltersProtocol,
+class LayoutMessagePagesFiltersProtocol(
+    LayoutMessagePaginationFiltersProtocol,
     PaginationPagesParamsProtocol,
     Protocol,
 ): ...
 
 
-class LayoutMassageLimitOffsetFiltersProtocol(
-    LayoutMassagePaginationFiltersProtocol,
+class LayoutMessageLimitOffsetFiltersProtocol(
+    LayoutMessagePaginationFiltersProtocol,
     PaginationLimitOffsetParamsProtocol,
     Protocol,
 ): ...
 
 
-class LayoutMassageCursorFiltersProtocol(
-    LayoutMassagePaginationFiltersProtocol,
+class LayoutMessageCursorFiltersProtocol(
+    LayoutMessagePaginationFiltersProtocol,
     PaginationCursorParamsProtocol,
     Protocol,
 ): ...
@@ -44,9 +44,9 @@ class LayoutMessageRepositoryProtocol[Session: SessionProtocol](
         Session,
     ],
     _PaginationProtocol[
-        LayoutMassagePagesFiltersProtocol,
-        LayoutMassageLimitOffsetFiltersProtocol,
-        LayoutMassageCursorFiltersProtocol,
+        LayoutMessagePagesFiltersProtocol,
+        LayoutMessageLimitOffsetFiltersProtocol,
+        LayoutMessageCursorFiltersProtocol,
         LayoutMessageDB,
         Session,
     ],
@@ -61,9 +61,9 @@ class LayoutMessageServiceProtocol(
         # Session,
     ],
     _PaginationProtocol[
-        LayoutMassagePagesFiltersProtocol,
-        LayoutMassageLimitOffsetFiltersProtocol,
-        LayoutMassageCursorFiltersProtocol,
+        LayoutMessagePagesFiltersProtocol,
+        LayoutMessageLimitOffsetFiltersProtocol,
+        LayoutMessageCursorFiltersProtocol,
         LayoutMessageDB,
         SessionProtocol,
     ],

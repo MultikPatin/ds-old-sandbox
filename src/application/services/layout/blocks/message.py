@@ -12,9 +12,9 @@ if TYPE_CHECKING:
         LayoutMessageDB,
     )
     from src.application.protocols import (
-        LayoutMassageCursorFiltersProtocol,
-        LayoutMassageLimitOffsetFiltersProtocol,
-        LayoutMassagePagesFiltersProtocol,
+        LayoutMessageCursorFiltersProtocol,
+        LayoutMessageLimitOffsetFiltersProtocol,
+        LayoutMessagePagesFiltersProtocol,
         LayoutMessageRepositoryProtocol,
     )
 
@@ -28,7 +28,7 @@ class LayoutMessageService:
 
     async def get_all_pages(
         self,
-        filters: "LayoutMassagePagesFiltersProtocol",
+        filters: "LayoutMessagePagesFiltersProtocol",
         *,
         session: "SessionProtocol",
     ) -> "PagesPageDTO[LayoutMessageDB]":
@@ -36,7 +36,7 @@ class LayoutMessageService:
 
     async def get_all_limit_offset(
         self,
-        filters: "LayoutMassageLimitOffsetFiltersProtocol",
+        filters: "LayoutMessageLimitOffsetFiltersProtocol",
         *,
         session: "SessionProtocol",
     ) -> "LimitOffsetPageDTO[LayoutMessageDB]":
@@ -44,7 +44,7 @@ class LayoutMessageService:
 
     async def get_all_cursor(
         self,
-        filters: "LayoutMassageCursorFiltersProtocol",
+        filters: "LayoutMessageCursorFiltersProtocol",
         *,
         session: "SessionProtocol",
     ) -> "CursorPageDTO[LayoutMessageDB]":

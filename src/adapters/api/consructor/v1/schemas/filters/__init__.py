@@ -1,11 +1,23 @@
 from .layout import (
-    LayoutMassageCursorFiltersRequest,
-    LayoutMassageLimitOffsetFiltersRequest,
-    LayoutMassagePagesFiltersRequest,
+    LayoutMessageCursorFiltersRequest,
+    LayoutMessageLimitOffsetFiltersRequest,
+    LayoutMessagePagesFiltersRequest,
+    LayoutSingleCursorFiltersRequest,
+    LayoutSingleLimitOffsetFiltersRequest,
+    LayoutSinglePagesFiltersRequest,
+    LayoutTableCursorFiltersRequest,
+    LayoutTableLimitOffsetFiltersRequest,
+    LayoutTablePagesFiltersRequest,
 )
 
 __all__ = [
-    "LayoutMassageCursorFiltersRequest",
-    "LayoutMassageLimitOffsetFiltersRequest",
-    "LayoutMassagePagesFiltersRequest",
+    "LayoutMessageCursorFiltersRequest",
+    "LayoutMessageLimitOffsetFiltersRequest",
+    "LayoutMessagePagesFiltersRequest",
+    "LayoutSingleCursorFiltersRequest",
+    "LayoutSingleLimitOffsetFiltersRequest",
+    "LayoutSinglePagesFiltersRequest",
+    "LayoutTableCursorFiltersRequest",
+    "LayoutTableLimitOffsetFiltersRequest",
+    "LayoutTablePagesFiltersRequest",
 ]

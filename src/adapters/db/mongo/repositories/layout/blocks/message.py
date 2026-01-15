@@ -27,10 +27,10 @@ if TYPE_CHECKING:
     from pymongo.asynchronous.client_session import AsyncClientSession
 
     from src.application.protocols import (
-        LayoutMassageCursorFiltersProtocol,
-        LayoutMassageLimitOffsetFiltersProtocol,
-        LayoutMassagePagesFiltersProtocol,
-        LayoutMassagePaginationFiltersProtocol,
+        LayoutMessageCursorFiltersProtocol,
+        LayoutMessageLimitOffsetFiltersProtocol,
+        LayoutMessagePagesFiltersProtocol,
+        LayoutMessagePaginationFiltersProtocol,
     )
 
 
@@ -45,7 +45,7 @@ class LayoutMessageRepository(
 ):
     async def get_all_pages(
         self,
-        filters: "LayoutMassagePagesFiltersProtocol",
+        filters: "LayoutMessagePagesFiltersProtocol",
         *,
         session: "AsyncClientSession",
     ) -> "PagesPageDTO[LayoutMessageDB]":
@@ -59,7 +59,7 @@ class LayoutMessageRepository(
 
     async def get_all_limit_offset(
         self,
-        filters: "LayoutMassageLimitOffsetFiltersProtocol",
+        filters: "LayoutMessageLimitOffsetFiltersProtocol",
         *,
         session: "AsyncClientSession",
     ) -> "LimitOffsetPageDTO[LayoutMessageDB]":
@@ -73,7 +73,7 @@ class LayoutMessageRepository(
 
     async def get_all_cursor(
         self,
-        filters: "LayoutMassageCursorFiltersProtocol",
+        filters: "LayoutMessageCursorFiltersProtocol",
         *,
         session: "AsyncClientSession",
     ) -> "CursorPageDTO[LayoutMessageDB]":
@@ -87,7 +87,7 @@ class LayoutMessageRepository(
 
     def _pagination_query[DocType: Document, ProjectionModelType: BaseModel](
         self,
-        filters: "LayoutMassagePaginationFiltersProtocol",
+        filters: "LayoutMessagePaginationFiltersProtocol",
         *,
         session: "AsyncClientSession",
     ) -> FindManyQueryType[DocType, ProjectionModelType]:
