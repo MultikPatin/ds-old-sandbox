@@ -2,6 +2,7 @@ from typing import Annotated
 
 from abgroup_core.enums import URLEnum
 from abgroup_core.protocols import SessionProtocol
+from abgroup_fastapi.annotations import IDPath
 from abgroup_fastapi.schemas.pagination import (
     CursorPageResponse,
     LimitOffsetPageResponse,
@@ -90,3 +91,20 @@ async def get_all_cursor(
         session=session,
     )
     return CursorPageResponse[LayoutMessageResponse](**instance.model_dump())
+
+
+@router.get(
+    URLEnum.id,
+    summary="Return an existing massage blocks",
+    response_model=LayoutMessageResponse,
+    responses={
+        status.HTTP_204_NO_CONTENT: {"model": None},
+    },
+)
+async def get(
+    _id: Annotated[str, IDPath()],
+    service: FromDishka[LayoutMessageServiceProtocol],
+    session: FromDishka[SessionProtocol],
+) -> LayoutMessageResponse:
+    obj = await service.get(_id, session=session)
+    return LayoutMessageResponse(**obj.model_dump())

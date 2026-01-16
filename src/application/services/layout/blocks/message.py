@@ -24,6 +24,11 @@ class LayoutMessageService:
     ) -> None:
         self._repo = repo
 
+    async def get(
+        self, _id: str, *, session: "SessionProtocol"
+    ) -> "LayoutMessageDB":
+        return await self._repo.get(_id, session=session)
+
     async def get_all_pages(
         self,
         filters: "LayoutMessagePagesFiltersProtocol",
