@@ -1,6 +1,7 @@
 from typing import Protocol
 
 from abgroup_core.protocols import (
+    GetterProtocol,
     PaginationCursorParamsProtocol,
     PaginationLimitOffsetParamsProtocol,
     PaginationPagesParamsProtocol,
@@ -55,6 +56,8 @@ class LayoutMessageRepositoryProtocol[Session: SessionProtocol](
 
 
 class LayoutMessageServiceProtocol(
+    # TODO перенести в _ServiceProtocol при реализации в остальных блоках
+    GetterProtocol[LayoutMessageDB, SessionProtocol],
     _ServiceProtocol[
         LayoutMessageDB,
         # LayoutMessageCreateDTO,
