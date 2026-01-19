@@ -1,5 +1,11 @@
 from typing import TYPE_CHECKING
 
+from abgroup_core.utils import generate_random_string
+
+from src.application.dtos.db.layout import (
+    LayoutMessageCreateDTO,
+)
+
 if TYPE_CHECKING:
     from abgroup_core.dtos.pagination import (
         CursorPageDTO,
@@ -8,7 +14,10 @@ if TYPE_CHECKING:
     )
     from abgroup_core.protocols import SessionProtocol
 
-    from src.application.dtos.db.layout import LayoutMessageDB
+    from src.application.dtos import LayoutMessageCreate
+    from src.application.dtos.db.layout import (
+        LayoutMessageDB,
+    )
     from src.application.protocols import (
         LayoutMessageCursorFiltersProtocol,
         LayoutMessageLimitOffsetFiltersProtocol,
@@ -28,6 +37,20 @@ class LayoutMessageService:
         self, _id: str, *, session: "SessionProtocol"
     ) -> "LayoutMessageDB":
         return await self._repo.get(_id, session=session)
+
+    async def add(
+        self,
+        condition: "LayoutMessageCreate",
+        *,
+        session: "SessionProtocol",
+    ) -> "LayoutMessageDB":
+        return await self._repo.add(
+            LayoutMessageCreateDTO(
+                **condition.model_dump(),
+                key=generate_random_string(),
+            ),
+            session=session,
+        )
 
     async def get_all_pages(
         self,

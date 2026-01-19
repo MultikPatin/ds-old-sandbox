@@ -18,27 +18,47 @@ from .settings import Settings
 blocks_router = APIRouter(route_class=DishkaRoute)
 
 # blocks_router.include_router(router=card_router, prefix="/cards")
-blocks_router.include_router(router=massage_router, prefix="/messages")
-blocks_router.include_router(router=single_router, prefix="/singles")
-blocks_router.include_router(router=table_router, prefix="/tables")
+blocks_router.include_router(
+    router=massage_router,
+    prefix="/messages",
+    tags=["Block 'messages'"],
+)
+blocks_router.include_router(
+    router=single_router,
+    prefix="/singles",
+    tags=["Block 'singles'"],
+)
+blocks_router.include_router(
+    router=table_router,
+    prefix="/tables",
+    tags=["Block 'tables'"],
+)
 
 # LAYERS
 
 layers_router = APIRouter(route_class=DishkaRoute)
 
-layers_router.include_router(router=schema_router, prefix="/schemas")
-layers_router.include_router(router=validation_router, prefix="/validations")
-layers_router.include_router(router=style_router, prefix="/styles")
+layers_router.include_router(
+    router=schema_router,
+    prefix="/schemas",
+    tags=["Layer 'schemas'"],
+)
+layers_router.include_router(
+    router=validation_router,
+    prefix="/validations",
+    tags=["Layer 'validations'"],
+)
+layers_router.include_router(
+    router=style_router,
+    prefix="/styles",
+    tags=["Layer 'styles'"],
+)
 
 
 class App(VApp):
     def __init__(self, is_dev_mode: bool, settings: Settings) -> None:
         super().__init__(is_dev_mode=is_dev_mode, settings=settings)
 
-        self._api.include_router(
-            router=blocks_router, prefix="/blocks", tags=["Blocks of layout"]
-        )
+        self._api.include_router(router=blocks_router, prefix="/blocks")
 
-        self._api.include_router(
-            router=layers_router, prefix="/layers", tags=["Layers of blocks"]
-        )
+        self._api.include_router(router=layers_router, prefix="/layers")

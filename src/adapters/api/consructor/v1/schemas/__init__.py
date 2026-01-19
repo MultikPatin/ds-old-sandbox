@@ -10,6 +10,7 @@ from .filters import (
     LayoutTablePagesFiltersRequest,
 )
 from .layout import (
+    LayoutMessageCreateRequest,
     LayoutMessageResponse,
     LayoutSchemaCreateRequest,
     LayoutSchemaResponse,
@@ -25,6 +26,7 @@ from .layout import (
 )
 
 __all__ = [
+    "LayoutMessageCreateRequest",
     "LayoutMessageCursorFiltersRequest",
     "LayoutMessageLimitOffsetFiltersRequest",
     "LayoutMessagePagesFiltersRequest",
