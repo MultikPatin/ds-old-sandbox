@@ -4,6 +4,7 @@ from abgroup_core.custom_types import AnyList
 from common.mongo import (
     AddMixin,
     GetMixin,
+    UpdateMixin,
     paginator_cursor,
     paginator_limit_offset,
     paginator_pages,
@@ -13,6 +14,7 @@ from common.mongo import (
 from src.application.dtos.db.layout import (
     LayoutMessageCreateDTO,
     LayoutMessageDB,
+    LayoutMessageUpdateDTO,
 )
 
 if TYPE_CHECKING:
@@ -42,6 +44,7 @@ type FindManyQueryType[DocType, ProjectionModelType] = (
 class LayoutMessageRepository(
     GetMixin[LayoutMessageDB],
     AddMixin[LayoutMessageCreateDTO, LayoutMessageDB],
+    UpdateMixin[LayoutMessageUpdateDTO, LayoutMessageDB],
 ):
     async def get_all_pages(
         self,
