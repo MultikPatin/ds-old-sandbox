@@ -10,14 +10,16 @@ from abgroup_fastapi.schemas.pagination import (
 )
 from dishka import FromDishka
 from dishka.integrations.fastapi import DishkaRoute
-from fastapi import APIRouter, Query, status
+from fastapi import APIRouter, Body, Query, status
 
 from src.adapters.api.consructor.v1.schemas import (
+    LayoutMessageCreateRequest,
     LayoutMessageCursorFiltersRequest,
     LayoutMessageLimitOffsetFiltersRequest,
     LayoutMessagePagesFiltersRequest,
     LayoutMessageResponse,
 )
+from src.application.dtos import LayoutMessageCreate
 from src.application.dtos.filters import (
     LayoutMessageCursorFilters,
     LayoutMessageLimitOffsetFilters,
@@ -91,6 +93,24 @@ async def get_all_cursor(
         session=session,
     )
     return CursorPageResponse[LayoutMessageResponse](**instance.model_dump())
+
+
+@router.post(
+    URLEnum.root,
+    summary="Create a massage blocks",
+    response_model=LayoutMessageResponse,
+    status_code=status.HTTP_201_CREATED,
+)
+async def add(
+    body: Annotated[LayoutMessageCreateRequest, Body()],
+    service: FromDishka[LayoutMessageServiceProtocol],
+    session: FromDishka[SessionProtocol],
+) -> LayoutMessageResponse:
+    instance = await service.add(
+        condition=LayoutMessageCreate(**body.model_dump()),
+        session=session,
+    )
+    return LayoutMessageResponse(**instance.model_dump())
 
 
 @router.get(

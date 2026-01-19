@@ -1,4 +1,4 @@
-from pydantic import Field
+from pydantic import BaseModel, Field
 
 from .db import (
     LayoutDB,
@@ -35,3 +35,9 @@ class LayoutWithBlockLayersDTO(LayoutDB):
     singles: list[LayoutSingleWithLayersDTO] | None = Field(default=None)
     tables: list[LayoutTableWithLayersDTO] | None = Field(default=None)
     messages: list[LayoutMessageDB] | None = Field(default=None)
+
+
+class LayoutMessageCreate(BaseModel):
+    is_hidden: bool = Field(default=True)
+    text: str = Field(min_length=1, max_length=512)
+    color: str = Field(default="#FFFFFF", min_length=7, max_length=7)

@@ -6,6 +6,7 @@ from .input import (
     InputWithValuesDTO,
 )
 from .layout import (
+    LayoutMessageCreate,
     LayoutSingleWithLayersDTO,
     LayoutTableWithLayersDTO,
     LayoutWithBlockLayersDTO,
@@ -17,6 +18,7 @@ __all__ = [
     "InputTableCreateValuesDTO",
     "InputTableWithValuesDTO",
     "InputWithValuesDTO",
+    "LayoutMessageCreate",
     "LayoutSingleWithLayersDTO",
     "LayoutTableWithLayersDTO",
     "LayoutWithBlockLayersDTO",
