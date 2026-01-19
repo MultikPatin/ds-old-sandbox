@@ -48,3 +48,28 @@ class LayoutMessageCreateRequest(BaseModel):
         min_length=7,
         max_length=7,
     )
+
+
+class LayoutMessageUpdateRequest(BaseModel):
+    is_hidden: bool | None = Field(
+        default=None,
+        alias="is_hidden",
+        title="Is hidden",
+        description="Is it possible to hide a message",
+    )
+    text: str | None = Field(
+        default=None,
+        min_length=1,
+        max_length=512,
+        alias="text",
+        title="Text",
+        description="Text",
+    )
+    color: str | None = Field(
+        default=None,
+        alias="color",
+        title="Color",
+        description="Color of message",
+        min_length=7,
+        max_length=7,
+    )

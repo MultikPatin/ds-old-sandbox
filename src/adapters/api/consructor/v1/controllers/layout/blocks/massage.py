@@ -18,8 +18,10 @@ from src.adapters.api.consructor.v1.schemas import (
     LayoutMessageLimitOffsetFiltersRequest,
     LayoutMessagePagesFiltersRequest,
     LayoutMessageResponse,
+    LayoutMessageUpdateRequest,
 )
 from src.application.dtos import LayoutMessageCreate
+from src.application.dtos.db import LayoutMessageUpdateDTO
 from src.application.dtos.filters import (
     LayoutMessageCursorFilters,
     LayoutMessageLimitOffsetFilters,
@@ -35,19 +37,15 @@ router = APIRouter(route_class=DishkaRoute)
     summary="Return existing unique massage blocks with pagination "
     "using the pages strategy",
     response_model=PagesPageResponse[LayoutMessageResponse],
-    responses={
-        status.HTTP_204_NO_CONTENT: {"model": None},
-    },
+    responses={status.HTTP_204_NO_CONTENT: {"model": None}},
 )
 async def get_all_pages(
-    filters: Annotated[LayoutMessagePagesFiltersRequest, Query()],
+    query: Annotated[LayoutMessagePagesFiltersRequest, Query()],
     service: FromDishka[LayoutMessageServiceProtocol],
     session: FromDishka[SessionProtocol],
 ) -> PagesPageResponse[LayoutMessageResponse]:
-    instance = await service.get_all_pages(
-        filters=LayoutMessagePagesFilters(**filters.model_dump()),
-        session=session,
-    )
+    filters = LayoutMessagePagesFilters(**query.model_dump())
+    instance = await service.get_all_pages(filters, session=session)
     return PagesPageResponse[LayoutMessageResponse](**instance.model_dump())
 
 
@@ -56,19 +54,15 @@ async def get_all_pages(
     summary="Return existing unique massage blocks with pagination "
     "using the limit offset strategy",
     response_model=LimitOffsetPageResponse[LayoutMessageResponse],
-    responses={
-        status.HTTP_204_NO_CONTENT: {"model": None},
-    },
+    responses={status.HTTP_204_NO_CONTENT: {"model": None}},
 )
 async def get_all_limit_offset(
-    filters: Annotated[LayoutMessageLimitOffsetFiltersRequest, Query()],
+    query: Annotated[LayoutMessageLimitOffsetFiltersRequest, Query()],
     service: FromDishka[LayoutMessageServiceProtocol],
     session: FromDishka[SessionProtocol],
 ) -> LimitOffsetPageResponse[LayoutMessageResponse]:
-    instance = await service.get_all_limit_offset(
-        filters=LayoutMessageLimitOffsetFilters(**filters.model_dump()),
-        session=session,
-    )
+    filters = LayoutMessageLimitOffsetFilters(**query.model_dump())
+    instance = await service.get_all_limit_offset(filters, session=session)
     return LimitOffsetPageResponse[LayoutMessageResponse](
         **instance.model_dump()
     )
@@ -79,19 +73,15 @@ async def get_all_limit_offset(
     summary="Return existing unique massage blocks with pagination "
     "using the cursor strategy",
     response_model=CursorPageResponse[LayoutMessageResponse],
-    responses={
-        status.HTTP_204_NO_CONTENT: {"model": None},
-    },
+    responses={status.HTTP_204_NO_CONTENT: {"model": None}},
 )
 async def get_all_cursor(
-    filters: Annotated[LayoutMessageCursorFiltersRequest, Query()],
+    query: Annotated[LayoutMessageCursorFiltersRequest, Query()],
     service: FromDishka[LayoutMessageServiceProtocol],
     session: FromDishka[SessionProtocol],
 ) -> CursorPageResponse[LayoutMessageResponse]:
-    instance = await service.get_all_cursor(
-        filters=LayoutMessageCursorFilters(**filters.model_dump()),
-        session=session,
-    )
+    filters = LayoutMessageCursorFilters(**query.model_dump())
+    instance = await service.get_all_cursor(filters, session=session)
     return CursorPageResponse[LayoutMessageResponse](**instance.model_dump())
 
 
@@ -106,10 +96,26 @@ async def add(
     service: FromDishka[LayoutMessageServiceProtocol],
     session: FromDishka[SessionProtocol],
 ) -> LayoutMessageResponse:
-    instance = await service.add(
-        condition=LayoutMessageCreate(**body.model_dump()),
-        session=session,
-    )
+    condition = LayoutMessageCreate(**body.model_dump())
+    instance = await service.add(condition, session=session)
+    return LayoutMessageResponse(**instance.model_dump())
+
+
+@router.patch(
+    URLEnum.id,
+    summary="Update a massage blocks",
+    response_model=LayoutMessageResponse,
+    responses={status.HTTP_204_NO_CONTENT: {"model": None}},
+    status_code=status.HTTP_201_CREATED,
+)
+async def update(
+    _id: Annotated[str, IDPath()],
+    body: Annotated[LayoutMessageUpdateRequest, Body()],
+    service: FromDishka[LayoutMessageServiceProtocol],
+    session: FromDishka[SessionProtocol],
+) -> LayoutMessageResponse:
+    condition = LayoutMessageUpdateDTO(**body.model_dump(exclude_unset=True))
+    instance = await service.update(_id, condition, session=session)
     return LayoutMessageResponse(**instance.model_dump())
 
 
@@ -117,14 +123,12 @@ async def add(
     URLEnum.id,
     summary="Return an existing massage blocks",
     response_model=LayoutMessageResponse,
-    responses={
-        status.HTTP_204_NO_CONTENT: {"model": None},
-    },
+    responses={status.HTTP_204_NO_CONTENT: {"model": None}},
 )
 async def get(
     _id: Annotated[str, IDPath()],
     service: FromDishka[LayoutMessageServiceProtocol],
     session: FromDishka[SessionProtocol],
 ) -> LayoutMessageResponse:
-    obj = await service.get(_id, session=session)
-    return LayoutMessageResponse(**obj.model_dump())
+    instance = await service.get(_id, session=session)
+    return LayoutMessageResponse(**instance.model_dump())

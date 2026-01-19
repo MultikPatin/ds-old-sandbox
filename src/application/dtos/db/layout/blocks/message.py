@@ -45,8 +45,45 @@ class _LayoutMessageBase(BaseModel):
 # Update
 
 
-class LayoutMessageUpdateDTO(_LayoutMessageBase):
-    pass
+class LayoutMessageUpdateDTO(BaseModel):
+    is_hidden: bool | None = Field(default=None)
+    text: str | None = Field(default=None, min_length=1, max_length=512)
+    color: str | None = Field(default=None, min_length=7, max_length=7)
+
+    @field_validator("color")
+    @classmethod
+    def validate_hex_color(cls, value: str | None) -> str | None:
+        if value is None:
+            return None
+
+        # Check for empty value
+        if not value or not value.strip():
+            msg = "Color value cannot be empty"
+            raise ValueError(msg)
+
+        value = value.strip()
+
+        # Check for hash symbol
+        if not value.startswith("#"):
+            msg = "Color must start with '#' symbol"
+            raise ValueError(msg)
+
+        # Check length
+        if len(value) not in [4, 7]:
+            msg = "HEX color must be 4 (#RGB) or 7 (#RRGGBB) characters long"
+            raise ValueError(msg)
+
+        # Check characters after #
+        hex_part = value[1:].upper()
+        if not all(c in "0123456789ABCDEF" for c in hex_part):
+            msg = "HEX color can only contain digits 0-9 and letters A-F"
+            raise ValueError(msg)
+
+        # Normalize to #RRGGBB format
+        if len(value) == NUMBER_OF_CHARS_WITH_HASH_SYMBOL:
+            return f"#{hex_part[0] * 2}{hex_part[1] * 2}{hex_part[2] * 2}"
+
+        return value.upper()
 
 
 # Base

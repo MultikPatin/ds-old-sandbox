@@ -12,6 +12,7 @@ from .filters import (
 from .layout import (
     LayoutMessageCreateRequest,
     LayoutMessageResponse,
+    LayoutMessageUpdateRequest,
     LayoutSchemaCreateRequest,
     LayoutSchemaResponse,
     LayoutSchemaUpdateRequest,
@@ -31,6 +32,7 @@ __all__ = [
     "LayoutMessageLimitOffsetFiltersRequest",
     "LayoutMessagePagesFiltersRequest",
     "LayoutMessageResponse",
+    "LayoutMessageUpdateRequest",
     "LayoutSchemaCreateRequest",
     "LayoutSchemaResponse",
     "LayoutSchemaUpdateRequest",

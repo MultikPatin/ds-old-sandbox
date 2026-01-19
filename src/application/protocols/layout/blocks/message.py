@@ -7,10 +7,15 @@ from abgroup_core.protocols import (
     PaginationLimitOffsetParamsProtocol,
     PaginationPagesParamsProtocol,
     SessionProtocol,
+    UpdaterProtocol,
 )
 
 from src.application.dtos import LayoutMessageCreate
-from src.application.dtos.db import LayoutMessageCreateDTO, LayoutMessageDB
+from src.application.dtos.db import (
+    LayoutMessageCreateDTO,
+    LayoutMessageDB,
+    LayoutMessageUpdateDTO,
+)
 
 from ._base import _PaginationProtocol, _RepositoryProtocol, _ServiceProtocol
 
@@ -41,6 +46,8 @@ class LayoutMessageCursorFiltersProtocol(
 
 
 class LayoutMessageRepositoryProtocol[Session: SessionProtocol](
+    # TODO перенести в _ServiceProtocol при реализации в остальных блоках
+    UpdaterProtocol[LayoutMessageUpdateDTO, LayoutMessageDB, Session],
     _RepositoryProtocol[
         LayoutMessageDB,
         LayoutMessageCreateDTO,
@@ -61,6 +68,7 @@ class LayoutMessageServiceProtocol(
     # TODO перенести в _ServiceProtocol при реализации в остальных блоках
     GetterProtocol[LayoutMessageDB, SessionProtocol],
     AdderProtocol[LayoutMessageCreate, LayoutMessageDB, SessionProtocol],
+    UpdaterProtocol[LayoutMessageUpdateDTO, LayoutMessageDB, SessionProtocol],
     _ServiceProtocol[
         LayoutMessageDB,
         # LayoutMessageCreateDTO,

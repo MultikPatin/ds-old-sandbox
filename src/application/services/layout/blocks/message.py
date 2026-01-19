@@ -17,6 +17,7 @@ if TYPE_CHECKING:
     from src.application.dtos import LayoutMessageCreate
     from src.application.dtos.db.layout import (
         LayoutMessageDB,
+        LayoutMessageUpdateDTO,
     )
     from src.application.protocols import (
         LayoutMessageCursorFiltersProtocol,
@@ -51,6 +52,15 @@ class LayoutMessageService:
             ),
             session=session,
         )
+
+    async def update(
+        self,
+        _id: str,
+        condition: "LayoutMessageUpdateDTO",
+        *,
+        session: "SessionProtocol",
+    ) -> "LayoutMessageDB":
+        return await self._repo.update(_id, condition, session=session)
 
     async def get_all_pages(
         self,
