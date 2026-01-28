@@ -10,10 +10,11 @@ from .cells import (
     LayoutStyleService,
     LayoutValidationService,
 )
+from .fetcher import LayoutBlocksFetcher
 from .layout import LayoutService
-from .tools import LayoutToolsService
 
 __all__ = [
+    "LayoutBlocksFetcher",
     "LayoutCardService",
     "LayoutDefaultService",
     "LayoutMessageService",
@@ -22,6 +23,5 @@ __all__ = [
     "LayoutSingleService",
     "LayoutStyleService",
     "LayoutTableService",
-    "LayoutToolsService",
     "LayoutValidationService",
 ]

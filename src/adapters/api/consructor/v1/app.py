@@ -4,7 +4,7 @@ from fastapi import APIRouter
 
 from .controllers import (
     # card_router,
-    massage_router,
+    message_router,
     schema_router,
     single_router,
     style_router,
@@ -19,7 +19,7 @@ blocks_router = APIRouter(route_class=DishkaRoute)
 
 # blocks_router.include_router(router=card_router, prefix="/cards")
 blocks_router.include_router(
-    router=massage_router,
+    router=message_router,
     prefix="/messages",
     tags=["Block 'messages'"],
 )

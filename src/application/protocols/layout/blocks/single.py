@@ -7,12 +7,20 @@ from abgroup_core.protocols import (
     SessionProtocol,
 )
 
+from src.application.dtos import LayoutSingleWithLayersDTO
 from src.application.dtos.db import (
     LayoutSingleCreateDTO,
     LayoutSingleDB,
 )
+from src.application.protocols.layout.filters import (
+    LayersFetcherFiltersProtocol,
+)
 
-from ._base import _PaginationProtocol, _RepositoryProtocol, _ServiceProtocol
+from ._base import (
+    _GetWithLayersProtocol,
+    _PaginationProtocol,
+    _RepositoryProtocol,
+)
 
 
 class LayoutSinglePaginationFiltersProtocol(Protocol):
@@ -41,6 +49,7 @@ class LayoutSingleCursorFiltersProtocol(
 
 
 class LayoutSingleRepositoryProtocol[Session: SessionProtocol](
+    # TODO перенести в _ServiceProtocol при реализации в остальных блоках
     _RepositoryProtocol[
         LayoutSingleDB,
         LayoutSingleCreateDTO,
@@ -58,10 +67,11 @@ class LayoutSingleRepositoryProtocol[Session: SessionProtocol](
 
 
 class LayoutSingleServiceProtocol(
-    _ServiceProtocol[
-        LayoutSingleDB,
-        # LayoutSingleCreateDTO,
-        # SessionProtocol,
+    # TODO перенести в _ServiceProtocol при реализации в остальных блоках
+    _GetWithLayersProtocol[
+        LayersFetcherFiltersProtocol,
+        LayoutSingleWithLayersDTO,
+        SessionProtocol,
     ],
     _PaginationProtocol[
         LayoutSinglePagesFiltersProtocol,

@@ -1,6 +1,6 @@
 from .layout import (
     # card_router,
-    massage_router,
+    message_router,
     schema_router,
     single_router,
     style_router,
@@ -10,7 +10,7 @@ from .layout import (
 
 __all__ = [
     # "card_router",
-    "massage_router",
+    "message_router",
     "schema_router",
     "single_router",
     "style_router",

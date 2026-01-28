@@ -28,15 +28,16 @@ class _RepositoryProtocol[
 ): ...
 
 
-class _ServiceProtocol[
-    ReturnSchema: BaseModel,
-    # CreateSchema: BaseModel,
-    # UpdateSchema: BaseModel,
-](
-    # GetterProtocol[ReturnSchema, SessionProtocol],
-    # AdderProtocol[CreateSchema, ReturnSchema, SessionProtocol],
-    Protocol,
-): ...
+# TODO Реализовать после добавления методов update и create ко всем блокам
+# class _ServiceProtocol[
+#     ReturnSchema: BaseModel,
+#     # CreateSchema: BaseModel,
+#     # UpdateSchema: BaseModel,
+# ](
+#     # GetterProtocol[ReturnSchema, SessionProtocol],
+#     # AdderProtocol[CreateSchema, ReturnSchema, SessionProtocol],
+#     Protocol,
+# ): ...
 
 
 class _PaginationProtocol[
@@ -63,3 +64,13 @@ class _PaginationProtocol[
     ],
     Protocol,
 ): ...
+
+
+class _GetWithLayersProtocol[
+    FilterProtocol,
+    ReturnSchema: BaseModel,
+    Session: SessionProtocol,
+](Protocol):
+    async def get_with_layers(
+        self, _id: str, filters: FilterProtocol, *, session: Session
+    ) -> ReturnSchema: ...
