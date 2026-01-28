@@ -1,5 +1,7 @@
 from typing import TYPE_CHECKING
 
+from src.application.dtos import LayoutWithBlockLayersDTO
+
 if TYPE_CHECKING:
     from abgroup_core.dtos.pagination import (
         CursorPageDTO,
@@ -8,19 +10,19 @@ if TYPE_CHECKING:
     )
     from abgroup_core.protocols import SessionProtocol
 
-    from src.application.dtos import LayoutWithBlockLayersDTO
     from src.application.dtos.db import (
         LayoutDB,
         LayoutFullLinks,
         LayoutShortDTO,
     )
     from src.application.protocols import (
-        LayersFiltersProtocol,
+        InputRepositoryProtocol,
+        LayoutBlocksFetcherProtocol,
+        LayoutFetcherFiltersProtocol,
         LayoutRepositoryProtocol,
         LayoutShortCursorFiltersProtocol,
         LayoutShortLimitOffsetFiltersProtocol,
         LayoutShortPagesFiltersProtocol,
-        LayoutToolsServiceProtocol,
     )
 
 
@@ -29,10 +31,12 @@ class LayoutService:
         self,
         repo: "LayoutRepositoryProtocol[SessionProtocol]",
         *,
-        tools_service: "LayoutToolsServiceProtocol",
+        input_repo: "InputRepositoryProtocol[SessionProtocol]",
+        fetcher_service: "LayoutBlocksFetcherProtocol",
     ) -> None:
         self._repo = repo
-        self._tools = tools_service
+        self._input = input_repo
+        self._fetcher = fetcher_service
 
     async def get_all_pages(
         self,
@@ -72,36 +76,51 @@ class LayoutService:
     async def get_with_layers_by_key(
         self,
         key: str,
-        filters: "LayersFiltersProtocol",
+        filters: "LayoutFetcherFiltersProtocol",
         *,
         session: "SessionProtocol",
     ) -> "LayoutWithBlockLayersDTO":
         instance = await self._repo.get_by_key(key, session=session)
-        return await self._tools.replace_layers(
-            instance, filters, session=session
+        obj = instance.model_dump()
+
+        await self._fetcher.fetch_layout(
+            obj,  # type: ignore
+            session=session,
+            blocks=filters.blocks,
+            layers=filters.layers,
+            in_place=True,
         )
+
+        return LayoutWithBlockLayersDTO.model_validate(obj)
 
     async def get_with_layers(
         self,
         _id: str,
-        filters: "LayersFiltersProtocol",
+        filters: "LayoutFetcherFiltersProtocol",
         *,
         session: "SessionProtocol",
     ) -> "LayoutWithBlockLayersDTO":
         instance = await self._repo.get_full_links(_id, session=session)
-        return await self._tools.replace_layers(
-            instance, filters, session=session
+        obj = instance.model_dump()
+
+        await self._fetcher.fetch_layout(
+            obj,  # type: ignore
+            session=session,
+            blocks=filters.blocks,
+            layers=filters.layers,
+            in_place=True,
         )
+
+        return LayoutWithBlockLayersDTO.model_validate(obj)
 
     async def get_by_input(
         self,
         _id: str,
-        filters: "LayersFiltersProtocol",
+        filters: "LayoutFetcherFiltersProtocol",
         *,
         session: "SessionProtocol",
     ) -> "LayoutWithBlockLayersDTO":
-        layout_id = await self._tools.get_id_by_input(_id, session=session)
-
+        layout_id = await self._input.get_layout_id(_id, session=session)
         return await self.get_with_layers(layout_id, filters, session=session)
 
     async def get_ids_by(

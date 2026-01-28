@@ -1,4 +1,3 @@
-from abgroup_core.custom_types import AnyDict
 from abgroup_fastapi.schemas import (
     BsonIDSchema,
     CreatedSchema,
@@ -13,6 +12,8 @@ from abgroup_fastapi.schemas import (
 )
 from pydantic import Field
 
+from src.application.enums import LayoutBlocksEnum
+
 from .blocks import (
     LayoutCardResponse,
     LayoutMessageResponse,
@@ -24,6 +25,8 @@ type MessageBlocks = list[LayoutMessageResponse] | None
 type SingleBlocks = list[LayoutSingleResponse] | None
 type TableBlocks = list[LayoutTableResponse] | None
 type CardBlock = LayoutCardResponse | None
+
+type Skeleton = list[LayoutSkeletonResponse]
 
 
 class LayoutShortResponse(
@@ -44,7 +47,7 @@ class LayoutResponse(
     OptionsSchema,
     LifeStatusSchema,
 ):
-    skeleton: list[AnyDict] = Field(
+    skeleton: Skeleton = Field(
         alias="skeleton",
         title="Skeleton",
         description="Skeleton of the layout",
@@ -74,3 +77,8 @@ class LayoutResponse(
         title="Tables",
         description="Blocks of type 'tables' of the layout",
     )
+
+
+class LayoutSkeletonResponse(LabelSchema, KeySchema):
+    type: LayoutBlocksEnum | None = Field(default=None)
+    blocks: list["LayoutSkeletonResponse"] | None = Field(default=None)

@@ -34,7 +34,7 @@ router = APIRouter(route_class=DishkaRoute)
 
 @router.get(
     URLEnum.pagination_page,
-    summary="Return existing unique massage blocks with pagination "
+    summary="Return existing unique message blocks with pagination "
     "using the pages strategy",
     response_model=PagesPageResponse[LayoutMessageResponse],
     responses={status.HTTP_204_NO_CONTENT: {"model": None}},
@@ -51,7 +51,7 @@ async def get_all_pages(
 
 @router.get(
     URLEnum.pagination_limit_offset,
-    summary="Return existing unique massage blocks with pagination "
+    summary="Return existing unique message blocks with pagination "
     "using the limit offset strategy",
     response_model=LimitOffsetPageResponse[LayoutMessageResponse],
     responses={status.HTTP_204_NO_CONTENT: {"model": None}},
@@ -70,7 +70,7 @@ async def get_all_limit_offset(
 
 @router.get(
     URLEnum.pagination_cursor,
-    summary="Return existing unique massage blocks with pagination "
+    summary="Return existing unique message blocks with pagination "
     "using the cursor strategy",
     response_model=CursorPageResponse[LayoutMessageResponse],
     responses={status.HTTP_204_NO_CONTENT: {"model": None}},
@@ -87,7 +87,7 @@ async def get_all_cursor(
 
 @router.post(
     URLEnum.root,
-    summary="Create a massage blocks",
+    summary="Create a message blocks",
     response_model=LayoutMessageResponse,
     status_code=status.HTTP_201_CREATED,
 )
@@ -103,7 +103,7 @@ async def add(
 
 @router.patch(
     URLEnum.id,
-    summary="Update a massage blocks",
+    summary="Update a message blocks",
     response_model=LayoutMessageResponse,
     responses={status.HTTP_204_NO_CONTENT: {"model": None}},
     status_code=status.HTTP_201_CREATED,
@@ -121,7 +121,7 @@ async def update(
 
 @router.get(
     URLEnum.id,
-    summary="Return an existing massage blocks",
+    summary="Return an existing message blocks",
     response_model=LayoutMessageResponse,
     responses={status.HTTP_204_NO_CONTENT: {"model": None}},
 )

@@ -17,7 +17,7 @@ from src.application.dtos.db import (
     LayoutMessageUpdateDTO,
 )
 
-from ._base import _PaginationProtocol, _RepositoryProtocol, _ServiceProtocol
+from ._base import _PaginationProtocol, _RepositoryProtocol
 
 
 class LayoutMessagePaginationFiltersProtocol(Protocol):
@@ -69,11 +69,6 @@ class LayoutMessageServiceProtocol(
     GetterProtocol[LayoutMessageDB, SessionProtocol],
     AdderProtocol[LayoutMessageCreate, LayoutMessageDB, SessionProtocol],
     UpdaterProtocol[LayoutMessageUpdateDTO, LayoutMessageDB, SessionProtocol],
-    _ServiceProtocol[
-        LayoutMessageDB,
-        # LayoutMessageCreateDTO,
-        # Session,
-    ],
     _PaginationProtocol[
         LayoutMessagePagesFiltersProtocol,
         LayoutMessageLimitOffsetFiltersProtocol,

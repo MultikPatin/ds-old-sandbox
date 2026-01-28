@@ -1,3 +1,5 @@
+from collections.abc import Set
+
 from abgroup_core.dtos.pagination import (
     CursorParamsDTO,
     LimitOffsetParamsDTO,
@@ -6,33 +8,22 @@ from abgroup_core.dtos.pagination import (
 from abgroup_core.enums import LifeStatusEnum
 from pydantic import BaseModel, Field
 
-from src.application.enums import LayoutLayersEnum
+from src.application.enums import LayoutBlocksEnum, LayoutLayersEnum
 
 
-class LayoutFilters(BaseModel):
-    include_schema_layer: bool = Field(default=True)
-    include_validation_layer: bool = Field(default=False)
-    include_style_layer: bool = Field(default=True)
-    include_default_layer: bool = Field(default=False)
+class LayersFetcherFilters(BaseModel):
+    layers: Set[LayoutLayersEnum] = Field(default_factory=set)
 
-    @property
-    def excluded_layers(self) -> tuple[LayoutLayersEnum, ...]:
-        exclude: list[LayoutLayersEnum] = []
-        if not self.include_schema_layer:
-            exclude.append(LayoutLayersEnum.schemas)
-        if not self.include_style_layer:
-            exclude.append(LayoutLayersEnum.styles)
-        if not self.include_validation_layer:
-            exclude.append(LayoutLayersEnum.validations)
-        if not self.include_default_layer:
-            exclude.append(LayoutLayersEnum.defaults)
 
-        return tuple(exclude)
+class BlocksFetcherFilters(BaseModel):
+    blocks: Set[LayoutBlocksEnum] = Field(default_factory=set)
 
-    # @property
-    # def excluded_blocks(self) -> tuple[LayoutBlocksEnum, ...]:
-    #     exclude: list[LayoutBlocksEnum] = []
-    #     return tuple(exclude)
+
+class LayoutFetcherFilters(
+    LayersFetcherFilters,
+    BlocksFetcherFilters,
+):
+    pass
 
 
 # ==========
@@ -58,90 +49,6 @@ class LayoutShortLimitOffsetFilters(
 
 class LayoutShortCursorFilters(
     _LayoutShortFilters,
-    CursorParamsDTO,
-):
-    pass
-
-
-# ==========
-
-
-class _LayoutMessageFilters(BaseModel):
-    pass
-
-
-class LayoutMessagePagesFilters(
-    _LayoutMessageFilters,
-    PagesParamsDTO,
-):
-    pass
-
-
-class LayoutMessageLimitOffsetFilters(
-    _LayoutMessageFilters,
-    LimitOffsetParamsDTO,
-):
-    pass
-
-
-class LayoutMessageCursorFilters(
-    _LayoutMessageFilters,
-    CursorParamsDTO,
-):
-    pass
-
-
-# ==========
-
-
-class _LayoutSingleFilters(BaseModel):
-    pass
-
-
-class LayoutSinglePagesFilters(
-    _LayoutSingleFilters,
-    PagesParamsDTO,
-):
-    pass
-
-
-class LayoutSingleLimitOffsetFilters(
-    _LayoutSingleFilters,
-    LimitOffsetParamsDTO,
-):
-    pass
-
-
-class LayoutSingleCursorFilters(
-    _LayoutSingleFilters,
-    CursorParamsDTO,
-):
-    pass
-
-
-# ==========
-
-
-class _LayoutTableFilters(BaseModel):
-    pass
-
-
-class LayoutTablePagesFilters(
-    _LayoutTableFilters,
-    PagesParamsDTO,
-):
-    pass
-
-
-class LayoutTableLimitOffsetFilters(
-    _LayoutTableFilters,
-    LimitOffsetParamsDTO,
-):
-    pass
-
-
-class LayoutTableCursorFilters(
-    _LayoutTableFilters,
     CursorParamsDTO,
 ):
     pass

@@ -54,6 +54,10 @@ def _tables(
         msg = "For generate template, schemas must be set in layout."
         raise ValueError(msg)
 
+    if item.schemas[-1] is None:
+        msg = "For generate template, schemas must be set in layout."
+        raise ValueError(msg)
+
     columns = len(item.schemas[-1])
 
     # TODO Проработать вариант типизации defaults

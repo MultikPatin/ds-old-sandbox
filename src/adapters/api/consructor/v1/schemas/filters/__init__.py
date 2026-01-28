@@ -1,4 +1,4 @@
-from .layout import (
+from .blocks import (
     LayoutMessageCursorFiltersRequest,
     LayoutMessageLimitOffsetFiltersRequest,
     LayoutMessagePagesFiltersRequest,
@@ -9,8 +9,16 @@ from .layout import (
     LayoutTableLimitOffsetFiltersRequest,
     LayoutTablePagesFiltersRequest,
 )
+from .layout import (
+    BlocksFetcherFiltersRequest,
+    LayersFetcherFiltersRequest,
+    LayoutFetcherFiltersRequest,
+)
 
 __all__ = [
+    "BlocksFetcherFiltersRequest",
+    "LayersFetcherFiltersRequest",
+    "LayoutFetcherFiltersRequest",
     "LayoutMessageCursorFiltersRequest",
     "LayoutMessageLimitOffsetFiltersRequest",
     "LayoutMessagePagesFiltersRequest",

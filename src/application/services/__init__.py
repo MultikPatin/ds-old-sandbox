@@ -7,6 +7,7 @@ from .input import (
     InputToolsService,
 )
 from .layout import (
+    LayoutBlocksFetcher,
     LayoutDefaultService,
     LayoutMessageService,
     LayoutSchemaService,
@@ -14,7 +15,6 @@ from .layout import (
     LayoutSingleService,
     LayoutStyleService,
     LayoutTableService,
-    LayoutToolsService,
     LayoutValidationService,
 )
 
@@ -25,6 +25,7 @@ __all__ = [
     "InputTableChunkService",
     "InputTableService",
     "InputToolsService",
+    "LayoutBlocksFetcher",
     "LayoutDefaultService",
     "LayoutMessageService",
     "LayoutSchemaService",
@@ -32,6 +33,5 @@ __all__ = [
     "LayoutSingleService",
     "LayoutStyleService",
     "LayoutTableService",
-    "LayoutToolsService",
     "LayoutValidationService",
 ]

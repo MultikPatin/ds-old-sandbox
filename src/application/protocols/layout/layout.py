@@ -19,7 +19,7 @@ if TYPE_CHECKING:
     from src.application.dtos import LayoutWithBlockLayersDTO
     from src.application.dtos.db.layout import LayoutFullLinks, LayoutWithBlocks
 
-    from .base import LayersFiltersProtocol
+    from .filters import LayoutFetcherFiltersProtocol
 
 
 class LayoutPaginationFiltersProtocol(Protocol):
@@ -82,21 +82,21 @@ class LayoutServiceProtocol(
     async def get_with_layers_by_key(
         self,
         key: str,
-        filters: "LayersFiltersProtocol",
+        filters: "LayoutFetcherFiltersProtocol",
         *,
         session: "SessionProtocol",
     ) -> "LayoutWithBlockLayersDTO": ...
     async def get_with_layers(
         self,
         _id: str,
-        filters: "LayersFiltersProtocol",
+        filters: "LayoutFetcherFiltersProtocol",
         *,
         session: SessionProtocol,
     ) -> "LayoutWithBlockLayersDTO": ...
     async def get_by_input(
         self,
         _id: str,
-        filters: "LayersFiltersProtocol",
+        filters: "LayoutFetcherFiltersProtocol",
         *,
         session: SessionProtocol,
     ) -> "LayoutWithBlockLayersDTO": ...

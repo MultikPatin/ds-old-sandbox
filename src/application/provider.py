@@ -20,6 +20,7 @@ from src.application.protocols import (
     InputTableRepositoryProtocol,
     InputTableServiceProtocol,
     InputToolsServiceProtocol,
+    LayoutBlocksFetcherProtocol,
     LayoutDefaultRepositoryProtocol,
     LayoutDefaultServiceProtocol,
     LayoutMessageRepositoryProtocol,
@@ -34,7 +35,6 @@ from src.application.protocols import (
     LayoutStyleServiceProtocol,
     LayoutTableRepositoryProtocol,
     LayoutTableServiceProtocol,
-    LayoutToolsServiceProtocol,
     LayoutValidationRepositoryProtocol,
     LayoutValidationServiceProtocol,
 )
@@ -45,6 +45,7 @@ from src.application.services import (
     InputTableChunkService,
     InputTableService,
     InputToolsService,
+    LayoutBlocksFetcher,
     LayoutDefaultService,
     LayoutMessageService,
     LayoutSchemaService,
@@ -52,7 +53,6 @@ from src.application.services import (
     LayoutSingleService,
     LayoutStyleService,
     LayoutTableService,
-    LayoutToolsService,
     LayoutValidationService,
 )
 
@@ -144,26 +144,8 @@ class _InputProvider(Provider):
 
 class _LayoutProvider(Provider):
     @provide(scope=Scope.APP)
-    def __layout(
+    def __fetcher(
         self,
-        repo: Annotated[
-            LayoutRepositoryProtocol[SessionProtocol],
-            FromComponent(database),
-        ],
-        tools_service: "LayoutToolsServiceProtocol",
-    ) -> LayoutServiceProtocol:
-        return LayoutService(
-            repo,
-            tools_service=tools_service,
-        )
-
-    @provide(scope=Scope.APP)
-    def __tools(
-        self,
-        input_repo: Annotated[
-            InputRepositoryProtocol[SessionProtocol],
-            FromComponent(database),
-        ],
         schema_repo: Annotated[
             LayoutSchemaRepositoryProtocol[SessionProtocol],
             FromComponent(database),
@@ -180,13 +162,31 @@ class _LayoutProvider(Provider):
             LayoutDefaultRepositoryProtocol[SessionProtocol],
             FromComponent(database),
         ],
-    ) -> LayoutToolsServiceProtocol:
-        return LayoutToolsService(
-            input_repo=input_repo,
+    ) -> LayoutBlocksFetcherProtocol:
+        return LayoutBlocksFetcher(
             schema_repo=schema_repo,
             style_repo=style_repo,
             validation_repo=validation_repo,
             default_repo=default_repo,
+        )
+
+    @provide(scope=Scope.APP)
+    def __layout(
+        self,
+        repo: Annotated[
+            LayoutRepositoryProtocol[SessionProtocol],
+            FromComponent(database),
+        ],
+        input_repo: Annotated[
+            InputRepositoryProtocol[SessionProtocol],
+            FromComponent(database),
+        ],
+        fetcher_service: "LayoutBlocksFetcherProtocol",
+    ) -> LayoutServiceProtocol:
+        return LayoutService(
+            repo,
+            input_repo=input_repo,
+            fetcher_service=fetcher_service,
         )
 
     # BLOCKS
@@ -198,8 +198,12 @@ class _LayoutProvider(Provider):
             LayoutSingleRepositoryProtocol[SessionProtocol],
             FromComponent(database),
         ],
+        fetcher_service: "LayoutBlocksFetcherProtocol",
     ) -> LayoutSingleServiceProtocol:
-        return LayoutSingleService(repo)
+        return LayoutSingleService(
+            repo,
+            fetcher_service=fetcher_service,
+        )
 
     @provide(scope=Scope.APP)
     def __table(
@@ -208,8 +212,12 @@ class _LayoutProvider(Provider):
             LayoutTableRepositoryProtocol[SessionProtocol],
             FromComponent(database),
         ],
+        fetcher_service: "LayoutBlocksFetcherProtocol",
     ) -> LayoutTableServiceProtocol:
-        return LayoutTableService(repo)
+        return LayoutTableService(
+            repo,
+            fetcher_service=fetcher_service,
+        )
 
     @provide(scope=Scope.APP)
     def __message(

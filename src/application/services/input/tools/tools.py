@@ -1,7 +1,8 @@
 from typing import TYPE_CHECKING
 
 from src.application.dtos import InputWithValuesDTO
-from src.application.dtos.filters import LayoutFilters
+from src.application.dtos.filters import LayoutFetcherFilters
+from src.application.enums import LayoutBlocksEnum, LayoutLayersEnum
 
 from .replacer import get_chunk_ids, replace_layers
 from .template import generate_template
@@ -30,11 +31,15 @@ class InputToolsService:
     async def template(
         self, layout_key: str, *, session: "SessionProtocol"
     ) -> "InputCreateValuesDTO":
-        filters = LayoutFilters(
-            include_schema_layer=True,
-            include_validation_layer=False,
-            include_style_layer=False,
-            include_default_layer=True,
+        filters = LayoutFetcherFilters(
+            layers={
+                LayoutLayersEnum.schemas,
+                LayoutLayersEnum.defaults,
+            },
+            blocks={
+                LayoutBlocksEnum.singles,
+                LayoutBlocksEnum.tables,
+            },
         )
         layout = await self._layout.get_with_layers_by_key(
             layout_key, filters, session=session

@@ -11,21 +11,21 @@ from .db import (
     LayoutValidationDB,
 )
 
-type Schemas = list[LayoutSchemaDB]
+type Schemas = list[LayoutSchemaDB] | None
 type Defaults = list[LayoutDefaultDB | None] | None
 type Validations = list[LayoutValidationDB | None] | None
 type Styles = list[LayoutStyleDB | None] | None
 
 
 class LayoutSingleWithLayersDTO(LayoutSingleDB):
-    schemas: Schemas  # type: ignore
+    schemas: Schemas = Field(default=None)  # type: ignore
     defaults: Defaults = Field(default=None)  # type: ignore
     validations: Validations = Field(default=None)  # type: ignore
     styles: Styles = Field(default=None)  # type: ignore
 
 
 class LayoutTableWithLayersDTO(LayoutTableDB):
-    schemas: list[Schemas]  # type: ignore
+    schemas: list[Schemas] | None = Field(default=None)  # type: ignore
     defaults: list[Defaults] | None = Field(default=None)  # type: ignore
     validations: Validations = Field(default=None)  # type: ignore
     styles: Styles = Field(default=None)  # type: ignore

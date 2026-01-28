@@ -1,4 +1,4 @@
-from collections.abc import Sequence
+from collections.abc import Iterable, Set
 from enum import StrEnum, auto
 from typing import Self
 
@@ -9,9 +9,9 @@ class LayoutBlocksEnum(StrEnum):
     messages = auto()
 
     @classmethod
-    def blocks(cls, exclude: Sequence[Self] | None = None) -> list[Self]:
+    def fields(cls, exclude: Iterable[Self] | None = None) -> Set[Self]:
         exs = set(exclude) if exclude else set()
-        return [m for m in cls if m not in exs]
+        return {m for m in cls if m not in exs}
 
 
 class LayoutLayersEnum(StrEnum):
@@ -21,9 +21,9 @@ class LayoutLayersEnum(StrEnum):
     defaults = auto()
 
     @classmethod
-    def layers(cls, exclude: Sequence[Self] | None = None) -> list[Self]:
+    def fields(cls, exclude: Iterable[Self] | None = None) -> Set[Self]:
         exs = set(exclude) if exclude else set()
-        return [m for m in cls if m not in exs]
+        return {m for m in cls if m not in exs}
 
 
 class LayoutStyleTypeEnum(StrEnum):

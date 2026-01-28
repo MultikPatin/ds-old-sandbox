@@ -17,10 +17,13 @@ from .input import (
     InputToolsServiceProtocol,
 )
 from .layout import (
-    LayersFiltersProtocol,
+    BlocksFetcherFiltersProtocol,
+    LayersFetcherFiltersProtocol,
+    LayoutBlocksFetcherProtocol,
     LayoutCardRepositoryProtocol,
     LayoutDefaultRepositoryProtocol,
     LayoutDefaultServiceProtocol,
+    LayoutFetcherFiltersProtocol,
     LayoutMessageCursorFiltersProtocol,
     LayoutMessageLimitOffsetFiltersProtocol,
     LayoutMessagePagesFiltersProtocol,
@@ -49,12 +52,12 @@ from .layout import (
     LayoutTablePaginationFiltersProtocol,
     LayoutTableRepositoryProtocol,
     LayoutTableServiceProtocol,
-    LayoutToolsServiceProtocol,
     LayoutValidationRepositoryProtocol,
     LayoutValidationServiceProtocol,
 )
 
 __all__ = [
+    "BlocksFetcherFiltersProtocol",
     "InputCardCursorFiltersProtocol",
     "InputCardFiltersProtocol",
     "InputCardInRichFiltersProtocol",
@@ -71,10 +74,12 @@ __all__ = [
     "InputTableRepositoryProtocol",
     "InputTableServiceProtocol",
     "InputToolsServiceProtocol",
-    "LayersFiltersProtocol",
+    "LayersFetcherFiltersProtocol",
+    "LayoutBlocksFetcherProtocol",
     "LayoutCardRepositoryProtocol",
     "LayoutDefaultRepositoryProtocol",
     "LayoutDefaultServiceProtocol",
+    "LayoutFetcherFiltersProtocol",
     "LayoutMessageCursorFiltersProtocol",
     "LayoutMessageLimitOffsetFiltersProtocol",
     "LayoutMessagePagesFiltersProtocol",

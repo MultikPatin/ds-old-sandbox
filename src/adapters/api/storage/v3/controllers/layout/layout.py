@@ -8,12 +8,10 @@ from dishka.integrations.fastapi import DishkaRoute
 from fastapi import APIRouter, Query
 
 from src.adapters.api.storage.v3.schemas import (
-    LayoutFiltersRequest,
+    LayoutFetcherFiltersRequest,
     LayoutResponse,
 )
-from src.application.dtos.filters import (
-    LayoutFilters,
-)
+from src.application.dtos.filters import LayoutFetcherFilters
 from src.application.protocols import LayoutServiceProtocol
 
 router = APIRouter(route_class=DishkaRoute)
@@ -28,15 +26,12 @@ async def get_with_layers(
     _id: Annotated[
         str, IDPath(description_prefix="Layout identifier <br><br>")
     ],
-    filters: Annotated[LayoutFiltersRequest, Query()],
+    query: Annotated[LayoutFetcherFiltersRequest, Query()],
     service: FromDishka[LayoutServiceProtocol],
     session: FromDishka[SessionProtocol],
 ) -> LayoutResponse:
-    layout = await service.get_with_layers(
-        _id=_id,
-        filters=LayoutFilters(**filters.model_dump()),
-        session=session,
-    )
+    filters = LayoutFetcherFilters(**query.model_dump())
+    layout = await service.get_with_layers(_id, filters, session=session)
     return LayoutResponse(**layout.model_dump())
 
 
@@ -47,13 +42,10 @@ async def get_with_layers(
 )
 async def get_by_input(
     _id: Annotated[str, IDPath(description_prefix="Input identifier <br><br>")],
-    filters: Annotated[LayoutFiltersRequest, Query()],
+    query: Annotated[LayoutFetcherFiltersRequest, Query()],
     service: FromDishka[LayoutServiceProtocol],
     session: FromDishka[SessionProtocol],
 ) -> LayoutResponse:
-    layout = await service.get_by_input(
-        _id=_id,
-        filters=LayoutFilters(**filters.model_dump()),
-        session=session,
-    )
+    filters = LayoutFetcherFilters(**query.model_dump())
+    layout = await service.get_by_input(_id, filters, session=session)
     return LayoutResponse(**layout.model_dump())
